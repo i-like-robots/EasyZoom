@@ -1,0 +1,42 @@
+/**
+ * The actual naming of elements is not set, these are just an example
+ */  
+
+/* Zoom window parent */
+.zoom-container {
+	position:relative;
+}
+
+/* Zoom window */
+#zoom-window {
+	position:absolute;
+	top:0;
+	left:410px;
+	width:390px;
+	height:520px;
+	overflow:hidden;
+	background:#fff url(../img/loading.gif) no-repeat center center;
+	-webkit-box-shadow:0 0 10px #888;
+	   -moz-box-shadow:0 0 10px #888;
+	        box-shadow:0 0 10px #888;
+}
+
+/* Zoom gallery */
+.zoom-gallery {
+	margin:15px 0;
+	list-style-type:none;
+}
+	.zoom-thumbnail {
+		float:left;
+		margin-left:15px;
+		text-decoration:none;
+	}
+		li:first-child .zoom-thumbnail {
+			margin-left:0;
+		}
+		.thumbnail-loading {
+			background:#fff url(../img/loading.gif) no-repeat center center;
+		}
+			.thumbnail-loading img {
+				opacity:0.5;
+			}

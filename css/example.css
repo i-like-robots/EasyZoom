@@ -1,0 +1,69 @@
+/* Elements */
+html, body {
+	min-height:100%;
+}
+	html {
+		font-size:62.5%;
+	}
+	body {
+		overflow-y:scroll;
+		font:normal 1.6em/1.5 Arial, sans-serif;
+		color:#333;
+		background:#eee;
+	}
+
+h1 {
+	margin:0 0 0.5em;
+	font-size:4em;
+	line-height:1.25;
+	text-align:center;
+	letter-spacing:-1px;
+	text-shadow:1px 1px 1px #fff;
+}
+	h1 small {
+		display:block;
+		font-size:0.5em;
+	}
+
+h2, h3, h4, dt {
+	margin:0 0 0.25em;
+	font-weight:bold;
+	font-size:1em;
+	letter-spacing:-0.5px;
+}
+
+p, ul, ol, dd {
+	margin:0 0 1.5em;
+}
+
+ul, ol {
+	padding:0;
+	margin-left:1.75em;
+}
+
+dfn {
+	cursor:help;
+}
+
+/* Layout */
+#container {
+	width:780px;
+	margin:0 auto;
+	padding:2em 0;
+	zoom:1; /* Clearfix for < IE7 */
+}
+	/* Micro clearfix <http://nicolasgallagher.com/micro-clearfix-hack/> */
+	#container:after {
+		clear:both;
+		content:"";
+		display:table;
+	}
+
+#introduction {
+	float:right;
+	width:370px;
+}
+#example {
+	float:left;
+	width:390px;
+}

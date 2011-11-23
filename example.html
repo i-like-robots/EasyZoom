@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1" />
+
+	<!-- Meta -->
+	<title>EasyZoom jQuery image zoom plugin</title>
+	<meta name="description" content="EasyZoom is an elegant jQuery image zoom plugin based on the original work by Alen Grakalic." />
+
+	<!-- Example styles -->
+	<link rel="stylesheet" href="css/example.css" />
+
+	<!-- EasyZoom -->
+	<link rel="stylesheet" href="css/easyzoom.css" />
+	<!--[if IE 8]><link rel="stylesheet" href="css/ie8.css" /><![endif]-->
+	<!--[if lte IE 7]><link rel="stylesheet" href="css/ie7.css" /><![endif]-->
+
+</head>
+<body>
+
+	<div id="container" class="cf">
+
+		<h1>EasyZoom <small>jQuery image zoom plugin</small></h1>
+
+		<!-- Introduction -->
+		<div id="introduction">
+			<p>
+				EasyZoom is an elegant <a href="http://www.jquery.com">jQuery</a> 
+				image zoom plugin based on the 
+				<a href="http://cssglobe.com/lab/easyzoom/easyzoom.html">original 
+				work</a> by <a href="http://grakalic.com/">Alen Grakalic</a>. 
+				As well as adding lots of whitespace to the source code it has 
+				been extended to with public methods, optimised performance and 
+				includes an optional extension to create an image gallery.
+			</p>
+
+			<p>
+				&larr; You can see it in action just to the left, simply move 
+				your mouse over the kitten or click the thumbnails below to 
+				change the image.
+			</p>
+
+			<dl>
+				<dt>Dependencies</dt>
+				<dd>
+					jQuery 1.7+
+				</dd>
+				
+				<dt>Supported browsers<dfn title="with provided configuration">*</dfn></dt>
+				<dd>
+					<ul>
+						<li>Firefox 3.6 and 4&ndash;8</li>
+						<li>Chrome 8&ndash;16</li>
+						<li>Safari 5.1</li>
+						<li>Internet Explorer 6&ndash;9</li>
+						<li>Opera 11.5</li>
+					</ul>
+				</dd>
+			</dl>
+
+			<h2>Download</h2>
+
+			<ul class="inline-list">
+				<li>
+					<a href="http://github.com/i-like-robots/EasyZoom/zipball/master">Zipped</a>
+				</li>
+				<li>
+					<a href="http://github.com/i-like-robots/EasyZoom/tarball/master">Tarball</a>
+				</li>
+			</ul>
+
+			<p>
+				EasyZoom was written by 
+				<a href="http://www.maketea.co.uk">Matt Hinchliffe</a> and the 
+				project is maintained on 
+				<a href="http://github.com/i-like-robots/EasyZoom/">Github</a>.
+			</p>
+
+		</div>
+
+
+		<!-- Example -->
+		<div id="example" class="zoom-container">
+
+			<a id="zoom" href="photos/1_large.jpg">
+				<img class="base zoom-image" src="photos/1_medium.jpg" alt="" width="390" height="520" />
+			</a>
+
+			<ul class="cf zoom-gallery">
+				<li>
+					<a class="zoom-thumbnail" href="photos/1_large.jpg" rel="photos/1_medium.jpg">
+						<img src="photos/1_thumb.jpg" alt="" width="120" height="120" />
+					</a>
+				</li>
+				<li>
+					<a class="zoom-thumbnail" href="photos/2_large.jpg" rel="photos/2_medium.jpg">
+						<img src="photos/2_thumb.jpg" alt="" width="120" height="120" />
+					</a>
+				</li>
+				<li>
+					<a class="zoom-thumbnail" href="photos/3_large.jpg" rel="photos/3_medium.jpg">
+						<img src="photos/3_thumb.jpg" alt="" width="120" height="120" />
+					</a>
+				</li>
+			</ul>
+
+		</div>
+
+	</div>
+
+	<!-- jQuery -->
+	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+	<script>if (!window.jQuery) document.writeln('<scr' + 'ipt src="js/jquery-1.7.min.js"></scr' + 'ipt>')</script>
+
+	<!-- EasyZoom -->
+	<script src="js/easyzoom.js"></script>
+	<script>
+	// Start easyZoom
+	$('#zoom')
+		.easyZoom({
+			parent: 'div.zoom-container',
+			preload: ''
+		})
+		.data('easyZoom')
+		.gallery('a.zoom-thumbnail');
+	</script>
+
+</body>
+</html>
