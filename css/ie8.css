@@ -1,8 +1,5 @@
 
 /* Image zoom */
 #zoom-window {
-	height:403px;
-	border-top:1px solid #ccc;
-	border-left:1px solid #ccc;
 	-ms-filter:"progid:DXImageTransform.Microsoft.Shadow(color=#888888, direction=135, strength=5)";
 }
