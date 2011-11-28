@@ -108,7 +108,9 @@
 		function change(href)
 		{
 			// Load zoomed image
-			self.elements.$zoomed = self.load(href).on('error', function()
+			self.elements.$zoomed = self
+				.load(href)
+				.on('error', function()
 				{
 					found = false;
 				})
@@ -116,15 +118,16 @@
 				{
 					loaded = true;
 
-					$(this).off('load');
+					self.elements.$zoomed.off('load');
 				});
 		}
-		
+
 		function start(e)
 		{
-			self.hide();
-
-			self.elements.$panel = $('<div id="' + self.options.id + '">' + self.options.preload + '</div>').appendTo(self.elements.$parent);
+			// Zoomed image container
+			self.elements.$panel = $('<div id="' + self.options.id + '">' + self.options.preload + '</div>')
+				.css('display', 'none')
+				.appendTo(self.elements.$parent);
 
 			if (!found)
 			{
@@ -179,7 +182,11 @@
 				xl = (xl > w4) ? w4 : xl;
 				xt = (xt > h4) ? h4 : xt;
 
-				self.elements.$zoomed.css({'left':xl * (-1),'top':xt * (-1)});
+				self.elements.$zoomed.css({left: -xl, top: -xt});
+			}
+			else
+			{
+				start(e);
 			}
 		}
 
@@ -187,9 +194,9 @@
 		{
 			over = true;
 
-			self.elements.$zoomed
-				.css({'position':'absolute','top':'0','left':'0'})
-				.appendTo(self.elements.$panel);
+			self.elements.$panel
+				.append( self.elements.$zoomed.css({position: 'absolute'}) )
+				.fadeIn(200);
 
 			w1 = self.elements.$source.width();
 			h1 = self.elements.$source.height();
@@ -223,9 +230,10 @@
 
 			if (self.elements.$panel)
 			{
-				self.elements.$panel
-					.remove()
-					.html('');
+				self.elements.$panel.fadeOut(200, function()
+				{
+					self.elements.$panel = self.elements.$panel.remove().html('');
+				});
 			}
 		};
 

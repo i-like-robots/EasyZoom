@@ -1,5 +1,5 @@
 /**
- * The actual naming of elements is not set, these are just an example
+ * The actual naming of elements is not rigid, these are just examples
  */  
 
 /* Zoom window parent */
@@ -19,6 +19,13 @@
 	-webkit-box-shadow:0 0 10px #888;
 	   -moz-box-shadow:0 0 10px #888;
 	        box-shadow:0 0 10px #888;
+
+	/* Improve fluid motion of the the panel */
+	-webkit-transition:left, top .1s ease-out;
+	   -moz-transition:left, top .1s ease-out;
+	    -ms-transition:left, top .1s ease-out;
+	     -o-transition:left, top .1s ease-out;
+	        transition:left, top .1s ease-out;
 }
 
 /* Zoom gallery */
