@@ -48,21 +48,22 @@
  *  - // Hide open zoom window
  *    $zoom.hide();
  *  - // Change image
- *    $zoom.load(src);
+ *    $zoom.loadimg(src);
  */
 
 ;(function ($, undefined)
 {
 	function EasyZoom(target, options)
 	{
+		// Default options
 		var defaults = {
 			id: 'zoom-window',
 			parent: 'body',
 			preload: 'Loading...',
-			error: 'There has been a problem attempting to loading the image.'
+			error: '<p>There has been a problem attempting to loading the image.</p>'
 		};
 
-		this.options = $.extend(defaults, options);
+		this.options = $.extend({}, defaults, options);
 
 		var self = this,
 		    loaded = false,
@@ -73,61 +74,71 @@
 		    rw,rh,
 		    over = false;
 
+		/**
+		 * Init
+		 * @description Caches related DOM objects and sets up events
+		 */
 		function init()
 		{
 			// DOM elements
 			self.elements = {
 				$target: $(target),
 				$source: $('img', target),
-				$parent: $(self.options.parent)
+				$parent: $(self.options.parent),
+				$panel:  $('<div id="' + self.options.id + '">' + self.options.preload + '</div>').css('display', 'none')
 			};
 
-			change(self.elements.$target.attr('href'));
+			preload(self.elements.$target.attr('href'));
 
 			// Bind events to target
 			self.elements.$target
-				.css('cursor', 'crosshair')
-				.on('click', function(e)
+				.on('click.easyZoom', function(e)
 				{
 					e.preventDefault();
 				})
-				.on('mouseover', function(e)
+				.on('mouseover.easyZoom', function(e)
 				{
 					start(e);
 				})
-				.on('mouseout', function()
+				.on('mouseout.easyZoom', function()
 				{
 					self.hide();
 				})
-				.on('mousemove', function(e)
+				.on('mousemove.easyZoom', function(e)
 				{
 					move(e);
 				});
 		}
 
-		function change(href)
+		/**
+		 * Preload
+		 * @description Preload full sized image
+		 */
+		function preload(href)
 		{
+			loaded = false;
+
 			// Load zoomed image
-			self.elements.$zoomed = self
-				.load(href)
-				.on('error', function()
+			self.elements.$zoomed = self.loadimg(href)
+				.on('error.easyZoom', function()
 				{
 					found = false;
 				})
-				.on('load', function()
+				.on('load.easyZoom', function()
 				{
 					loaded = true;
 
-					self.elements.$zoomed.off('load');
+					self.elements.$zoomed.off('.easyZoom');
 				});
 		}
 
+		/**
+		 * Start
+		 * @description Add panel to page and display when full size image is loaded
+		 */
 		function start(e)
 		{
-			// Zoomed image container
-			self.elements.$panel = $('<div id="' + self.options.id + '">' + self.options.preload + '</div>')
-				.css('display', 'none')
-				.appendTo(self.elements.$parent);
+			self.elements.$panel.appendTo(self.elements.$parent);
 
 			if (!found)
 			{
@@ -146,16 +157,21 @@
 			}
 		}
 
+		/**
+		 * Loop
+		 * @description Displays image when loaded if mouse event has been called
+		 */
 		function loop(e)
 		{
 			if (loaded)
 			{
 				show(e);
-
 				clearTimeout(timeout);
 			}
 			else
 			{
+				self.elements.$target.css('cursor', 'progress')
+
 				timeout = setTimeout(function()
 				{
 					loop(e);
@@ -163,16 +179,23 @@
 			}
 		}
 
+		/**
+		 * Error
+		 * @description Display error message within zoom panel
+		 */
 		function error()
 		{
 			self.elements.$panel.html(self.options.error);
 		}
 
+		/**
+		 * Move
+		 * @description Re-positions zoom panel image based on mouse event
+		 */
 		function move(e)
 		{
 			if (over)
 			{
-				// target image movement
 				var p = self.elements.$source.offset(),
 				    pl = e.pageX - p.left,
 				    pt = e.pageY - p.top,
@@ -184,15 +207,17 @@
 
 				self.elements.$zoomed.css({left: -xl, top: -xt});
 			}
-			else
-			{
-				start(e);
-			}
 		}
 
+		/**
+		 * Show
+		 * @description Displays zoom panel
+		 */
 		function show(e)
 		{
 			over = true;
+
+			self.elements.$target.css('cursor', 'crosshair');
 
 			self.elements.$panel
 				.append( self.elements.$zoomed.css({position: 'absolute'}) )
@@ -210,12 +235,16 @@
 			move(e);
 		}
 
-		// Public methods
-		this.load = function(href)
+		/**
+		 * Load image
+		 * @description Load an image
+		 * @returns A new image element
+		 */
+		this.loadimg = function(src)
 		{
 			var img = new Image();
 
-			img.src = href + '?' + (new Date()).getTime();
+			img.src = src + '?' + (new Date()).getTime();
 			img.onload = function()
 			{
 				img = null; // Clear memory
@@ -224,12 +253,18 @@
 			return $(img);
 		};
 
+		/**
+		 * Hide
+		 * @description Public method to hide the zoom panel
+		 */
 		this.hide = function()
 		{
-			over = false;
-
-			if (self.elements.$panel)
+			if (over)
 			{
+				over = false;
+
+				self.elements.$target.css('cursor', 'default');
+
 				self.elements.$panel.fadeOut(200, function()
 				{
 					self.elements.$panel = self.elements.$panel.remove().html('');
@@ -237,22 +272,32 @@
 			}
 		};
 
+		/**
+		 * Update
+		 * @description Public shortcut method for hide() + preload()
+		 */
 		this.update = function(href)
 		{
 			this.hide();
-
-			loaded = false;
-
-			change(href);
+			preload(href);
 		};
 
-		// Works only for anchors
+		/**
+		 * Destroy
+		 * @description Public method to remove zoom panel events
+		 */
+		this.destroy = function()
+		{
+			this.hide();
+		};
+
+		// Instantiate only for anchors
 		if (target.tagName.toLowerCase() === 'a')
 		{
 			init(); // Call init at runtime to avoid compile time scope issues.
+
+			return this;
 		}
-		
-		return this;
 	}
 
 	// jQuery plugin wrapper
@@ -276,10 +321,10 @@
 
 			var $this = $(this).addClass('thumbnail-loading'),
 			    zoomed = $this.attr('href'),
-			    source = $this.attr('rel');
+			    source = $this.data('easyzoom-source');
 
 			// Load new source image
-			self.load(source).on('load', function()
+			self.loadimg(source).on('load', function()
 			{
 				// Swap current source image
 				self.elements.$source.attr('src', source);
