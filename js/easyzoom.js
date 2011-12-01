@@ -1,20 +1,17 @@
 /**
- * Based on Easy Zoom 1.0 - jQuery plugin
- * Written by Matt Hinchliffe
- * http://www.github.com/i-like-robots/EasyZoom
- * Based on the original work by Alen Grakalic
- * http://cssglobe.com/post/9711/jquery-plugin-easy-image-zoom
+ * Easy Zoom 1.0 RC3
+ * Written by Matt Hinchliffe <http://www.github.com/i-like-robots/EasyZoom>
+ * Based on the original work by Alen Grakalic <http://cssglobe.com/post/9711/jquery-plugin-easy-image-zoom>
  *
- * Copyright (c) 2011 Alen Grakalic (http://cssglobe.com)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
  * and GPL (GPL-LICENSE.txt) licenses.
  *
- * Built for jQuery library
+ * Built for jQuery library 1.7+
  * http://jquery.com
  *
  * Example HTML:
  * <div class="zoom-container">
- *     <a class="zoom" href="large_img.jpg">
+ *     <a id="zoom" href="large_img.jpg">
  *         <img src="small_img.jpg" />
  *     </a>
  * </div>
@@ -31,24 +28,26 @@
  * }
  *
  * Plugin use:
- * $('.zoom').easyZoom({
+ * $('#zoom').easyZoom({
  *     id: '#zoom-window',
  *     parent: '.zoom-container'
  * });
  *
  * Options:
- * - id: The ID to give the zoom window
- * - parent: Parent element selector to append zoom window to
+ * - id: The ID to assign the zoom window
+ * - parent: Parent element to append zoom window to
  * - preload: Preloader content/text
  * - error: Error content/text
  *
  * Public methods:
- *  - // Get data object
- *    var $zoom = $('.zoom').data('easyZoom');
- *  - // Hide open zoom window
- *    $zoom.hide();
- *  - // Change image
- *    $zoom.loadimg(src);
+ * - Get data object
+ *   var $zoom = $('.zoom').data('easyZoom');
+ *
+ * - Hide open zoom window
+ *   $zoom.hide();
+ *
+ * - Change image
+ *   $zoom.update(src);
  */
 
 ;(function ($, undefined)
@@ -68,11 +67,12 @@
 		var self = this,
 		    loaded = false,
 		    found = true,
+		    over = false,
+		    dom = false,
 		    timeout,
 		    w1,w2,w3,w4,
 		    h1,h2,h3,h4,
-		    rw,rh,
-		    over = false;
+		    rw,rh;
 
 		/**
 		 * Init
@@ -80,14 +80,15 @@
 		 */
 		function init()
 		{
-			// DOM elements
+			// Select or create DOM elements
 			self.elements = {
 				$target: $(target),
 				$source: $('img', target),
 				$parent: $(self.options.parent),
-				$panel:  $('<div id="' + self.options.id + '">' + self.options.preload + '</div>').css('display', 'none')
+				$panel:  $('<div id="' + self.options.id + '">' + self.options.preload + '</div>')
 			};
 
+			// Preload full size image
 			preload(self.elements.$target.attr('href'));
 
 			// Bind events to target
@@ -96,17 +97,28 @@
 				{
 					e.preventDefault();
 				})
-				.on('mouseover.easyZoom', function(e)
+				.on('mouseenter.easyZoom', function(e)
 				{
 					start(e);
 				})
-				.on('mouseout.easyZoom', function()
+				.on('mouseleave.easyZoom', function()
 				{
 					self.hide();
 				})
 				.on('mousemove.easyZoom', function(e)
 				{
 					move(e);
+				});
+
+			// Bind events to the panel
+			self.elements.$panel
+				.on('detach', function()
+				{
+					dom = false;
+				})
+				.on('attach', function()
+				{
+					dom = true;
 				});
 		}
 
@@ -118,7 +130,7 @@
 		{
 			loaded = false;
 
-			// Load zoomed image
+			// Load full size image
 			self.elements.$zoomed = self.loadimg(href)
 				.on('error.easyZoom', function()
 				{
@@ -138,7 +150,14 @@
 		 */
 		function start(e)
 		{
-			self.elements.$panel.appendTo(self.elements.$parent);
+			// Attach panel to the page
+			if (!dom)
+			{
+				self.elements.$panel
+					.appendTo(self.elements.$parent)
+					.css('opacity', 0)
+					.trigger('attach');
+			}
 
 			if (!found)
 			{
@@ -148,6 +167,8 @@
 			{
 				if (loaded)
 				{
+					// Attach image to panel and display
+					self.elements.$panel.append( self.elements.$zoomed.css('position', 'absolute') );
 					show(e);
 				}
 				else
@@ -219,9 +240,11 @@
 
 			self.elements.$target.css('cursor', 'crosshair');
 
+			var start = (new Date).getTime();
+
 			self.elements.$panel
-				.append( self.elements.$zoomed.css({position: 'absolute'}) )
-				.fadeIn(200);
+				.stop()
+				.animate({opacity: 1}, 200);
 
 			w1 = self.elements.$source.width();
 			h1 = self.elements.$source.height();
@@ -265,10 +288,15 @@
 
 				self.elements.$target.css('cursor', 'default');
 
-				self.elements.$panel.fadeOut(200, function()
-				{
-					self.elements.$panel = self.elements.$panel.remove().html('');
-				});
+				self.elements.$panel
+					.stop()
+					.animate({opacity: 0}, 200, function()
+					{
+						self.elements.$panel = self.elements.$panel
+							.detach()
+							.html('')
+							.trigger('detach');
+					});
 			}
 		};
 
