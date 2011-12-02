@@ -70,6 +70,7 @@
 		    over = false,
 		    dom = false,
 		    timeout,
+		    lx,ly,
 		    w1,w2,w3,w4,
 		    h1,h2,h3,h4,
 		    rw,rh;
@@ -99,11 +100,13 @@
 				})
 				.on('mouseenter.easyZoom', function(e)
 				{
+					over = true; // Use a variable for persistance
 					start(e);
 				})
 				.on('mouseleave.easyZoom', function()
 				{
 					self.hide();
+					over = false;
 				})
 				.on('mousemove.easyZoom', function(e)
 				{
@@ -112,11 +115,11 @@
 
 			// Bind events to the panel
 			self.elements.$panel
-				.on('detach', function()
+				.on('nodeRemoved', function() // DOMNodeRemoved
 				{
 					dom = false;
 				})
-				.on('attach', function()
+				.on('nodeInserted', function() // DOMNodeInserted
 				{
 					dom = true;
 				});
@@ -124,11 +127,13 @@
 
 		/**
 		 * Preload
-		 * @description Preload full sized image
+		 * @description Preloads the full sized image
 		 */
 		function preload(href)
 		{
 			loaded = false;
+
+			self.elements.$target.css('cursor', 'progress');
 
 			// Load full size image
 			self.elements.$zoomed = self.loadimg(href)
@@ -140,7 +145,14 @@
 				{
 					loaded = true;
 
-					self.elements.$zoomed.off('.easyZoom');
+					// Attach image to panel
+					self.elements.$panel.append( self.elements.$zoomed.css('position', 'absolute') );
+
+					// Trigger panel to display if user is waiting
+					if (over)
+					{
+						self.elements.$target.trigger('mouseenter');
+					}
 				});
 		}
 
@@ -156,7 +168,7 @@
 				self.elements.$panel
 					.appendTo(self.elements.$parent)
 					.css('opacity', 0)
-					.trigger('attach');
+					.trigger('nodeInserted');
 			}
 
 			if (!found)
@@ -167,8 +179,6 @@
 			{
 				if (loaded)
 				{
-					// Attach image to panel and display
-					self.elements.$panel.append( self.elements.$zoomed.css('position', 'absolute') );
 					show(e);
 				}
 				else
@@ -180,7 +190,7 @@
 
 		/**
 		 * Loop
-		 * @description Displays image when loaded if mouse event has been called
+		 * @description Displays panel when full size image is loaded if mouse event has been called
 		 */
 		function loop(e)
 		{
@@ -191,8 +201,6 @@
 			}
 			else
 			{
-				self.elements.$target.css('cursor', 'progress')
-
 				timeout = setTimeout(function()
 				{
 					loop(e);
@@ -215,19 +223,20 @@
 		 */
 		function move(e)
 		{
-			if (over)
-			{
-				var p = self.elements.$source.offset(),
-				    pl = e.pageX - p.left,
-				    pt = e.pageY - p.top,
-				    xl = pl * rw,
-				    xt = pt * rh;
+			// Get mouse position or last position if triggered by jQuery
+			lx = e.pageX || lx;
+			ly = e.pageY || ly;
 
-				xl = (xl > w4) ? w4 : xl;
-				xt = (xt > h4) ? h4 : xt;
+			var p = self.elements.$source.offset(),
+			    pl = lx - p.left,
+			    pt = ly - p.top,
+			    xl = pl * rw,
+			    xt = pt * rh;
 
-				self.elements.$zoomed.css({left: -xl, top: -xt});
-			}
+			xl = (xl > w4) ? w4 : xl;
+			xt = (xt > h4) ? h4 : xt;
+
+			self.elements.$zoomed.css({left: -xl, top: -xt});
 		}
 
 		/**
@@ -236,8 +245,6 @@
 		 */
 		function show(e)
 		{
-			over = true;
-
 			self.elements.$target.css('cursor', 'crosshair');
 
 			var start = (new Date).getTime();
@@ -261,7 +268,7 @@
 		/**
 		 * Load image
 		 * @description Load an image
-		 * @returns A new image element
+		 * @returns A new image object
 		 */
 		this.loadimg = function(src)
 		{
@@ -284,18 +291,13 @@
 		{
 			if (over)
 			{
-				over = false;
-
-				self.elements.$target.css('cursor', 'default');
-
 				self.elements.$panel
 					.stop()
 					.animate({opacity: 0}, 200, function()
 					{
 						self.elements.$panel = self.elements.$panel
 							.detach()
-							.html('')
-							.trigger('detach');
+							.trigger('nodeRemoved');
 					});
 			}
 		};
@@ -312,11 +314,15 @@
 
 		/**
 		 * Destroy
-		 * @description Public method to remove zoom panel events
+		 * @description Public method to remove zoom panel and events
 		 */
 		this.destroy = function()
 		{
 			this.hide();
+
+			self.elements.$target
+				.css('cursor', 'default')
+				.unbind('.easyZoom');
 		};
 
 		// Instantiate only for anchors

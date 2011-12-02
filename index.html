@@ -120,13 +120,13 @@
 	<script src="js/easyzoom.js"></script>
 	<script>
 	// Start easyZoom
-	$('#zoom')
-		.easyZoom({
-			parent: 'div.zoom-container',
-			preload: ''
-		})
-		.data('easyZoom')
-		.gallery('a.zoom-thumbnail');
+	var $zoom = $('#zoom').easyZoom({
+		parent: 'div.zoom-container',
+		preload: ''
+	});
+
+	// Start gallery extension
+	$zoom.data('easyZoom').gallery('a.zoom-thumbnail');
 	</script>
 
 </body>
