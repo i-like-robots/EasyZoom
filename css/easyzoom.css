@@ -7,6 +7,13 @@
 	position:relative;
 }
 
+/* Image to zoom */
+#zoom {
+	display:block; /* This is very important, it needs metrics to provide an area to catch events */
+	outline:none; /* Remove click focus style */
+	-webkit-tap-highlight-color:rgba(0,0,0,0); /* Remove highlight on touch */
+}
+
 /* Zoom window */
 #zoom-window {
 	position:absolute;
@@ -15,7 +22,7 @@
 	width:390px;
 	height:520px;
 	overflow:hidden;
-	background:#fff url(../img/loading.gif) no-repeat center center;
+	background:#fff;
 
 	/* Box shadow for < IE9 is defined in ie8.css and ie7.css */
 	-webkit-box-shadow:0 0 10px #888;
@@ -29,6 +36,9 @@
 	     -o-transition:left, top 100ms ease-out;
 	        transition:left, top 100ms ease-out;
 }
+	.zoom-loading {
+		background:#fff url(../img/loading.gif) no-repeat center center;
+	}
 
 /* Zoom gallery */
 .zoom-gallery {

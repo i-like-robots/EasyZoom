@@ -1,5 +1,5 @@
 /**
- * Easy Zoom 1.0 RC3
+ * Easy Zoom 1.0
  * Written by Matt Hinchliffe <http://www.github.com/i-like-robots/EasyZoom>
  * Based on the original work by Alen Grakalic <http://cssglobe.com/post/9711/jquery-plugin-easy-image-zoom>
  *
@@ -100,18 +100,39 @@
 				})
 				.on('mouseenter.easyZoom', function(e)
 				{
-					over = true; // Use a variable for persistance
+					over = true; // Use a variable for persistence
 					start(e);
+				})
+				.on('mousemove.easyZoom', function(e)
+				{
+					move(e);
 				})
 				.on('mouseleave.easyZoom', function()
 				{
 					self.hide();
 					over = false;
-				})
-				.on('mousemove.easyZoom', function(e)
-				{
-					move(e);
 				});
+
+			// Capture touch events
+			if ('ontouchstart' in document.documentElement)
+			{
+				target.addEventListener('touchstart', function(e)
+				{
+					e.preventDefault();
+					over = true; // Use a variable for persistence
+					start(e);
+				}, false);
+				target.addEventListener("touchmove", function(e)
+				{
+					e.preventDefault();
+					move(e);
+				}, false);
+				target.addEventListener("touchend", function(e)
+				{
+					self.hide();
+					over = false;
+				}, false);
+			}
 
 			// Bind events to the panel
 			self.elements.$panel
@@ -134,6 +155,7 @@
 			loaded = false;
 
 			self.elements.$target.css('cursor', 'progress');
+			self.elements.$panel.addClass('zoom-loading');
 
 			// Load full size image
 			self.elements.$zoomed = self.loadimg(href)
@@ -146,7 +168,9 @@
 					loaded = true;
 
 					// Attach image to panel
-					self.elements.$panel.append( self.elements.$zoomed.css('position', 'absolute') );
+					self.elements.$panel
+						.addClass('zoom-loading')
+						.html( self.elements.$zoomed.css('position', 'absolute') );
 
 					// Trigger panel to display if user is waiting
 					if (over)
@@ -355,7 +379,7 @@
 
 			var $this = $(this).addClass('thumbnail-loading'),
 			    zoomed = $this.attr('href'),
-			    source = $this.data('easyzoom-source');
+			    source = $this.data('easyzoomSource');
 
 			// Load new source image
 			self.loadimg(source).on('load', function()

@@ -1,6 +1,6 @@
 #EasyZoom jQuery image zoom plugin
 
-EasyZoom is an elegant [jQuery][1] image zoom plugin based on the [original work][2] by [Alen Grakalic][3]. As well as adding lots of whitespace to the source code it has been extended to with public methods, optimised performance and includes an optional extension to create an image gallery. 
+EasyZoom is an elegant [jQuery][1] image zoom plugin based on the [original work][2] by [Alen Grakalic][3]. EasyZoom has been extended with public methods, optimised performance and includes an optional extension to create an image gallery and works on *Apple iOS* touch enabled devices such as the iPad. 
 
 ## Dependencies
 
