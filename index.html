@@ -14,8 +14,6 @@
 
 	<!-- EasyZoom -->
 	<link rel="stylesheet" href="css/easyzoom.css" />
-	<!--[if IE 8]><link rel="stylesheet" href="css/ie8.css" /><![endif]-->
-	<!--[if lte IE 7]><link rel="stylesheet" href="css/ie7.css" /><![endif]-->
 
 </head>
 <body>
@@ -31,9 +29,9 @@
 				on the <a href="http://cssglobe.com/lab/easyzoom/easyzoom.html">original work</a> by 
 				<a href="http://grakalic.com/">Alen Grakalic</a>. EasyZoom has been extended with public 
 				methods, optimised performance and includes an optional extension to create an image 
-				gallery and works on <strong>Apple iOS</strong> touch enabled devices such as the iPad.
-				<a href="https://github.com/i-like-robots/EasyZoom/blob/master/js/easyzoom.js">View the 
-				source code</a>
+				gallery. EasyZoom also supports touch events and even works on <strong>iOS</strong> devices 
+				such as the iPad and iPhone. 
+				<a href="https://github.com/i-like-robots/EasyZoom/blob/master/js/easyzoom.js">View the source code</a>
 			</p>
 
 			<p>
@@ -83,7 +81,7 @@
 		<!-- Example -->
 		<div id="example" class="zoom-container">
 
-			<a id="zoom" href="photos/1_large.jpg">
+			<a id="zoom-target" href="photos/1_large.jpg">
 				<img class="zoom-image" src="photos/1_medium.jpg" alt="" width="390" height="520" />
 			</a>
 
@@ -117,7 +115,7 @@
 	<script src="js/easyzoom.js"></script>
 	<script>
 	// Start easyZoom
-	var $zoom = $('#zoom').easyZoom({
+	var $zoom = $('#zoom-target').easyZoom({
 		parent: 'div.zoom-container',
 		preload: ''
 	});

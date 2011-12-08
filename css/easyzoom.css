@@ -8,10 +8,8 @@
 }
 
 /* Image to zoom */
-#zoom {
-	display:block; /* This is very important, it needs metrics to provide an area to catch events */
-	outline:none; /* Remove click focus style */
-	-webkit-tap-highlight-color:rgba(0,0,0,0); /* Remove highlight on touch */
+#zoom-target {
+	display:block; /* This is very important, the element must have metrics to provide an area to catch events */
 }
 
 /* Zoom window */
@@ -36,9 +34,6 @@
 	     -o-transition:left, top 100ms ease-out;
 	        transition:left, top 100ms ease-out;
 }
-	.zoom-loading {
-		background:#fff url(../img/loading.gif) no-repeat center center;
-	}
 
 /* Zoom gallery */
 .zoom-gallery {
@@ -58,4 +53,6 @@
 		}
 			.thumbnail-loading img {
 				opacity:0.5;
+				-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+				filter:alpha(opacity=50);
 			}

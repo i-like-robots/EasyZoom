@@ -17,8 +17,12 @@
  * </div>
  *
  * Required CSS:
+ * 
  * .zoom-container {
  *     position:relative;
+ * }
+ * #zoom-target {
+ *     display:block;
  * }
  * #zoom-window {
  *     position:absolute;
@@ -28,26 +32,26 @@
  * }
  *
  * Plugin use:
- * $('#zoom').easyZoom({
- *     id: '#zoom-window',
- *     parent: '.zoom-container'
- * });
+ *    $('#zoom').easyZoom({
+ *        id: '#zoom-window',
+ *        parent: '.zoom-container'
+ *    });
  *
  * Options:
- * - id: The ID to assign the zoom window
- * - parent: Parent element to append zoom window to
- * - preload: Preloader content/text
- * - error: Error content/text
+ *  - id: The ID to assign the zoom window
+ *  - parent: Parent element to append zoom window to
+ *  - error: Error content/text
+ *  - touch: Enable touch events
  *
  * Public methods:
- * - Get data object
- *   var $zoom = $('.zoom').data('easyZoom');
+ * 1. Get data object
+ *    var $zoom = $('.zoom').data('easyZoom');
  *
- * - Hide open zoom window
- *   $zoom.hide();
+ * 2. Change image
+ *    $zoom.update(src);
  *
- * - Change image
- *   $zoom.update(src);
+ * 3. Hide zoom window
+ *    $zoom.hide();
  */
 
 ;(function ($, undefined)
@@ -58,8 +62,8 @@
 		var defaults = {
 			id: 'zoom-window',
 			parent: 'body',
-			preload: 'Loading...',
-			error: '<p>There has been a problem attempting to loading the image.</p>'
+			error: '<p>There has been a problem attempting to loading the image.</p>',
+			touch: true
 		};
 
 		this.options = $.extend({}, defaults, options);
@@ -67,8 +71,7 @@
 		var self = this,
 		    loaded = false,
 		    found = true,
-		    over = false,
-		    dom = false,
+		    mouseover = false,
 		    timeout,
 		    lx,ly,
 		    w1,w2,w3,w4,
@@ -86,64 +89,72 @@
 				$target: $(target),
 				$source: $('img', target),
 				$parent: $(self.options.parent),
-				$panel:  $('<div id="' + self.options.id + '">' + self.options.preload + '</div>')
+				$panel:  $('<div id="' + self.options.id + '" />')
 			};
 
 			// Preload full size image
 			preload(self.elements.$target.attr('href'));
 
-			// Bind events to target
+			// Bind mouse events to target
 			self.elements.$target
-				.on('click.easyZoom', function(e)
+				.on('click', function(e)
 				{
 					e.preventDefault();
 				})
-				.on('mouseenter.easyZoom', function(e)
+				.on('mouseenter', function(e)
 				{
-					over = true; // Use a variable for persistence
+					mouseover = true;
 					start(e);
 				})
-				.on('mousemove.easyZoom', function(e)
+				.on('mousemove', function(e)
 				{
 					move(e);
 				})
-				.on('mouseleave.easyZoom', function()
+				.on('mouseleave', function()
 				{
 					self.hide();
-					over = false;
+					mouseover = false;
 				});
 
-			// Capture touch events
-			if ('ontouchstart' in document.documentElement)
+			// Bind touch events to target
+			if (self.options.touch && 'ontouchstart' in document.documentElement)
 			{
 				target.addEventListener('touchstart', function(e)
 				{
-					e.preventDefault();
-					over = true; // Use a variable for persistence
-					start(e);
+					if (e.touches.length == 1)
+					{
+						e.preventDefault();
+
+						e.pageX = e.touches[0] || e.changedTouches[0];
+						e.pageY = e.touches[0] || e.changedTouches[0];
+
+						mouseover = true;
+						start(e);
+					}
 				}, false);
 				target.addEventListener("touchmove", function(e)
 				{
-					e.preventDefault();
-					move(e);
+					if (e.touches.length == 1)
+					{
+						e.preventDefault();
+
+						e.pageX = e.touches[0] || e.changedTouches[0];
+						e.pageY = e.touches[0] || e.changedTouches[0];
+
+						move(e);
+					}
+					else
+					{
+						self.hide();
+						mouseover = false;
+					}
 				}, false);
 				target.addEventListener("touchend", function(e)
 				{
 					self.hide();
-					over = false;
+					mouseover = false;
 				}, false);
 			}
-
-			// Bind events to the panel
-			self.elements.$panel
-				.on('nodeRemoved', function() // DOMNodeRemoved
-				{
-					dom = false;
-				})
-				.on('nodeInserted', function() // DOMNodeInserted
-				{
-					dom = true;
-				});
 		}
 
 		/**
@@ -154,26 +165,27 @@
 		{
 			loaded = false;
 
-			self.elements.$target.css('cursor', 'progress');
-			self.elements.$panel.addClass('zoom-loading');
+			self.elements.$target
+				.css('cursor', 'progress');
+				// Display loading thing
 
 			// Load full size image
 			self.elements.$zoomed = self.loadimg(href)
-				.on('error.easyZoom', function()
+				.on('error', function()
 				{
 					found = false;
 				})
-				.on('load.easyZoom', function()
+				.on('load', function()
 				{
 					loaded = true;
 
-					// Attach image to panel
-					self.elements.$panel
-						.addClass('zoom-loading')
-						.html( self.elements.$zoomed.css('position', 'absolute') );
+					// Remove loading thing
 
-					// Trigger panel to display if user is waiting
-					if (over)
+					// Attach image to panel
+					self.elements.$panel.html( self.elements.$zoomed.css('position', 'absolute') );
+
+					// Display if the cursor is over the image
+					if (mouseover)
 					{
 						self.elements.$target.trigger('mouseenter');
 					}
@@ -187,12 +199,11 @@
 		function start(e)
 		{
 			// Attach panel to the page
-			if (!dom)
+			if (self.elements.$panel.parent().length == 0)
 			{
 				self.elements.$panel
 					.appendTo(self.elements.$parent)
-					.css('opacity', 0)
-					.trigger('nodeInserted');
+					.css('opacity', 0);
 			}
 
 			if (!found)
@@ -260,7 +271,11 @@
 			xl = (xl > w4) ? w4 : xl;
 			xt = (xt > h4) ? h4 : xt;
 
-			self.elements.$zoomed.css({left: -xl, top: -xt});
+			// Do not move the image if the event is outside
+			if (xl > 0 && xt > 0)
+			{
+				self.elements.$zoomed.css({left: -xl, top: -xt});
+			}
 		}
 
 		/**
@@ -297,11 +312,10 @@
 		this.loadimg = function(src)
 		{
 			var img = new Image();
-
 			img.src = src + '?' + (new Date()).getTime();
 			img.onload = function()
 			{
-				img = null; // Clear memory
+				img = null;
 			};
 
 			return $(img);
@@ -313,15 +327,13 @@
 		 */
 		this.hide = function()
 		{
-			if (over)
+			if (self.elements.$panel.parent().length)
 			{
 				self.elements.$panel
 					.stop()
 					.animate({opacity: 0}, 200, function()
 					{
-						self.elements.$panel = self.elements.$panel
-							.detach()
-							.trigger('nodeRemoved');
+						self.elements.$panel = self.elements.$panel.detach();
 					});
 			}
 		};
@@ -334,19 +346,6 @@
 		{
 			this.hide();
 			preload(href);
-		};
-
-		/**
-		 * Destroy
-		 * @description Public method to remove zoom panel and events
-		 */
-		this.destroy = function()
-		{
-			this.hide();
-
-			self.elements.$target
-				.css('cursor', 'default')
-				.unbind('.easyZoom');
 		};
 
 		// Instantiate only for anchors
