@@ -124,10 +124,6 @@
 					if (e.touches.length == 1)
 					{
 						e.preventDefault();
-
-						e.pageX = e.touches[0] || e.changedTouches[0];
-						e.pageY = e.touches[0] || e.changedTouches[0];
-
 						mouseover = true;
 						start(e);
 					}
@@ -137,22 +133,16 @@
 					if (e.touches.length == 1)
 					{
 						e.preventDefault();
-
-						e.pageX = e.touches[0] || e.changedTouches[0];
-						e.pageY = e.touches[0] || e.changedTouches[0];
-
 						move(e);
 					}
 					else
 					{
-						self.hide();
-						mouseover = false;
+						self.elements.$target.trigger('mouseleave');
 					}
 				}, false);
 				target.addEventListener("touchend", function(e)
 				{
-					self.hide();
-					mouseover = false;
+					self.elements.$target.trigger('mouseleave');
 				}, false);
 			}
 		}
@@ -174,6 +164,7 @@
 				.on('error', function()
 				{
 					found = false;
+					error();
 				})
 				.on('load', function()
 				{
@@ -201,46 +192,10 @@
 			// Attach panel to the page
 			if (self.elements.$panel.parent().length == 0)
 			{
-				self.elements.$panel
-					.appendTo(self.elements.$parent)
-					.css('opacity', 0);
+				self.elements.$panel.appendTo(self.elements.$parent).css('opacity', 0);
 			}
 
-			if (!found)
-			{
-				error();
-			}
-			else
-			{
-				if (loaded)
-				{
-					show(e);
-				}
-				else
-				{
-					loop(e);
-				}
-			}
-		}
-
-		/**
-		 * Loop
-		 * @description Displays panel when full size image is loaded if mouse event has been called
-		 */
-		function loop(e)
-		{
-			if (loaded)
-			{
-				show(e);
-				clearTimeout(timeout);
-			}
-			else
-			{
-				timeout = setTimeout(function()
-				{
-					loop(e);
-				}, 200);
-			}
+			show(e);
 		}
 
 		/**
@@ -258,9 +213,17 @@
 		 */
 		function move(e)
 		{
-			// Get mouse position or last position if triggered by jQuery
-			lx = e.pageX || lx;
-			ly = e.pageY || ly;
+			// Get mouse/touch position or last position if triggered by jQuery
+			if (e.type.indexOf('touch') == 0)
+			{
+				lx = e.touches[0].pageX || e.changedTouches[0].pageX;
+				ly = e.touches[0].pageY || e.changedTouches[0].pageY;
+			}
+			else
+			{
+				lx = e.pageX || lx;
+				ly = e.pageY || ly;
+			}
 
 			var p = self.elements.$source.offset(),
 			    pl = lx - p.left,
@@ -288,9 +251,7 @@
 
 			var start = (new Date).getTime();
 
-			self.elements.$panel
-				.stop()
-				.animate({opacity: 1}, 200);
+			self.elements.$panel.stop().animate({opacity: 1}, 200);
 
 			w1 = self.elements.$source.width();
 			h1 = self.elements.$source.height();
