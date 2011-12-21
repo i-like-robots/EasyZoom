@@ -19,6 +19,8 @@
 		width:40px;
 		height:40px;
 		margin:-20px 0 0 -20px;
+		direction:ltr;
+		text-indent:-9999px;
 		background:#fff url(../img/loading.gif) no-repeat center center;
 		z-index:150;
 		-webkit-border-radius:5px;
@@ -35,7 +37,7 @@
 	height:520px;
 	overflow:hidden;
 	background:#fff;
-	z-index:100;
+	z-index:200;
 
 	/* Box shadow for < IE9 is defined in ie8.css and ie7.css */
 	-webkit-box-shadow:0 0 10px #888;
