@@ -24,7 +24,7 @@
  * #zoom-target {
  *     display:block;
  * }
- * #zoom-window {
+ * #zoom-panel {
  *     position:absolute;
  *     width:[*]px;
  *     height:[*]px;
@@ -33,49 +33,52 @@
  *
  * Plugin use:
  *    $('#zoom').easyZoom({
- *        id: '#zoom-window',
+ *        id: '#zoom-panel',
  *        parent: '.zoom-container'
  *    });
  *
  * Options:
- *  - id: The ID to assign the zoom window
- *  - parent: Parent element to append zoom window to
- *  - error: Error content/text
- *  - touch: Enable touch events
+ *  - id:      The ID to assign the zoom panel
+ *  - parent:  Parent element selector to append zoom panel to
+ *  - error:   HTML to display if an error occurs loading large image
+ *  - loading: HTML to display while loading the large image
+ *  - cursor:  Specify cursor display when interacting with easyZoom <https://developer.mozilla.org/en/CSS/cursor>
+ *  - touch:   Enable touch events when available
  *
  * Public methods:
- * 1. Get data object
- *    var $zoom = $('.zoom').data('easyZoom');
+ *  1. Get the easyZoom object from element data
+ *     var $zoom = $('.zoom').data('easyZoom');
  *
- * 2. Change image
- *    $zoom.update(src);
+ *  2. Change image
+ *     $zoom.update(src);
  *
- * 3. Hide zoom window
- *    $zoom.hide();
+ *  3. Hide zoom panel
+ *     $zoom.hide();
  */
 
-;(function ($, undefined)
+; (function ($, undefined)
 {
 	function EasyZoom(target, options)
 	{
 		// Default options
 		var defaults = {
-			id: 'zoom-window',
+			id: 'zoom-panel',
 			parent: 'body',
-			error: '<p>There has been a problem attempting to loading the image.</p>',
+			error: '<p class="zoom-error">There has been a problem attempting to loading the image.</p>',
+			loading: '<p class="fullsize-loading">Loading</p>',
+			cursor: 'crosshair',
 			touch: true
 		};
 
-		this.options = $.extend({}, defaults, options);
+		this.opts = $.extend({}, defaults, options);
 
 		var self = this,
 		    loaded = false,
 		    found = true,
 		    mouseover = false,
-		    timeout,
 		    lx,ly,
-		    w1,w2,w3,w4,
-		    h1,h2,h3,h4,
+		    w1,w2,w3,
+		    h1,h2,h3,
 		    rw,rh;
 
 		/**
@@ -85,18 +88,19 @@
 		function init()
 		{
 			// Select or create DOM elements
-			self.elements = {
+			self.ele = {
 				$target: $(target),
 				$source: $('img', target),
-				$parent: $(self.options.parent),
-				$panel:  $('<div id="' + self.options.id + '" />')
+				$parent: $(self.opts.parent),
+				$loader: $(self.opts.loading),
+				$panel:  $('<div id="' + self.opts.id + '" />')
 			};
 
 			// Preload full size image
-			preload(self.elements.$target.attr('href'));
+			preload(self.ele.$target.attr('href'));
 
 			// Bind mouse events to target
-			self.elements.$target
+			self.ele.$target
 				.on('click', function(e)
 				{
 					e.preventDefault();
@@ -104,7 +108,7 @@
 				.on('mouseenter', function(e)
 				{
 					mouseover = true;
-					start(e);
+					show(e);
 				})
 				.on('mousemove', function(e)
 				{
@@ -117,33 +121,36 @@
 				});
 
 			// Bind touch events to target
-			if (self.options.touch && 'ontouchstart' in document.documentElement)
+			if (self.opts.touch && 'ontouchstart' in document.documentElement)
 			{
 				target.addEventListener('touchstart', function(e)
 				{
-					if (e.touches.length == 1)
+					// Ignore multi-finger gestures
+					if (e.touches.length === 1)
 					{
 						e.preventDefault();
+
 						mouseover = true;
-						start(e);
+						show(e);
 					}
-				}, false);
-				target.addEventListener("touchmove", function(e)
+				});
+				target.addEventListener('touchmove', function(e)
 				{
-					if (e.touches.length == 1)
+					if (e.touches.length === 1)
 					{
 						e.preventDefault();
 						move(e);
 					}
 					else
 					{
-						self.elements.$target.trigger('mouseleave');
+						self.ele.$target.trigger('mouseleave');
 					}
-				}, false);
-				target.addEventListener("touchend", function(e)
+				});
+				target.addEventListener('touchend', function()
 				{
-					self.elements.$target.trigger('mouseleave');
-				}, false);
+					self.hide();
+					mouseover = false;
+				});
 			}
 		}
 
@@ -155,12 +162,14 @@
 		{
 			loaded = false;
 
-			self.elements.$target
-				.css('cursor', 'progress');
-				// Display loading thing
+			// Display progress cursor when the user rolls over
+			self.ele.$target.css('cursor', 'progress');
+
+			// Display loading notice
+			self.ele.$loader.appendTo(self.ele.$target);
 
 			// Load full size image
-			self.elements.$zoomed = self.loadimg(href)
+			self.ele.$zoomed = self.loadimg(href)
 				.on('error', function()
 				{
 					found = false;
@@ -170,32 +179,21 @@
 				{
 					loaded = true;
 
-					// Remove loading thing
+					// Set cursor
+					self.ele.$target.css('cursor', self.opts.cursor);
+
+					// Remove loading notice
+					self.ele.$loader.detach();
 
 					// Attach image to panel
-					self.elements.$panel.html( self.elements.$zoomed.css('position', 'absolute') );
+					self.ele.$panel.html( self.ele.$zoomed.css('position', 'absolute') );
 
 					// Display if the cursor is over the image
 					if (mouseover)
 					{
-						self.elements.$target.trigger('mouseenter');
+						self.ele.$target.trigger('mouseenter');
 					}
 				});
-		}
-
-		/**
-		 * Start
-		 * @description Add panel to page and display when full size image is loaded
-		 */
-		function start(e)
-		{
-			// Attach panel to the page
-			if (self.elements.$panel.parent().length == 0)
-			{
-				self.elements.$panel.appendTo(self.elements.$parent).css('opacity', 0);
-			}
-
-			show(e);
 		}
 
 		/**
@@ -204,7 +202,7 @@
 		 */
 		function error()
 		{
-			self.elements.$panel.html(self.options.error);
+			self.ele.$panel.html(self.opts.error);
 		}
 
 		/**
@@ -214,10 +212,10 @@
 		function move(e)
 		{
 			// Get mouse/touch position or last position if triggered by jQuery
-			if (e.type.indexOf('touch') == 0)
+			if (e.type.indexOf('touch') === 0)
 			{
-				lx = e.touches[0].pageX || e.changedTouches[0].pageX;
-				ly = e.touches[0].pageY || e.changedTouches[0].pageY;
+				lx = e.touches[0].pageX;
+				ly = e.touches[0].pageY;
 			}
 			else
 			{
@@ -225,19 +223,19 @@
 				ly = e.pageY || ly;
 			}
 
-			var p = self.elements.$source.offset(),
+			var p = self.ele.$source.offset(),
 			    pl = lx - p.left,
 			    pt = ly - p.top,
 			    xl = pl * rw,
 			    xt = pt * rh;
 
-			xl = (xl > w4) ? w4 : xl;
-			xt = (xt > h4) ? h4 : xt;
+			xl = (xl > w3) ? w3 : xl;
+			xt = (xt > h3) ? h3 : xt;
 
 			// Do not move the image if the event is outside
 			if (xl > 0 && xt > 0)
 			{
-				self.elements.$zoomed.css({left: -xl, top: -xt});
+				self.ele.$zoomed.css({left: -xl, top: -xt});
 			}
 		}
 
@@ -247,20 +245,24 @@
 		 */
 		function show(e)
 		{
-			self.elements.$target.css('cursor', 'crosshair');
+			// Attach the panel to the page
+			if (self.ele.$panel.parent().length === 0)
+			{
+				self.ele.$panel.appendTo(self.ele.$parent).css('opacity', 0);
+			}
 
-			var start = (new Date).getTime();
+			self.ele.$panel
+				.stop()
+				.animate({opacity: 1}, 200);
 
-			self.elements.$panel.stop().animate({opacity: 1}, 200);
-
-			w1 = self.elements.$source.width();
-			h1 = self.elements.$source.height();
-			w2 = self.elements.$panel.width();
-			h2 = self.elements.$panel.height();
-			w4 = self.elements.$zoomed.width() - w2;
-			h4 = self.elements.$zoomed.height() - h2;
-			rw = w4 / w1;
-			rh = h4 / h1;
+			w1 = self.ele.$source.width();
+			h1 = self.ele.$source.height();
+			w2 = self.ele.$panel.width();
+			h2 = self.ele.$panel.height();
+			w3 = self.ele.$zoomed.width() - w2;
+			h3 = self.ele.$zoomed.height() - h2;
+			rw = w3 / w1;
+			rh = h3 / h1;
 
 			move(e);
 		}
@@ -273,7 +275,7 @@
 		this.loadimg = function(src)
 		{
 			var img = new Image();
-			img.src = src + '?' + (new Date()).getTime();
+			img.src = src + '?' + (new Date()).getTime(); // TODO: Is it necessary to skip cache?
 			img.onload = function()
 			{
 				img = null;
@@ -288,13 +290,13 @@
 		 */
 		this.hide = function()
 		{
-			if (self.elements.$panel.parent().length)
+			if (self.ele.$panel.parent().length)
 			{
-				self.elements.$panel
+				self.ele.$panel
 					.stop()
 					.animate({opacity: 0}, 200, function()
 					{
-						self.elements.$panel = self.elements.$panel.detach();
+						self.ele.$panel = self.ele.$panel.detach();
 					});
 			}
 		};
@@ -331,7 +333,7 @@
 	EasyZoom.prototype.gallery = function(selector, scope)
 	{
 		var self = this,
-		    $scope = scope ? $(scope) : this.elements.$parent;
+		    $scope = scope ? $(scope) : this.ele.$parent;
 
 		$scope.on('click', selector, function(e)
 		{
@@ -345,8 +347,8 @@
 			self.loadimg(source).on('load', function()
 			{
 				// Swap current source image
-				self.elements.$source.attr('src', source);
-				self.elements.$target.attr('href', zoomed);
+				self.ele.$source.attr('src', source);
+				self.ele.$target.attr('href', zoomed);
 
 				self.update(zoomed);
 
