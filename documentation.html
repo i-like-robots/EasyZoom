@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1" />
+
+	<!-- Meta -->
+	<title>EasyZoom Documentation &mdash; EasyZoom jQuery image zoom plugin</title>
+	<meta name="description" content="EasyZoom is an elegant jQuery image zoom plugin based on the original work by Alen Grakalic." />
+
+	<!-- Example styles -->
+	<link rel="stylesheet" href="css/example.css" />
+
+	<!-- EasyZoom -->
+	<link rel="stylesheet" href="css/easyzoom.css" />
+
+</head>
+<body>
+
+	<div id="container" class="cf">
+
+		<h1>EasyZoom Documentation</h1>
+
+		<p>
+			<a href="http://i-like-robots.github.com/EasyZoom/">EasyZoom</a> converts an image with parent link into an interactive zoom. 
+			To start you will need to include a recent version of <a href="http://www.jquery.com">jQuery</a> (greater than 1.7) and either 
+			<kbd>easyzoom.js</kbd> for development or <kbd>easyzoom.min.js</kbd> for production.
+		</p>
+
+		<dl>
+
+			<dt>HTML</dt>
+			<dd>
+				<p>
+					The plugin does not rely on a specific HTML structure but the following markup is a sensible start:
+				</p>
+
+				<pre><code>&lt;div class=&quot;zoom-container&quot;&gt;
+	&lt;a id=&quot;zoom-target&quot; href=&quot;photos/zoom.jpg&quot;&gt;
+		&lt;img class=&quot;zoom-image&quot; src=&quot;photos/normal.jpg&quot; alt=&quot;&quot; width=&quot;390&quot; height=&quot;520&quot; /&gt;
+	&lt;/a&gt;
+&lt;/div&gt;</code></pre>
+			</dd>
+
+			<dt>CSS</dt>
+			<dd>
+				<p>
+					Some basic CSS is necessary to ensure correct display and positioning of the enlarged image. An expanded and fully 
+					commented example is included within <kbd>easyzoom.css</kbd>.
+				</p>
+
+				<pre><code>/* Zoom parent */
+.zoom-container {
+	position:relative;
+}
+
+/* Image to zoom */
+#zoom-target {
+	position:relative; /* Not strictly necessary but useful for positioning the loading message */
+	display:block; /* This is very important, the element must have metrics to provide an area to catch events */
+}
+	#zoom-target .fullsize-loading {
+		position:absolute;
+		z-index:150;
+	}
+
+/* Zoom panel */
+#zoom-panel {
+	position:absolute;
+	top:0;
+	left:410px;
+	width:390px;
+	height:520px;
+	overflow:hidden;
+	background:#fff;
+	z-index:200;
+}</code></pre>
+			</dd>
+
+			<dt>Javascript</dt>
+			<dd>
+				<p>
+					To activate the plugin pass an HTML element or selector into the jQuery factory function and call the 
+					<code>easyZoom()</code> method upon it.
+				</p>
+
+				<pre><code>$('#zoom-target').easyZoom();</code></pre>
+			</dd>
+
+			<dt>Options</dt>
+			<dd>
+				<p>
+					To help EasyZoom fit easily into your website there are a number configurable options to adjust the plugin structure 
+					and appearance. The available options (and their defaults) are below:
+				</p>
+
+				<pre><code>var options = {
+	id: 'zoom-panel',
+	parent: 'body',
+	error: '&lt;p class=&quot;zoom-error&quot;&gt;There has been a problem attempting to loading the image.&lt;/p&gt;',
+	loading: '&lt;p class=&quot;fullsize-loading&quot;&gt;Loading&lt;/p&gt;',
+	cursor: 'crosshair',
+	touch: true
+};</code></pre>
+
+				<dl class="inline-definitions">
+					<dt>id</dt>
+					<dd>The ID attribute to assign the zoom panel</dd>
+					<dt>parent</dt>
+					<dd>Parent element selector to append zoom panel to</dd>
+					<dt>error</dt>
+					<dd>HTML to display within the zoom panel if an error occurs loading large image</dd>
+					<dt>loading</dt>
+					<dd>HTML to append and display to the zoom target while loading the large image</dd>
+					<dt>cursor</dt>
+					<dd>Specify <a href="http://developer.mozilla.org/en/CSS/cursor">cursor display</a> when interacting with easyZoom</dd>
+					<dt>touch</dt>
+					<dd>Enable touch events when available</dd>
+				</dl>
+
+			</dd>
+
+		</dl>
+
+	</div>
+
+</body>
+</html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -20,20 +20,20 @@
 
 	<div id="container" class="cf">
 
-		<h1>EasyZoom <small>jQuery image zoom plugin</small></h1>
+		<h1 id="logo">EasyZoom <small>jQuery image zoom plugin</small></h1>
 
 		<!-- Introduction -->
 		<div id="introduction">
 			<p>
 				EasyZoom is an elegant, highly optimised <a href="http://www.jquery.com">jQuery</a> image zoom and panning plugin based on 
 				the <a href="http://cssglobe.com/lab/easyzoom/easyzoom.html">original work</a> by 
-				<a href="http://grakalic.com/">Alen Grakalic</a>. EasyZoom includes an optional extension to create a gallery also supports 
-				touch-enabled iOS and Android devices including the iPhone and iPad.
+				<a href="http://grakalic.com/">Alen Grakalic</a>. EasyZoom includes an extension to create a gallery and supports
+				touch-enabled devices including the iPhone and iPad.
 			</p>
 
 			<p>
-				&larr; You can see it in action just to the left, simply move your mouse or finger overthe kitten or click the thumbnails 
-				below to change the image.
+				&larr; You can try EasyZoom just to the left, simply move your mouse or swipe your finger over the kitten. The image 
+				can be changed by clicking a thumbnail below.
 			</p>
 
 			<h2>Download</h2>
@@ -50,9 +50,9 @@
 			<dl>
 				<dt>Dependencies</dt>
 				<dd>
-					jQuery 1.7+
+					jQuery 1.7+ (<a href="documentation.html">Read the documentation</a>)
 				</dd>
-				
+
 				<dt>Supported browsers<dfn title="with provided configuration">*</dfn></dt>
 				<dd>
 					<ul>
@@ -60,7 +60,7 @@
 						<li>Chrome 8&ndash;16</li>
 						<li>Safari 5.0.1 (iOS) and 5.1 (desktop)</li>
 						<li>Internet Explorer 6&ndash;9</li>
-						<li>Opera 11.5 (desktop and mobile)</li>
+						<li>Opera 11.5 (desktop)</li>
 						<li>Android 2.3 (Gingerbread)</li>
 					</ul>
 				</dd>
@@ -107,15 +107,14 @@
 
 	<!-- jQuery -->
 	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script>
-	<script>if (!window.jQuery) document.writeln('<scr' + 'ipt src="js/jquery-1.7.1.min.js"></scr' + 'ipt>')</script>
+	<script>if (!window.jQuery) document.writeln('<scr' + 'ipt src="js/jquery/jquery-1.7.1.min.js"></scr' + 'ipt>')</script>
 
 	<!-- EasyZoom -->
 	<script src="js/easyzoom.js"></script>
 	<script>
 	// Start easyZoom
 	var $zoom = $('#zoom-target').easyZoom({
-		parent: 'div.zoom-container',
-		preload: ''
+		parent: 'div.zoom-container'
 	});
 
 	// Start gallery extension

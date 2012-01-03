@@ -1,19 +1,35 @@
-/**
+﻿/**
  * The actual naming of elements is not rigid, these are just examples
  */  
 
-/* Zoom window parent */
+/* Zoom parent */
 .zoom-container {
 	position:relative;
 }
 
 /* Image to zoom */
 #zoom-target {
+	position:relative; /* Not strictly necessary but useful for positioning the loading message */
 	display:block; /* This is very important, the element must have metrics to provide an area to catch events */
 }
+	#zoom-target .fullsize-loading {
+		position:absolute;
+		top:50%;
+		left:50%;
+		width:40px;
+		height:40px;
+		margin:-20px 0 0 -20px;
+		direction:ltr;
+		text-indent:-9999px;
+		background:#fff url(../img/loading.gif) no-repeat center center;
+		z-index:150;
+		-webkit-border-radius:5px;
+		   -moz-border-radius:5px;
+		        border-radius:5px;
+	}
 
-/* Zoom window */
-#zoom-window {
+/* Zoom panel */
+#zoom-panel {
 	position:absolute;
 	top:0;
 	left:410px;
@@ -21,6 +37,7 @@
 	height:520px;
 	overflow:hidden;
 	background:#fff;
+	z-index:200;
 
 	/* Box shadow for < IE9 is defined in ie8.css and ie7.css */
 	-webkit-box-shadow:0 0 10px #888;
