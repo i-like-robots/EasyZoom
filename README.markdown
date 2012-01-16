@@ -22,16 +22,21 @@ https://github.com/i-like-robots/EasyZoom/issues
 
 ## Versioning
 
-Releases will be numbered in following format:
+The current version is `1.0.1`. Releases will be numbered in following format:
 
 `<major>.<minor>.<patch>`
 
+## License
+
+This work is licensed under a [Creative Commons Attribution-ShareAlike 3.0 Unported License][3].
+
 ## Authors
 
-EasyZoom was written by [Matt Hinchliffe][3] based on the [original work][4] by [Alen Grakalic][5]
+EasyZoom was written by [Matt Hinchliffe][4] based on the [original work][5] by [Alen Grakalic][6]
 
  [1]: http://github.com/i-like-robots/EasyZoom/
  [2]: http://www.jquery.com
- [3]: http://www.maketea.co.uk
- [4]: http://cssglobe.com/lab/easyzoom/easyzoom.html
- [5]: http://grakalic.com
+ [3]: http://creativecommons.org/licenses/by-sa/3.0/
+ [4]: http://www.maketea.co.uk
+ [5]: http://cssglobe.com/lab/easyzoom/easyzoom.html
+ [6]: http://grakalic.com
