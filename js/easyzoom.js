@@ -1,5 +1,5 @@
 ﻿/**
- * Easy Zoom 1.0.2
+ * Easy Zoom 1.0.3
  *
  * Written by Matt Hinchliffe <http://www.github.com/i-like-robots/EasyZoom>
  * Based on the original work by Alen Grakalic <http://cssglobe.com/post/9711/jquery-plugin-easy-image-zoom>
@@ -112,7 +112,15 @@
 				})
 				.on('mousemove', function(e)
 				{
-					move(e);
+					if ( ! mouseover)
+					{
+						mouseover = true;
+						show(e);
+					}
+					else
+					{
+						move(e);
+					}
 				})
 				.on('mouseleave', function()
 				{
@@ -140,10 +148,6 @@
 					{
 						e.preventDefault();
 						move(e);
-					}
-					else
-					{
-						self.ele.$target.trigger('mouseleave');
 					}
 				}, false);
 				target.addEventListener('touchend', function()
