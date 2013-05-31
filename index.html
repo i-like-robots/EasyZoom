@@ -7,6 +7,7 @@
 
 	<!-- Meta -->
 	<title>EasyZoom jQuery image zoom plugin</title>
+
 	<meta name="description" content="EasyZoom is an elegant jQuery image zoom plugin based on the original work by Alen Grakalic." />
 
 	<!-- Example styles -->
@@ -20,7 +21,9 @@
 
 	<div id="container" class="cf">
 
-		<h1 id="logo">EasyZoom <small>jQuery image zoom plugin</small></h1>
+		<h1 id="logo">
+			EasyZoom <small>jQuery image zoom plugin</small>
+		</h1>
 
 		<!-- Introduction -->
 		<div id="introduction">
@@ -36,7 +39,9 @@
 				can be changed by clicking a thumbnail below.
 			</p>
 
-			<h2>Download</h2>
+			<h2>
+				Download
+			</h2>
 
 			<ul class="inline-list">
 				<li>
@@ -48,20 +53,23 @@
 			</ul>
 
 			<dl>
-				<dt>Dependencies</dt>
+				<dt>
+					Dependencies
+				</dt>
 				<dd>
 					jQuery 1.7+ (<a href="documentation.html">Read the documentation</a>)
 				</dd>
-
-				<dt>Supported browsers<dfn title="with provided configuration">*</dfn></dt>
+				<dt>
+					Supported browsers<dfn title="with provided configuration">*</dfn>
+				</dt>
 				<dd>
 					<ul>
-						<li>Firefox 3.6 and 4&ndash;8</li>
-						<li>Chrome 8&ndash;16</li>
-						<li>Safari 5.0.1 (iOS) and 5.1 (desktop)</li>
-						<li>Internet Explorer 6&ndash;9</li>
-						<li>Opera 11.5 (desktop)</li>
-						<li>Android 2.3 (Gingerbread)</li>
+						<li>Firefox 3.6+</li>
+						<li>Chrome</li>
+						<li>Safari 5+</li>
+						<li>Internet Explorer 6+</li>
+						<li>Opera 11+</li>
+						<li>Android 2.3+</li>
 					</ul>
 				</dd>
 			</dl>
@@ -70,59 +78,57 @@
 				EasyZoom was written by
 				<a href="http://www.maketea.co.uk">Matt Hinchliffe</a> and the
 				project is maintained on
-				<a href="http://github.com/i-like-robots/EasyZoom/">Github</a>.
+				<a href="http://github.com/i-like-robots/EasyZoom/">GitHub</a>.
 			</p>
 
 		</div>
 
 
 		<!-- Example -->
-		<div id="example" class="zoom-container">
+		<div id="example">
 
-			<a id="zoom-target" href="photos/1_large.jpg">
-				<img class="zoom-image" src="photos/1_medium.jpg" alt="" width="390" height="520" />
-			</a>
+			<div class="easyzoom">
 
-			<ul class="cf zoom-gallery">
-				<li>
-					<a class="zoom-thumbnail" href="photos/1_large.jpg" data-easyzoom-source="photos/1_medium.jpg">
-						<img src="photos/1_thumb.jpg" alt="" width="120" height="120" />
-					</a>
-				</li>
-				<li>
-					<a class="zoom-thumbnail" href="photos/2_large.jpg" data-easyzoom-source="photos/2_medium.jpg">
-						<img src="photos/2_thumb.jpg" alt="" width="120" height="120" />
-					</a>
-				</li>
-				<li>
-					<a class="zoom-thumbnail" href="photos/3_large.jpg" data-easyzoom-source="photos/3_medium.jpg">
-						<img src="photos/3_thumb.jpg" alt="" width="120" height="120" />
-					</a>
-				</li>
-			</ul>
+				<a class="easyzoom-target" href="photos/1_large.jpg">
+					<img src="photos/1_medium.jpg" alt="" width="390" height="520" />
+				</a>
+
+				<ul class="easyzoom-gallery">
+					<li>
+						<a href="photos/1_large.jpg" data-easyzoom-source="photos/1_medium.jpg">
+							<img src="photos/1_thumb.jpg" alt="" width="120" height="120" />
+						</a>
+					</li>
+					<li>
+						<a href="photos/2_large.jpg" data-easyzoom-source="photos/2_medium.jpg">
+							<img src="photos/2_thumb.jpg" alt="" width="120" height="120" />
+						</a>
+					</li>
+					<li>
+						<a href="photos/3_large.jpg" data-easyzoom-source="photos/3_medium.jpg">
+							<img src="photos/3_thumb.jpg" alt="" width="120" height="120" />
+						</a>
+					</li>
+				</ul>
+
+			</div>
 
 		</div>
 
 	</div>
 
 	<!-- jQuery -->
-	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script>
-	<script>if (!window.jQuery) document.writeln('<scr' + 'ipt src="js/jquery/jquery-1.7.1.min.js"></scr' + 'ipt>')</script>
+	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.0.min.js"></script>
 
 	<!-- EasyZoom -->
-	<script src="js/easyzoom.min.js"></script>
+	<script src="js/easyzoom.js"></script>
 	<script>
-	// Start easyZoom
-	var $zoom = $('#zoom-target').easyZoom({
-		parent: 'div.zoom-container'
-	});
+		// Instantiate EasyZoom plugin
+		var $zoom = $('.easyzoom').easyZoom();
 
-	// Start gallery extension
-	$zoom.data('easyZoom').gallery('a.zoom-thumbnail');
+		// Get the instance API
+		var api = $zoom.data('easyZoom');
 	</script>
-
-	<!-- Weinre -->
-	<script src="http://hinch.is-a-geek.com:8080/target/target-script-min.js#anonymous"></script>
 
 </body>
 </html>

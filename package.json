@@ -1,0 +1,9 @@
+{
+  "name": "EasyZoom",
+  "version": "1.1.0",
+  "devDependencies": {
+    "grunt": "0.4.x",
+    "grunt-contrib-jshint": "0.1.x",
+    "grunt-contrib-uglify": "0.2.x"
+  }
+}

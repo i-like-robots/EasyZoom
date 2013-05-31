@@ -1,75 +1,59 @@
 ﻿/**
- * The actual naming of elements is not rigid, these are just examples
- */  
+ * Target image
+ */
 
-/* Zoom parent */
-.zoom-container {
-	position:relative;
-}
-
-/* Image to zoom */
-#zoom-target {
-	position:relative; /* Not strictly necessary but useful for positioning the loading message */
-	display:block; /* This is very important, the element must have metrics to provide an area to catch events */
-}
-	#zoom-target .fullsize-loading {
-		position:absolute;
-		top:50%;
-		left:50%;
-		width:40px;
-		height:40px;
-		margin:-20px 0 0 -20px;
-		direction:ltr;
-		text-indent:-9999px;
-		background:#fff url(../img/loading.gif) no-repeat center center;
-		z-index:150;
-		-webkit-border-radius:5px;
-		   -moz-border-radius:5px;
-		        border-radius:5px;
-	}
-
-/* Zoom panel */
-#zoom-panel {
+/* messages */
+.easyzoom-loading {
 	position:absolute;
-	top:0;
-	left:410px;
-	width:390px;
-	height:520px;
+	top:50%;
+	left:50%;
+	z-index:150;
 	overflow:hidden;
-	background:#fff;
+	width:40px;
+	height:40px;
+	margin:-20px 0 0 -20px;
+	text-indent:100%;
+	background:#fff url(img/loading.gif) no-repeat center center;
+	border-radius:5px;
+}
+
+
+/**
+ * Flyout
+ */
+.easyzoom-flyout {
 	z-index:200;
-
-	/* Box shadow for < IE9 is defined in ie8.css and ie7.css */
-	-webkit-box-shadow:0 0 10px #888;
-	   -moz-box-shadow:0 0 10px #888;
-	        box-shadow:0 0 10px #888;
-
-	/* Improve fluid motion of the the panel */
-	-webkit-transition:left, top 100ms ease-out;
-	   -moz-transition:left, top 100ms ease-out;
-	    -ms-transition:left, top 100ms ease-out;
-	     -o-transition:left, top 100ms ease-out;
-	        transition:left, top 100ms ease-out;
+	background:#fff;
+	box-shadow:0 0 10px #888;
 }
 
-/* Zoom gallery */
-.zoom-gallery {
+
+/**
+ * Gallery
+ */
+.easyzoom-gallery {
+	overflow:hidden;
 	margin:15px 0;
-	list-style-type:none;
+	padding:0;
+	list-style:none;
 }
-	.zoom-thumbnail {
-		float:left;
-		margin-left:15px;
-		text-decoration:none;
-	}
-		li:first-child .zoom-thumbnail {
-			margin-left:0;
-		}
-		.thumbnail-loading {
-			background:#fff url(../img/loading.gif) no-repeat center center;
-		}
-			.thumbnail-loading img {
-				opacity:0.5;
-				-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-				filter:alpha(opacity=50);
-			}
+
+/* thumbnails */
+.easyzoom-gallery > li > a {
+	float:left;
+	margin-left:15px;
+	text-decoration:none;
+}
+.easyzoom-gallery > li:first-child > a {
+	margin-left:0;
+}
+
+/* thumbnails - loading (.is-loading class is not editable) */
+.easyzoom-gallery > li > a.is-loading {
+	background:#fff url(img/loading.gif) no-repeat center center;
+}
+.easyzoom-gallery > li > a.is-loading > img {
+	opacity:0.5;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter:alpha(opacity=50);
+}

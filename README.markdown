@@ -4,15 +4,16 @@
 
 ## Dependencies
 
-jQuery 1.7+ 
+jQuery 1.7+
 
 ## Supported browsers*
 
- * Firefox 3.6 and 4-8
- * Chrome 8-16
- * Safari 5.1
- * Internet Explorer 6-9
- * Opera 11.5
+ * Firefox 3.6+
+ * Chrome
+ * Safari 5+
+ * Internet Explorer 6+
+ * Opera 11+
+ * Android 2.3+
 
 ## Issues
 
@@ -22,7 +23,7 @@ https://github.com/i-like-robots/EasyZoom/issues
 
 ## Versioning
 
-The current version is `1.0.1`. Releases will be numbered in following format:
+The current version is `2.0.0b`. Releases will be numbered in following format:
 
 `<major>.<minor>.<patch>`
 

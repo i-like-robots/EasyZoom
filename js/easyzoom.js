@@ -1,361 +1,260 @@
-﻿/**
- * Easy Zoom 1.0.3
- *
- * Written by Matt Hinchliffe <http://www.github.com/i-like-robots/EasyZoom>
- * Based on the original work by Alen Grakalic <http://cssglobe.com/post/9711/jquery-plugin-easy-image-zoom>
- *
- * This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License.
- * <http://creativecommons.org/licenses/by-sa/3.0/>
- *
- * Built for jQuery library 1.7+
- * http://jquery.com
- *
- * Example HTML:
- *     <div class="zoom-container">
- *         <a id="zoom" href="large_img.jpg">
- *             <img src="small_img.jpg" />
- *         </a>
- *     </div>
- *
- * Required CSS:
- *     .zoom-container {
- *         position:relative;
- *     }
- *     #zoom-target {
- *         display:block;
- *     }
- *     #zoom-panel {
- *         position:absolute;
- *         width:[*]px;
- *         height:[*]px;
- *         z-index:[*];
- *     }
- *
- * Plugin usage:
- *    $('#zoom').easyZoom({
- *        id: '#zoom-panel',
- *        parent: '.zoom-container'
- *    });
- *
- * Options:
- *  - id:      The ID attribute to assign the zoom panel
- *  - parent:  Parent element selector to append zoom panel to
- *  - error:   HTML to display within the zoom panel if an error occurs loading large image
- *  - loading: HTML to append and display to the zoom target while loading the large image
- *  - cursor:  Specify cursor display when interacting with easyZoom <http://developer.mozilla.org/en/CSS/cursor>
- *  - touch:   Enable touch events when available
- *
- * Public methods:
- *  1. Get the EasyZoom object from jQuery object data
- *     var $zoom = $('#zoom').data('easyZoom');
- *
- *  2. Change image
- *     $zoom.update(imageSrc);
- *
- *  3. Hide the zoom panel
- *     $zoom.hide();
+﻿/*!
+ * @name        EasyZoom
+ * @author      Matt Hinchliffe <https://github.com/i-like-robots/EasyZoom>
+ * @modified    2013-05-31
+ * @version     2.0.0b
  */
+(function ($, undefined) {
 
-; (function ($, undefined)
-{
-	function EasyZoom(target, options)
-	{
-		// Default options
-		var defaults = {
-			id: 'zoom-panel',
-			parent: 'body',
-			error: '<p class="zoom-error">There has been a problem attempting to loading the image.</p>',
-			loading: '<p class="fullsize-loading">Loading</p>',
-			cursor: 'crosshair',
-			touch: true
-		};
+    var w3, h3, rw, rh, lx, ly;
 
-		this.opts = $.extend({}, defaults, options);
+    var defaults = {
+        width: 480,
+        height: 640,
+        top: 0,
+        left: 500,
+        loading: 'Loading.'
+    };
 
-		var self = this,
-		    loaded = false,
-		    found = true,
-		    mouseover = false,
-		    lx,ly,
-		    w1,w2,w3,
-		    h1,h2,h3,
-		    rw,rh;
+    /**
+     * EasyZoom
+     * @constructor
+     * @param {Object} zoom
+     * @param {Object} options
+     */
+    function EasyZoom(zoom, options) {
 
-		/**
-		 * Init
-		 * @description Caches related DOM objects and sets up events
-		 */
-		function init()
-		{
-			// Select or create DOM elements
-			self.ele = {
-				$target: $(target),
-				$source: $('img', target),
-				$parent: $(self.opts.parent),
-				$loader: $(self.opts.loading),
-				$panel:  $('<div id="' + self.opts.id + '" />')
-			};
+        this.$zoom = $(zoom);
+        this.opts = $.extend({}, defaults, options);
 
-			// Preload full size image
-			preload(self.ele.$target.attr('href'));
+        if ( this.open === undefined ) {
+            this.__init();
+        }
 
-			// Bind mouse events to target
-			self.ele.$target
-				.on('click', function(e)
-				{
-					e.preventDefault();
-				})
-				.on('mouseenter', function(e)
-				{
-					mouseover = true;
-					show(e);
-				})
-				.on('mousemove', function(e)
-				{
-					if ( ! mouseover)
-					{
-						mouseover = true;
-						show(e);
-					}
-					else
-					{
-						move(e);
-					}
-				})
-				.on('mouseleave', function()
-				{
-					self.hide();
-					mouseover = false;
-				});
+        return this;
+    }
 
-			// Bind touch events to target
-			if (self.opts.touch && 'ontouchstart' in document.documentElement)
-			{
-				target.addEventListener('touchstart', function(e)
-				{
-					// Ignore multi-finger gestures
-					if (e.touches.length === 1)
-					{
-						e.preventDefault();
+    /**
+     * Init
+     * @private
+     */
+    EasyZoom.prototype.__init = function() {
 
-						mouseover = true;
-						show(e);
-					}
-				}, false);
-				target.addEventListener('touchmove', function(e)
-				{
-					if (e.touches.length === 1)
-					{
-						e.preventDefault();
-						move(e);
-					}
-				}, false);
-				target.addEventListener('touchend', function()
-				{
-					self.hide();
-					mouseover = false;
-				}, false);
-			}
+        var self = this;
 
-			return self;
-		}
+        // Components
+        this.$target    = this.$zoom.find('.easyzoom-target');
+        this.$image     = this.$target.children('img');
+        this.$gallery   = this.$zoom.find('.easyzoom-gallery');
+        this.$flyout    = $('<div class="easyzoom-flyout" />');
+        this.$loading   = $('<p class="easyzoom-loading">' + this.opts.loading + '</p>');
 
-		/**
-		 * Preload
-		 * @description Preloads the full sized image
-		 */
-		function preload(href)
-		{
-			loaded = false;
+        // Setup zoom area
+        this.$zoom.css('position', 'relative');
 
-			// Display progress cursor when the user rolls over
-			self.ele.$target.css('cursor', 'progress');
+        // Setup flyout
+        this.$flyout.css({
+            position: 'absolute',
+            top: this.opts.top,
+            left: this.opts.left,
+            width: this.opts.width,
+            height: this.opts.height,
+            overflow: 'hidden'
+        });
 
-			// Display loading notice
-			self.ele.$loader.appendTo(self.ele.$target);
+        // Preload zoomed image
+        this.__loadFlyout(this.$target.attr('href'));
 
-			// Load full size image
-			self.ele.$zoomed = self.loadimg(href)
-				.on('error', function()
-				{
-					found = false;
-					error();
-				})
-				.on('load', function()
-				{
-					loaded = true;
+        // Setup target
+        this.$target
+            .css({
+                position: 'relative',
+                display: 'inline-block'
+            })
+            .on('mouseenter touchstart', function(e) {
+                if ( ! e.originalEvent.touches || e.originalEvent.touches.length === 1 ) {
+                    e.preventDefault();
+                    self.show(e);
+                }
+            })
+            .on('mousemove touchmove', function(e) {
+                if ( self.open) {
+                    e.preventDefault();
+                    self.__move(e);
+                }
+            })
+            .on('mouseleave touchend', function() {
+                if ( self.open) {
+                    self.hide();
+                }
+            });
+    };
 
-					// Set cursor
-					self.ele.$target.css('cursor', self.opts.cursor);
+    /**
+     * Load Flyout
+     * @private
+     * @param {String} href
+     */
+    EasyZoom.prototype.__loadFlyout = function(href) {
 
-					// Remove loading notice
-					self.ele.$loader.detach();
+        var self = this;
+        var $img = this.__loadImage(href);
 
-					// Attach image to panel
-					self.ele.$panel.html( self.ele.$zoomed.css('position', 'absolute') );
+        this.loaded = false;
 
-					// Display if the cursor is over the image
-					if (mouseover)
-					{
-						self.ele.$target.trigger('mouseenter');
-					}
-				});
-		}
+        this.$target.css('cursor', 'progress').addClass('is-loading').append(this.$loading);
 
-		/**
-		 * Error
-		 * @description Display error message within zoom panel
-		 */
-		function error()
-		{
-			self.ele.$panel.html(self.opts.error);
-		}
+        $img.on('error', function() {
+            self.$loading.detach();
+            self.$target.css('cursor', 'auto');
+        });
 
-		/**
-		 * Move
-		 * @description Re-positions zoom panel image based on mouse event
-		 */
-		function move(e)
-		{
-			// Get mouse/touch position or last position if triggered by jQuery
-			if (e.type.indexOf('touch') === 0)
-			{
-				lx = e.touches[0].pageX;
-				ly = e.touches[0].pageY;
-			}
-			else
-			{
-				lx = e.pageX || lx;
-				ly = e.pageY || ly;
-			}
+        $img.on('load', function() {
+            self.loaded = true;
+            self.$loading.detach();
+            self.$target.removeClass('is-loading').css('cursor', 'crosshair');
+            self.$flyout.html( $img.css('position', 'absolute') );
+        });
 
-			var p = self.ele.$source.offset(),
-			    pl = lx - p.left,
-			    pt = ly - p.top,
-			    xl = pl * rw,
-			    xt = pt * rh;
+        this.$imageZoomed = $img;
+    };
 
-			xl = (xl > w3) ? w3 : xl;
-			xt = (xt > h3) ? h3 : xt;
+    /**
+     * Show
+     * @param {Event} e
+     */
+    EasyZoom.prototype.show = function(e) {
 
-			// Do not move the image if the event is outside
-			if (xl > 0 && xt > 0)
-			{
-				self.ele.$zoomed.css({left: -xl, top: -xt});
-			}
-		}
+        var w1, h1, w2, h2;
 
-		/**
-		 * Show
-		 * @description Displays zoom panel
-		 */
-		function show(e)
-		{
-			// Attach the panel to the page
-			if (self.ele.$panel.parent().length === 0)
-			{
-				self.ele.$panel.appendTo(self.ele.$parent).css('opacity', 0);
-			}
+        if (this.$flyout.parent().length || ! this.loaded) {
+            return;
+        }
 
-			self.ele.$panel
-				.stop()
-				.animate({opacity: 1}, 200);
+        this.open = true;
 
-			w1 = self.ele.$source.width();
-			h1 = self.ele.$source.height();
-			w2 = self.ele.$panel.width();
-			h2 = self.ele.$panel.height();
-			w3 = self.ele.$zoomed.width() - w2;
-			h3 = self.ele.$zoomed.height() - h2;
-			rw = w3 / w1;
-			rh = h3 / h1;
+        this.$flyout.appendTo(this.$zoom);
 
-			move(e);
-		}
+        w1 = this.$image.width();
+        h1 = this.$image.height();
+        w2 = this.$flyout.width();
+        h2 = this.$flyout.height();
+        w3 = this.$imageZoomed.width() - w2;
+        h3 = this.$imageZoomed.height() - h2;
+        rw = w3 / w1;
+        rh = h3 / h1;
 
-		/**
-		 * Load image
-		 * @description Load an image
-		 * @returns A new image object
-		 */
-		this.loadimg = function(src)
-		{
-			var img = new Image();
-			img.src = src + '?' + (new Date()).getTime(); // TODO: Is it necessary to skip cache?
-			img.onload = function()
-			{
-				img = null;
-			};
+        this.__move(e);
+    };
 
-			return $(img);
-		};
+    /**
+     * Hide
+     */
+    EasyZoom.prototype.hide = function() {
+        if (this.$flyout.parent().length) {
+            this.$flyout.detach();
+            this.open = false;
+        }
+    };
 
-		/**
-		 * Hide
-		 * @description Public method to hide the zoom panel
-		 */
-		this.hide = function()
-		{
-			if (self.ele.$panel.parent().length)
-			{
-				self.ele.$panel
-					.stop()
-					.animate({opacity: 0}, 200, function()
-					{
-						self.ele.$panel = self.ele.$panel.detach();
-					});
-			}
-		};
+    /**
+     * Move
+     * @private
+     * @param {Event} e
+     */
+    EasyZoom.prototype.__move = function(e) {
 
-		/**
-		 * Update
-		 * @description Public shortcut method for hide() + preload()
-		 */
-		this.update = function(href)
-		{
-			this.hide();
-			preload(href);
-		};
+        if (e.type.indexOf('touch') === 0) {
+            lx = e.originalEvent.touches[0].pageX;
+            ly = e.originalEvent.touches[0].pageY;
+        }
+        else {
+            lx = e.pageX || lx;
+            ly = e.pageY || ly;
+        }
 
-		// Instantiate only for anchors and call at runtime to avoid compile time scope issues
-		return target.tagName.toLowerCase() === 'a' ? init() : undefined;
-	}
+        var p  = this.$image.offset();
+        var pl = lx - p.left;
+        var pt = ly - p.top;
+        var xl = pl * rw;
+        var xt = pt * rh;
 
-	// jQuery plugin wrapper
-	$.fn.easyZoom = function(options)
-	{
-		return this.each(function()
-		{
-			$.data(this, 'easyZoom', new EasyZoom(this, options));
-		});
-	};
+        xl = (xl > w3) ? w3 : xl;
+        xt = (xt > h3) ? h3 : xt;
 
-	// Gallery extension
-	EasyZoom.prototype.gallery = function(selector, scope)
-	{
-		var self = this,
-		    $scope = scope ? $(scope) : this.ele.$parent;
+        // Do not move the image if the event is outside
+        if (xl > 0 && xt > 0) {
+            this.$imageZoomed.css({left: -xl, top: -xt});
+        }
+    };
 
-		$scope.on('click', selector, function(e)
-		{
-			e.preventDefault();
+    /**
+     * Load image
+     * @private
+     * @returns {Object}
+     */
+    EasyZoom.prototype.__loadImage = function(src) {
+        var img = new Image();
+        img.src = src;
+        return $(img);
+    };
 
-			var $this = $(this).addClass('thumbnail-loading'),
-			    zoomed = $this.attr('href'),
-			    source = $this.data('easyzoomSource');
+    /**
+     * Update
+     * @param {String} href
+     */
+    EasyZoom.prototype.update = function(href) {
+        this.hide();
+        this.__preloadPanel(href);
+    };
 
-			// Load new source image
-			self.loadimg(source).on('load', function()
-			{
-				// Swap current source image
-				self.ele.$source.attr('src', source);
-				self.ele.$target.attr('href', zoomed);
+    /**
+     * Gallery
+     * @param  {String} selector
+     * @param  {String} scope
+     */
+    EasyZoom.prototype.gallery = function(selector, scope) {
+        var self = this;
+        var $scope = scope ? $(scope) : this.e.parent;
 
-				self.update(zoomed);
+        $scope.on('click', selector, function(e) {
+            e.preventDefault();
 
-				$this.removeClass('thumbnail-loading');
-			});
-		});
-	};
+            var $this = $(this).addClass('is-loading');
+            var zoomed = $this.attr('href');
+            var source = $this.data('easyzoomSource');
+
+            // Load new source image
+            self.__loadImage(source).on('load', function() {
+
+                // Swap current source image
+                self.e.source.attr('src', source);
+                self.e.target.attr('href', zoomed);
+
+                self.update(zoomed);
+
+                $this.removeClass('is-loading');
+            });
+        });
+    };
+
+    // jQuery plugin wrapper
+    $.fn.easyZoom = function( options ) {
+        return this.each(function() {
+            if ( ! $.data(this, 'easyZoom') ) {
+                $.data(this, 'easyZoom', new EasyZoom(this, options));
+            }
+        });
+    };
+
+    // AMD and CommonJS module compatibility
+    if ( typeof define === 'function' && define.amd ){
+        define(function() {
+            return EasyZoom;
+        });
+    }
+    else if ( typeof module !== 'undefined' && module.exports ) {
+        module.exports = EasyZoom;
+    }
 
 })(jQuery);
