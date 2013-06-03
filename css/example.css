@@ -114,3 +114,32 @@ a img {
 	width:390px;
 }
 
+/**
+ * Gallery
+ */
+.easyzoom-gallery {
+	overflow:hidden;
+	margin:15px 0;
+	padding:0;
+	list-style:none;
+}
+
+/* thumbnails */
+.easyzoom-gallery > li > a {
+	float:left;
+	margin-left:15px;
+	text-decoration:none;
+}
+.easyzoom-gallery > li:first-child > a {
+	margin-left:0;
+}
+
+/* thumbnails - loading (.is-loading class is not editable) */
+.easyzoom-gallery > li > a.is-loading {
+	background:#fff url(img/loading.gif) no-repeat center center;
+}
+.easyzoom-gallery > li > a.is-loading > img {
+	opacity:0.5;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter:alpha(opacity=50);
+}

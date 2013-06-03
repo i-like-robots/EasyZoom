@@ -1,59 +1,45 @@
-﻿/**
- * Target image
- */
+﻿.easyzoom {
+	position: relative;
 
-/* messages */
-.easyzoom-loading {
-	position:absolute;
-	top:50%;
-	left:50%;
-	z-index:150;
-	overflow:hidden;
-	width:40px;
-	height:40px;
-	margin:-20px 0 0 -20px;
-	text-indent:100%;
-	background:#fff url(img/loading.gif) no-repeat center center;
-	border-radius:5px;
+	/* Wrap image tightly for a useful target area */
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
 }
 
+.easyzoom.is-loading {
+	cursor: progress;
+}
 
-/**
- * Flyout
- */
+.easyzoom.is-ready {
+	cursor: crosshair;
+}
+
+.easyzoom.is-error {
+	cursor: not-allowed;
+}
+
+.easyzoom-notice {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	z-index: 150;
+	width: 10em;
+	margin: -1em 0 0 -5em;
+	line-height: 2em;
+	text-align: center;
+	background: #FFF;
+	box-shadow: 0 0 10px #888;
+}
+
 .easyzoom-flyout {
-	z-index:200;
-	background:#fff;
-	box-shadow:0 0 10px #888;
-}
-
-
-/**
- * Gallery
- */
-.easyzoom-gallery {
-	overflow:hidden;
-	margin:15px 0;
-	padding:0;
-	list-style:none;
-}
-
-/* thumbnails */
-.easyzoom-gallery > li > a {
-	float:left;
-	margin-left:15px;
-	text-decoration:none;
-}
-.easyzoom-gallery > li:first-child > a {
-	margin-left:0;
-}
-
-/* thumbnails - loading (.is-loading class is not editable) */
-.easyzoom-gallery > li > a.is-loading {
-	background:#fff url(img/loading.gif) no-repeat center center;
-}
-.easyzoom-gallery > li > a.is-loading > img {
-	opacity:0.5;
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-	filter:alpha(opacity=50);
+	position:absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 100;
+	overflow: hidden;
+	background: #FFF;
+	box-shadow: 0 0 10px #888;
 }
