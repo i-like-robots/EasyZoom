@@ -110,11 +110,18 @@
 	<script>if (!window.jQuery) document.writeln('<scr' + 'ipt src="js/jquery/jquery-1.7.1.min.js"></scr' + 'ipt>')</script>
 
 	<!-- EasyZoom -->
-	<script src="js/easyzoom.min.js"></script>
+	<script src="js/easyzoom.js"></script>
+
+	<!-- imagesLoaded https://github.com/desandro/imagesloaded -->
+	<script src="js/imagesloaded.pkgd.min.js"></script>
+
+	<!-- alternative image loading detection https://github.com/alexanderdickson/waitForImages -->
+
 	<script>
 	// Start easyZoom
 	var $zoom = $('#zoom-target').easyZoom({
-		parent: 'div.zoom-container'
+		parent: 'div.zoom-container',
+		preload: true
 	});
 
 	// Start gallery extension
