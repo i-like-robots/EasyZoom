@@ -98,7 +98,13 @@
 
 			self.state = {
 				loaded: false
-			}
+			};
+
+			self.callbacks = {
+				onInit: self.opts.onInit || $.noop,
+				onShow: self.opts.onShow || $.noop,
+				onHide: self.opts.onHide || $.noop
+			};
 
 			if (self.opts.preload) {
 				// Preload full size image
@@ -165,6 +171,7 @@
 				}, false);
 			}
 
+			self.callbacks.onInit.apply();
 			return self;
 		}
 
@@ -279,6 +286,8 @@
 			rw = w3 / w1;
 			rh = h3 / h1;
 
+			self.callbacks.onShow.apply();
+
 			move(e);
 		}
 
@@ -305,6 +314,8 @@
 		 */
 		this.hide = function()
 		{
+			self.callbacks.onHide.apply();
+
 			if (self.ele.$panel.parent().length)
 			{
 				self.ele.$panel
