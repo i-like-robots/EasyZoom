@@ -44,6 +44,7 @@
  *  - loading: HTML to append and display to the zoom target while loading the large image
  *  - cursor:  Specify cursor display when interacting with easyZoom <http://developer.mozilla.org/en/CSS/cursor>
  *  - touch:   Enable touch events when available
+ *  - preload: Specify if images are preloaded (default) or loaded on zoom
  *
  * Public methods:
  *  1. Get the EasyZoom object from jQuery object data
@@ -67,14 +68,13 @@
 			error: '<p class="zoom-error">There has been a problem attempting to loading the image.</p>',
 			loading: '<p class="fullsize-loading">Loading</p>',
 			cursor: 'crosshair',
-			touch: true
+			touch: true,
+			preload: true
 		};
 
 		this.opts = $.extend({}, defaults, options);
 
 		var self = this,
-		    loaded = false,
-		    found = true,
 		    mouseover = false,
 		    lx,ly,
 		    w1,w2,w3,
@@ -96,8 +96,20 @@
 				$panel:  $('<div id="' + self.opts.id + '" />')
 			};
 
-			// Preload full size image
-			preload(self.ele.$target.attr('href'));
+			self.state = {
+				loaded: false
+			};
+
+			self.callbacks = {
+				onInit: self.opts.onInit || $.noop,
+				onShow: self.opts.onShow || $.noop,
+				onHide: self.opts.onHide || $.noop
+			};
+
+			if (self.opts.preload) {
+				// Preload full size image
+				preload(self.ele.$target.attr('href'));
+			}
 
 			// Bind mouse events to target
 			self.ele.$target
@@ -107,6 +119,8 @@
 				})
 				.on('mouseenter', function(e)
 				{
+					preload(self.ele.$target.attr('href'));
+
 					mouseover = true;
 					show(e);
 				})
@@ -157,6 +171,7 @@
 				}, false);
 			}
 
+			self.callbacks.onInit.apply();
 			return self;
 		}
 
@@ -166,7 +181,9 @@
 		 */
 		function preload(href)
 		{
-			loaded = false;
+			if (self.state.loaded) {
+				return;
+			}
 
 			// Display progress cursor when the user rolls over
 			self.ele.$target.css('cursor', 'progress');
@@ -178,12 +195,11 @@
 			self.ele.$zoomed = self.loadimg(href)
 				.on('error', function()
 				{
-					found = false;
 					error();
 				})
-				.on('load', function()
+				.imagesLoaded(function()
 				{
-					loaded = true;
+					self.state.loaded = true;
 
 					// Set cursor
 					self.ele.$target.css('cursor', self.opts.cursor);
@@ -270,6 +286,8 @@
 			rw = w3 / w1;
 			rh = h3 / h1;
 
+			self.callbacks.onShow.apply();
+
 			move(e);
 		}
 
@@ -281,7 +299,7 @@
 		this.loadimg = function(src)
 		{
 			var img = new Image();
-			img.src = src + '?' + (new Date()).getTime(); // TODO: Is it necessary to skip cache?
+			img.src = src;
 			img.onload = function()
 			{
 				img = null;
@@ -296,6 +314,8 @@
 		 */
 		this.hide = function()
 		{
+			self.callbacks.onHide.apply();
+
 			if (self.ele.$panel.parent().length)
 			{
 				self.ele.$panel
@@ -314,7 +334,10 @@
 		this.update = function(href)
 		{
 			this.hide();
-			preload(href);
+			self.state.loaded = false;
+			if (self.opts.preload) {
+				preload(href);
+			}
 		};
 
 		// Instantiate only for anchors and call at runtime to avoid compile time scope issues
@@ -345,7 +368,7 @@
 			    source = $this.data('easyzoomSource');
 
 			// Load new source image
-			self.loadimg(source).on('load', function()
+			self.loadimg(source).imagesLoaded(function()
 			{
 				// Swap current source image
 				self.ele.$source.attr('src', source);
