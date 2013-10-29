@@ -1,125 +1,136 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1" />
 
-	<!-- Meta -->
-	<title>EasyZoom jQuery image zoom plugin</title>
+	<title>EasyZoom, jQuery image zoom plugin</title>
 
-	<meta name="description" content="EasyZoom is an elegant jQuery image zoom plugin based on the original work by Alen Grakalic." />
 
-	<!-- Example styles -->
 	<link rel="stylesheet" href="css/example.css" />
-
-	<!-- EasyZoom -->
+	<link rel="stylesheet" href="css/pygments.css" />
 	<link rel="stylesheet" href="css/easyzoom.css" />
+
+	<!--
+	jQuery Modal by Matt Hinchliffe <http://www.maketea.co.uk>
+	Find out more at GitHub <http://github.com/i-like-robots/jQuery-Modal>
+	-->
 
 </head>
 <body>
 
-	<div id="container" class="cf">
+	<div class="container">
 
-		<h1 id="logo">
-			EasyZoom <small>jQuery image zoom plugin</small>
-		</h1>
-
-		<!-- Introduction -->
-		<div id="introduction">
+		<section id="introduction">
+			<header>
+				<h1>
+					EasyZoom
+				</h1>
+				<p>
+					jQuery image zoom plugin
+				</p>
+			</header>
 			<p>
-				EasyZoom is an elegant, highly optimised <a href="http://www.jquery.com">jQuery</a> image zoom and panning plugin based on
-				the <a href="http://cssglobe.com/lab/easyzoom/easyzoom.html">original work</a> by
-				<a href="http://grakalic.com/">Alen Grakalic</a>. EasyZoom includes an extension to create a gallery and supports
-				touch-enabled devices including the iPhone and iPad.
-			</p>
-
-			<p>
-				&larr; You can try EasyZoom just to the left, simply move your mouse or swipe your finger over the kitten. The image
-				can be changed by clicking a thumbnail below.
+				EasyZoom is an elegant, highly optimised <a href="http://www.jquery.com">jQuery</a> image zoom and
+				panning plugin based on the <a href="http://cssglobe.com/lab/easyzoom/easyzoom.html">original work</a>
+				by <a href="http://grakalic.com/">Alen Grakalic</a>. EasyZoom supports touch-enabled devices including
+				the iPhone and iPad.
 			</p>
 
 			<h2>
 				Download
 			</h2>
-
-			<ul class="inline-list">
-				<li>
-					<a href="http://github.com/i-like-robots/EasyZoom/zipball/master">Zip</a>
-				</li>
-				<li>
-					<a href="http://github.com/i-like-robots/EasyZoom/tarball/master">Tarball</a>
-				</li>
-			</ul>
-
-			<dl>
-				<dt>
-					Dependencies
-				</dt>
-				<dd>
-					jQuery 1.7+ (<a href="documentation.html">Read the documentation</a>)
-				</dd>
-				<dt>
-					Supported browsers<dfn title="with provided configuration">*</dfn>
-				</dt>
-				<dd>
-					<ul>
-						<li>Firefox 3.6+</li>
-						<li>Chrome</li>
-						<li>Safari 5+</li>
-						<li>Internet Explorer 6+</li>
-						<li>Opera 11+</li>
-						<li>Android 2.3+</li>
-					</ul>
-				</dd>
-			</dl>
-
-			<p>
-				EasyZoom was written by
-				<a href="http://www.maketea.co.uk">Matt Hinchliffe</a> and the
-				project is maintained on
-				<a href="http://github.com/i-like-robots/EasyZoom/">GitHub</a>.
+			<p style="text-align:center;">
+				<a class="button" href="http://github.com/i-like-robots/EasyZoom/zipball/master">Zip</a>
+				<a class="button" href="http://github.com/i-like-robots/EasyZoom/tarball/master">Tarball</a>
 			</p>
+		</section>
 
-		</div>
+		<hr />
 
-
-		<!-- Example -->
-		<div id="example">
-
+		<section id="example">
+			<h2>
+				Example
+			</h2>
 			<div class="easyzoom">
-				<a href="photos/1_large.jpg">
-					<img src="photos/1_medium.jpg" alt="" width="390" height="520" />
+				<a href="http://placekitten.com/800/600">
+					<img src="http://placekitten.com/400/300" alt="" width="400" height="300" />
 				</a>
 			</div>
+		</section>
 
-			<ul class="easyzoom-gallery">
-				<li>
-					<a href="photos/1_large.jpg" data-easyzoom-source="photos/1_medium.jpg">
-						<img src="photos/1_thumb.jpg" alt="" width="120" height="120" />
-					</a>
-				</li>
-				<li>
-					<a href="photos/2_large.jpg" data-easyzoom-source="photos/2_medium.jpg">
-						<img src="photos/2_thumb.jpg" alt="" width="120" height="120" />
-					</a>
-				</li>
-				<li>
-					<a href="photos/3_large.jpg" data-easyzoom-source="photos/3_medium.jpg">
-						<img src="photos/3_thumb.jpg" alt="" width="120" height="120" />
-					</a>
-				</li>
-			</ul>
+		<hr />
 
-		</div>
+		<section id="setup">
+			<h1>
+				Setup
+			</h1>
+
+			<h2>
+				HTML
+			</h2>
+
+			<figure>
+<pre class="syntax"></pre>
+			</figure>
+
+			<h2>
+				CSS
+			</h2>
+
+			<figure>
+<pre class="syntax"></pre>
+			</figure>
+
+			<h2>
+				JavaScript
+			</h2>
+
+			<figure>
+<pre class="syntax"></pre>
+			</figure>
+
+		</section>
+
+		<hr />
+
+		<section id="options">
+			<h2>Options</h2>
+			<p>
+				Global options can be specified via the standard jQuery plugin interface.
+			</p>
+
+			<dl>
+				<dt>option</dt>
+				<dd>
+					Option description. Default: <code>undefined</code>.
+				</dd>
+			</dl>
+		</section>
+
+		<hr />
+
+		<section id="api">
+			<h2>
+				API
+			</h2>
+			<dl>
+				<dt>.method()</dt>
+				<dd>
+					Method description
+				</dd>
+			</dl>
+		</section>
 
 	</div>
 
-	<!-- jQuery -->
-	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.0.min.js"></script>
+	<a href="http://github.com/i-like-robots/EasyZoom">
+		<img style="position:absolute; top:0; right:0; border:0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" />
+	</a>
 
-	<!-- EasyZoom -->
-	<script src="js/easyzoom.js"></script>
+	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="src/easyzoom.js"></script>
 	<script>
 		// Instantiate EasyZoom plugin
 		var $zoom = $('.easyzoom').easyZoom();

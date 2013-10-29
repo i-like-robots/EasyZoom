@@ -3,20 +3,28 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     uglify: {
-      my_target: {
-        files: {
-          'js/easyzoom.min.js': ['js/easyzoom.js']
-        }
+      dist: {
+        files: [
+          {
+            src: 'src/easyzoom.js',
+            dest: 'dist/easyzoom.js'
+          }
+        ]
       }
     },
     jshint: {
-      all: ['Gruntfile.js', 'js/easyzoom.js'],
+      all: ['src/**/*.js'],
       options: {
+        maxdepth: 4,
+        curly: true,
+        newcap: true,
+        eqeqeq: true,
+        browser: true,
         trailing: true,
-        browser: true
-      },
-      globals: {
-        jQuery: true
+        globals: {
+          jquery: true,
+          define: false
+        }
       }
     }
   });

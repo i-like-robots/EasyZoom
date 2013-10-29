@@ -1,145 +1,111 @@
-﻿/* Elements */
+/**
+ * Author:       Matt Hinchliffe <www.maketea.co.uk>
+ * Modified:     18/17/2013
+ * Description:  Some crummy styles to lay out the example file
+ */
+
 html, body {
-	min-height:100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
 }
-	html {
-		font-size:62.5%;
-	}
 	body {
-		overflow-y:scroll;
-		font:normal 1.6em/1.5 Arial, sans-serif;
-		color:#333;
-		background:#eee;
+		line-height: 1.5;
+		font-family: Arial, sans-serif;
+		color: #111;
+		background: #eee;
 	}
 
+h1, h2, h3, h4, header > p {
+	text-align: center;
+	color: #555;
+}
 h1 {
-	margin:0 0 0.5em;
-	font-size:2em;
-	line-height:1.25;
-	letter-spacing:-1px;
-	text-shadow:1px 1px 1px #fff;
+	margin: 0 0 .2em;
+	font-size: 2.5em;
+	letter-spacing: -.075em;
+}
+h2, header > p {
+	margin: 0 0 .5em;
+	font-weight: normal;
+	font-size: 1.5em;
+}
+h3, h4 {
+	margin: 0 0 .5em;
+	font-size: 1em;
 }
 
-h2, h3, h4, dt {
-	margin:0 0 0.25em;
-	font-weight:bold;
-	font-size:1em;
-	letter-spacing:-0.5px;
+header > h1 {
+	margin-bottom: 0;
+}
+header > p {
+	margin-bottom: 1em;
 }
 
-p, ul, ol, dd {
-	margin:0 0 1.5em;
+p, dl, ul, ol {
+	margin: 0 0 1.5em;
 }
+	dt {
+		font-weight: bold;
+	}
+	dd {
+		margin: 0 0 1em;
+		font-size: 0.8125em;
+		color: #555;
+	}
 
 ul, ol {
-	margin-left:1.75em;
-	padding:0;
-}
-	li {
-		margin:0;
-		padding:0;
-	}
-
-dfn {
-	cursor:help;
+	padding-left: 1.5em;
 }
 
-pre, code, kbd, var {
-	font-size:1em;
-	font:Consolas, "Lucida Console", Monaco, monospace;
+button,
+a.button {
+	font-size: 1.5em;
+	line-height: 1;
+	padding: .25em .5em;
+	border: none;
+	text-decoration: none;
+	color: #fff;
+	background: #333;
+	border-radius: 7px;
+	cursor: pointer;
 }
-	pre {
-		overflow:auto;
-		max-height:15em;
-		padding:5px;
-		border:1px solid #ccc;
-		color:#555;
-		background:#fefefe;
-	}
-	code, kbd, var {
-		line-height:1;
-	}
-
-a img {
-	display:block;
-	border:none;
+button:hover,
+a.button:hover {
+	background-color: #111;
 }
 
-/* Inline definition list */
-.inline-definitions {
-	overflow:hidden;
-}
-	.inline-definitions dt,
-	.inline-definitions dd {
-		margin:0;
-	}
-	.inline-definitions dt {
-		float:left;
-		clear:left;
-		padding-right:5px;
-	}
-		.inline-definitions dt::after {
-			content:':'
-		}
-
-/* Layout */
-#container {
-	width:780px;
-	margin:0 auto;
-	padding:2em 0;
-	zoom:1; /* Clearfix for < IE7 */
-}
-	/* Micro clearfix <http://nicolasgallagher.com/micro-clearfix-hack/> */
-	#container:after {
-		clear:both;
-		content:"";
-		display:table;
-	}
-
-#logo {
-	font-size:4em;
-	text-align:center;
-}
-	#logo small {
-		display:block;
-		font-size:0.5em;
-	}
-
-#introduction {
-	float:right;
-	width:370px;
-}
-#example {
-	float:left;
-	width:390px;
+figure {
+	margin: 0;
 }
 
-/**
- * Gallery
- */
-.easyzoom-gallery {
-	overflow:hidden;
-	margin:15px 0;
-	padding:0;
-	list-style:none;
+pre, code, var {
+	font: normal 1em/1 Consolas, "Lucida Console", Monaco, monospace;
+}
+pre {
+	overflow: auto;
+	padding: 1em .5em;
+	border: 1px solid #333;
+	text-align: left;
+	border-radius: 5px;
+}
+var {
+	text-decoration: underline;
 }
 
-/* thumbnails */
-.easyzoom-gallery > li > a {
-	float:left;
-	margin-left:15px;
-	text-decoration:none;
-}
-.easyzoom-gallery > li:first-child > a {
-	margin-left:0;
+hr {
+	height: 1px;
+	padding: 0;
+	margin: 0 0 1.5em;
+	border: 0;
+	background: #ccc;
 }
 
-/* thumbnails - loading (.is-loading class is not editable) */
-.easyzoom-gallery > li > a.is-loading {
-	background:#fff url(img/loading.gif) no-repeat center center;
-}
-.easyzoom-gallery > li > a.is-loading > img {
-	opacity:0.5;
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-	filter:alpha(opacity=50);
+.container {
+	width: 36em;
+	margin: 0 auto;
+	padding: 2em 2em 4em;
+	background: #fff;
+	-webkit-box-shadow: 0 0 5em rgba(0, 0, 0, 0.1);
+	        box-shadow: 0 0 5em rgba(0, 0, 0, 0.1);
 }
