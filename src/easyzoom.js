@@ -3,8 +3,9 @@
     var dw, dh, rw, rh, lx, ly;
 
     var defaults = {
-        loading: 'Loading',
-        error:   'The image could not be loaded'
+        loadingNotice: 'Loading image',
+        errorNotice:   'The image could not be loaded',
+        preventClicks: true
     };
 
     /**
@@ -58,6 +59,12 @@
                     self.hide();
                 }
             });
+
+        if (this.opts.preventClicks) {
+            this.$link.on('click', function(e) {
+                e.preventDefault();
+            });
+        }
     };
 
     /**
@@ -106,10 +113,10 @@
         var self = this;
         var zoom = new Image();
 
-        this.$target.addClass('is-loading').append(this.$notice.text(this.opts.loading));
+        this.$target.addClass('is-loading').append(this.$notice.text(this.opts.loadingNotice));
 
         zoom.onerror = function() {
-            self.$notice.text(self.opts.error);
+            self.$notice.text(self.opts.errorNotice);
             self.$target.removeClass('is-loading').addClass('is-error');
         };
 
