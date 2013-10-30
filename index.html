@@ -124,7 +124,7 @@
 			</p>
 
 			<figure>
-<pre class="syntax"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"easyzoom"</span><span class="nt">&gt;</span>
+<pre class="highlight"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"easyzoom"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"images/zoom.jpg"</span><span class="nt">&gt;</span>
         <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"images/standard.jpg"</span> <span class="na">alt=</span><span class="s">""</span> <span class="nt">/&gt;</span>
     <span class="nt">&lt;/a&gt;</span>
@@ -149,21 +149,21 @@
 			</p>
 
 			<figure>
-<pre class="syntax"><span class="c">/* Shrink wrap strategy 1 */</span>
+<pre class="highlight"><span class="c">/* Shrink wrap strategy 1 */</span>
 <span class="nc">.easyzoom</span> <span class="p">{</span>
-	<span class="k">float</span><span class="o">:</span> <span class="k">left</span><span class="p">;</span>
+    <span class="k">float</span><span class="o">:</span> <span class="k">left</span><span class="p">;</span>
 <span class="p">}</span>
 <span class="nc">.easyzoom</span> <span class="nt">img</span> <span class="p">{</span>
-	<span class="k">display</span><span class="o">:</span> <span class="k">block</span><span class="p">;</span>
+    <span class="k">display</span><span class="o">:</span> <span class="k">block</span><span class="p">;</span>
 <span class="p">}</span>
 
 
 <span class="c">/* Shrink wrap strategy 2 */</span>
 <span class="nc">.easyzoom</span> <span class="p">{</span>
-	<span class="k">display</span><span class="o">:</span> <span class="k">inline</span><span class="o">-</span><span class="k">block</span><span class="p">;</span>
+    <span class="k">display</span><span class="o">:</span> <span class="k">inline</span><span class="o">-</span><span class="k">block</span><span class="p">;</span>
 <span class="p">}</span>
 <span class="nc">.easyzoom</span> <span class="nt">img</span> <span class="p">{</span>
-	<span class="k">vertical-align</span><span class="o">:</span> <span class="k">bottom</span><span class="p">;</span>
+    <span class="k">vertical-align</span><span class="o">:</span> <span class="k">bottom</span><span class="p">;</span>
 <span class="p">}</span></pre>
 			</figure>
 
@@ -177,7 +177,7 @@
 			</p>
 
 			<figure>
-<pre class="syntax"><span class="c1">// Instantiate EasyZoom plugin</span>
+<pre class="highlight"><span class="c1">// Instantiate EasyZoom plugin</span>
 <span class="kd">var</span> <span class="nx">$easyzoom</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">'.easyzoom'</span><span class="p">).</span><span class="nx">easyZoom</span><span class="p">();</span>
 
 <span class="c1">// Get the instance API</span>
@@ -201,20 +201,20 @@
 
 			<dl>
 				<dt>
-					loadingNotice
+					<var>loadingNotice</var>
 				</dt>
 				<dd>
 					The text to display within the notice box while loading the zoom image. Default: <code>"Loading image"</code>.
 				</dd>
 				<dt>
-					errorNotice
+					<var>errorNotice</var>
 				</dt>
 				<dd>
 					The text to display within the notice box if an error occurs loading the zoom image. Default:
 					<code>"The image could not be loaded"</code>.
 				</dd>
 				<dt>
-					preventClicks
+					<var>preventClicks</var>
 				</dt>
 				<dd>
 					Prevent clicks on the zoom image link. Default: <code>true</code>.
@@ -234,7 +234,7 @@
 
 			<dl>
 				<dt>
-					.show([MouseEvent|TouchEvent])
+					<code>.show(<var>[MouseEvent|TouchEvent]</var>)</code>
 				</dt>
 				<dd>
 					Displays the zoom image flyout. Optionally takes an instance of a
@@ -242,13 +242,13 @@
 					<a href="https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent">touch event</a>.
 				</dd>
 				<dt>
-					.hide()
+					<code>.hide()</code>
 				</dt>
 				<dd>
 					Removes the zoom image flyout.
 				</dd>
 				<dt>
-					.teardown()
+					<code>.teardown()</code>
 				</dt>
 				<dd>
 					Removes all events and elements created and attached by EasyZoom.
