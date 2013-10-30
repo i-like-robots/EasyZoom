@@ -42,26 +42,26 @@
 
         // Setup target events
         this.$target
-            .on('mouseenter touchstart', function(e) {
+            .on('mouseenter.easyzoom touchstart.easyzoom', function(e) {
                 if ( ! e.originalEvent.touches || e.originalEvent.touches.length === 1) {
                     e.preventDefault();
                     self._show(e);
                 }
             })
-            .on('mousemove touchmove', function(e) {
+            .on('mousemove.easyzoom touchmove.easyzoom', function(e) {
                 if (self.isOpen) {
                     e.preventDefault();
                     self._move(e);
                 }
             })
-            .on('mouseleave touchend', function() {
+            .on('mouseleave.easyzoom touchend.easyzoom', function() {
                 if (self.isOpen) {
                     self.hide();
                 }
             });
 
         if (this.opts.preventClicks) {
-            this.$link.on('click', function(e) {
+            this.$target.on('click.easyzoom', 'a', function(e) {
                 e.preventDefault();
             });
         }
@@ -178,6 +178,24 @@
             this.$flyout.detach();
             this.isOpen = false;
         }
+    };
+
+    /**
+     * Teardown
+     */
+    EasyZoom.prototype.teardown = function() {
+        this.hide();
+
+        this.$target.removeClass('is-loading isready is-error').off('.easyzoom');
+
+        delete this.$link;
+        delete this.$zoom;
+        delete this.$image;
+        delete this.$notice;
+        delete this.$flyout;
+
+        delete this.isOpen;
+        delete this.isReady;
     };
 
     // jQuery plugin wrapper
