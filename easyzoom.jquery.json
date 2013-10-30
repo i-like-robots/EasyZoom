@@ -1,22 +1,22 @@
 {
   "name": "EasyZoom",
   "version": "2.0.0",
-  "title": "EasyZoom",
+  "title": "EasyZoom, jQuery image zoom plugin",
   "description": "EasyZoom is an elegant, highly optimised jQuery image zoom and panning plugin based on the original work by Alen Grakalic.",
   "keywords": [
     "zoom",
-    "fly-out",
-    "image-zoom"
+    "image",
+    "flyout",
+    "panning"
   ],
   "author": {
     "name": "Matt Hinchliffe",
-    "email": "matt+jquery@maketea.co.uk",
     "url": "http://maketea.co.uk"
   },
   "licenses": [
     {
-      "type": "CC BY-SA 3.0",
-      "url": "http://creativecommons.org/licenses/by-sa/3.0/"
+      "type": "MIT",
+      "url": "http://opensource.org/licenses/MIT"
     }
   ],
   "bugs": "https://github.com/i-like-robots/EasyZoom/issues",

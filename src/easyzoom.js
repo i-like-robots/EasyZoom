@@ -1,10 +1,4 @@
-﻿/*!
- * @name        EasyZoom
- * @author      Matt Hinchliffe <https://github.com/i-like-robots/EasyZoom>
- * @modified    2013-07-15
- * @version     2.0.0b
- */
-(function ($) {
+﻿(function ($) {
 
     var dw, dh, rw, rh, lx, ly;
 
