@@ -3,9 +3,22 @@
     var dw, dh, rw, rh, lx, ly;
 
     var defaults = {
+
+        // The text to display within the notice box while loading the zoom image.
         loadingNotice: 'Loading image',
+
+        // The text to display within the notice box if an error occurs loading the zoom image.
         errorNotice:   'The image could not be loaded',
-        preventClicks: true
+
+        // Prevent clicks on the zoom image link.
+        preventClicks: true,
+
+        // Callback function to execute when the flyout is displayed.
+        onShow: undefined,
+
+        // Callback function to execute when the flyout is removed.
+        onHide: undefined
+
     };
 
     /**
@@ -97,6 +110,10 @@
 
         this.isOpen = true;
 
+        if (this.opts.onShow) {
+            this.opts.onShow.call(this);
+        }
+
         if (e) {
             this._move(e);
         }
@@ -177,6 +194,10 @@
         if (this.isOpen) {
             this.$flyout.detach();
             this.isOpen = false;
+
+            if (this.opts.onHide) {
+                this.opts.onHide.call(this);
+            }
         }
     };
 
