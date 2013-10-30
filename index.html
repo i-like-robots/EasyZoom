@@ -80,13 +80,13 @@
 				Adjacent
 			</h2>
 
+			<!-- Placeholder for demo purposes only -->
+			<div style="float: right; width: 310px; height: 400px; background: #EEE;"></div>
+
 			<div class="easyzoom easyzoom--adjacent">
 				<a href="example-images/2_zoom.jpg">
 					<img src="example-images/2_standard.jpg" alt="" width="310" height="400" />
 				</a>
-
-				<!-- Placeholder for demo purposes only -->
-				<div style="position: absolute; top: 0; left: 100%; width: 100%; height: 100%; margin-left: 20px; background: #EEE;"></div>
 			</div>
 
 			<p style="text-align: center;">
@@ -109,24 +109,72 @@
 				HTML
 			</h2>
 
+			<p>
+				EasyZoom does not rely on a specific markup structure but it is important that the EasyZoom target
+				element (<code>&lt;div class="easyzoom"&gt;</code>) only contains a link to the large image and the
+				smaller image. Any other elements within the EasyZoom target must not affect its layout, E.G. elements
+				that are positioned absolutely.
+			</p>
+
 			<figure>
-<pre class="syntax"></pre>
+<pre class="syntax"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"easyzoom"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"images/zoom.jpg"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"images/standard.jpg"</span> <span class="na">alt=</span><span class="s">""</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;/div&gt;</span></pre>
 			</figure>
 
 			<h2>
 				CSS
 			</h2>
 
+			<p>
+				The EasyZoom target element must 'shrink wrap' the smaller image, this can be achieved either by
+				<a href="http://www.w3.org/TR/CSS2/visudet.html#shrink-to-fit-float">floating</a> it or by displaying
+				it as an <a href="http://www.w3.org/TR/CSS2/visudet.html#inlineblock-width">inline block</a>. Extra
+				white space below the image (usually caused by the
+				<a href="http://www.w3.org/TR/CSS2/visuren.html#line-box">line box</a> the image sits within) can be
+				removed either by displaying it at block level or changing its position within the line box.
+			</p>
+
+			<p>
+				Take a look at the included <code>easyzoom.css</code> for more information on styling EasyZoom.
+			</p>
+
 			<figure>
-<pre class="syntax"></pre>
+<pre class="syntax"><span class="c">/* Shrink wrap strategy 1 */</span>
+<span class="nc">.easyzoom</span> <span class="p">{</span>
+	<span class="k">float</span><span class="o">:</span> <span class="k">left</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.easyzoom</span> <span class="nt">img</span> <span class="p">{</span>
+	<span class="k">display</span><span class="o">:</span> <span class="k">block</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="c">/* Shrink wrap strategy 2 */</span>
+<span class="nc">.easyzoom</span> <span class="p">{</span>
+	<span class="k">display</span><span class="o">:</span> <span class="k">inline</span><span class="o">-</span><span class="k">block</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.easyzoom</span> <span class="nt">img</span> <span class="p">{</span>
+	<span class="k">vertical-align</span><span class="o">:</span> <span class="k">bottom</span><span class="p">;</span>
+<span class="p">}</span></pre>
 			</figure>
 
 			<h2>
 				JavaScript
 			</h2>
 
+			<p>
+				The EasyZoom plugin is instantiated as any other jQuery plugin and an instances API can be accessed via
+				element data. EasyZoom is also AMD and CommonJS compatible.
+			</p>
+
 			<figure>
-<pre class="syntax"></pre>
+<pre class="syntax"><span class="c1">// Instantiate EasyZoom plugin</span>
+<span class="kd">var</span> <span class="nx">$easyzoom</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">'.easyzoom'</span><span class="p">).</span><span class="nx">easyZoom</span><span class="p">();</span>
+
+<span class="c1">// Get the instance API</span>
+<span class="kd">var</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">$easyzoom</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="s1">'easyZoom'</span><span class="p">);</span></pre>
 			</figure>
 
 		</section>
@@ -146,10 +194,17 @@
 
 			<dl>
 				<dt>
-					option
+					loading
 				</dt>
 				<dd>
-					Option description. Default: <code>undefined</code>.
+					The text to display within the notice box while loading the zoom image. Default: <code>"Loading"</code>.
+				</dd>
+				<dt>
+					error
+				</dt>
+				<dd>
+					The text to display within the notice box if an error occurs loading the zoom image. Default:
+					<code>"The image could not be loaded"</code>.
 				</dd>
 			</dl>
 
@@ -166,10 +221,10 @@
 
 			<dl>
 				<dt>
-					.method()
+					.hide()
 				</dt>
 				<dd>
-					Method description
+					Removes the flyout.
 				</dd>
 			</dl>
 
@@ -182,13 +237,13 @@
 	</a>
 
 	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-	<script src="src/easyzoom.js"></script>
+	<script src="dist/easyzoom.js"></script>
 	<script>
 		// Instantiate EasyZoom plugin
-		var $zoom = $('.easyzoom').easyZoom();
+		var $easyzoom = $('.easyzoom').easyZoom();
 
 		// Get the instance API
-		var api = $zoom.data('easyZoom');
+		var api = $easyzoom.data('easyZoom');
 	</script>
 
 </body>

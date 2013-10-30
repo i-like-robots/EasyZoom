@@ -4,10 +4,14 @@
 .easyzoom {
 	position: relative;
 
-	/* Wrap image tightly for a useful target area */
+	/* 'Shrink-wrap' the element */
 	display: inline-block;
 	*display: inline;
 	*zoom: 1;
+}
+
+.easyzoom img {
+	vertical-align: bottom;
 }
 
 .easyzoom.is-loading {
@@ -20,10 +24,6 @@
 
 .easyzoom.is-error {
 	cursor: not-allowed;
-}
-
-.easyzoom img {
-	display: block;
 }
 
 .easyzoom-notice {
