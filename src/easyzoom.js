@@ -33,19 +33,17 @@
     EasyZoom.prototype._init = function() {
         var self = this;
 
-        // Components
         this.$link   = this.$target.find('a');
         this.$image  = this.$target.find('img');
 
         this.$flyout = $('<div class="easyzoom-flyout" />');
         this.$notice = $('<div class="easyzoom-notice" />');
 
-        // Setup target events
         this.$target
             .on('mouseenter.easyzoom touchstart.easyzoom', function(e) {
                 if ( ! e.originalEvent.touches || e.originalEvent.touches.length === 1) {
                     e.preventDefault();
-                    self._show(e);
+                    self.show(e);
                 }
             })
             .on('mousemove.easyzoom touchmove.easyzoom', function(e) {
@@ -69,16 +67,15 @@
 
     /**
      * Show
-     * @private
-     * @param {Event} e
+     * @param {MouseEvent|TouchEvent} e
      */
-    EasyZoom.prototype._show = function(e) {
+    EasyZoom.prototype.show = function(e) {
         var w1, h1, w2, h2;
         var self = this;
 
         if (! this.isReady) {
             this._load(this.$link.attr('href'), function() {
-                self._show(e);
+                self.show(e);
             });
 
             return;
@@ -100,7 +97,9 @@
 
         this.isOpen = true;
 
-        this._move(e);
+        if (e) {
+            this._move(e);
+        }
     };
 
     /**
@@ -144,8 +143,9 @@
     EasyZoom.prototype._move = function(e) {
 
         if (e.type.indexOf('touch') === 0) {
-            lx = e.originalEvent.touches[0].pageX;
-            ly = e.originalEvent.touches[0].pageY;
+            var touchlist = e.touches || e.originalEvent.touches;
+            lx = touchlist[0].pageX;
+            ly = touchlist[0].pageY;
         }
         else {
             lx = e.pageX || lx;
