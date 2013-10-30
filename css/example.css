@@ -1,6 +1,6 @@
 /**
  * Author:       Matt Hinchliffe <www.maketea.co.uk>
- * Modified:     18/17/2013
+ * Modified:     30/10/2013
  * Description:  Some crummy styles to lay out the example file
  */
 
@@ -102,10 +102,9 @@ hr {
 }
 
 .container {
-	width: 36em;
+	width: 640px;
 	margin: 0 auto;
 	padding: 2em 2em 4em;
 	background: #fff;
-	-webkit-box-shadow: 0 0 5em rgba(0, 0, 0, 0.1);
-	        box-shadow: 0 0 5em rgba(0, 0, 0, 0.1);
+	box-shadow: 0 0 5em rgba(0, 0, 0, 0.1);
 }

@@ -33,7 +33,8 @@ module.exports = function(grunt) {
         trailing: true,
         globals: {
           jquery: true,
-          define: false
+          define: false,
+          exports: true
         }
       }
     }
