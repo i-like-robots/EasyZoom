@@ -14,15 +14,15 @@
 	vertical-align: bottom;
 }
 
-.easyzoom.is-loading {
+.easyzoom.is-loading img {
 	cursor: progress;
 }
 
-.easyzoom.is-ready {
+.easyzoom.is-ready img {
 	cursor: crosshair;
 }
 
-.easyzoom.is-error {
+.easyzoom.is-error  img {
 	cursor: not-allowed;
 }
 

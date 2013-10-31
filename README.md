@@ -14,7 +14,7 @@ https://github.com/i-like-robots/EasyZoom/issues
 
 ## Versioning
 
-The current version is `2.0.0`. Releases will be numbered in following format:
+The current version is `2.0.1`. Releases will be numbered in following format:
 
 `<major>.<minor>.<patch>`
 

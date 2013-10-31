@@ -8,7 +8,7 @@
         loadingNotice: 'Loading image',
 
         // The text to display within the notice box if an error occurs loading the zoom image.
-        errorNotice:   'The image could not be loaded',
+        errorNotice: 'The image could not be loaded',
 
         // Prevent clicks on the zoom image link.
         preventClicks: true,
@@ -207,7 +207,7 @@
     EasyZoom.prototype.teardown = function() {
         this.hide();
 
-        this.$target.removeClass('is-loading isready is-error').off('.easyzoom');
+        this.$target.removeClass('is-loading is-ready is-error').off('.easyzoom');
 
         delete this.$link;
         delete this.$zoom;
