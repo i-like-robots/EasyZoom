@@ -137,6 +137,12 @@
         };
 
         zoom.onload = function() {
+
+            // IE may fire a load event even on error so check the image has dimensions
+            if (zoom.width === 0) {
+                return;
+            }
+
             self.isReady = true;
 
             self.$notice.detach();

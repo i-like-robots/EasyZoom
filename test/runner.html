@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1" />
+
+	<title>QUnit</title>
+
+
+	<link rel="stylesheet" href="../css/example.css" />
+	<link rel="stylesheet" href="../css/easyzoom.css" />
+	<link rel="stylesheet" href="lib/qunit-1.12.0.css" />
+
+</head>
+<body>
+
+	<div class="container">
+
+		<section id="fixture">
+
+			<h1>
+				Fixture
+			</h1>
+
+			<div class="easyzoom">
+				<a href="../example-images/1_zoom.jpg">
+					<img src="../example-images/1_standard.jpg" alt="" width="640" height="360" />
+				</a>
+			</div>
+
+		</section>
+
+		<section id="tests">
+
+			<h1>
+				Test Results
+			</h1>
+
+			<div id="qunit"></div>
+
+		</section>
+
+	</div>
+
+	<script src="lib/jquery-1.10.2.min.js"></script>
+	<script src="lib/qunit-1.12.0.js"></script>
+	<script src="../src/easyzoom.js"></script>
+	<script src="spec/easyzoom.js"></script>
+
+</body>
+</html>

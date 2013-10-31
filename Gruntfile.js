@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
 
   grunt.initConfig({
-    pkg: grunt.file.readJSON('easyzoom.jquery.json'),
+    pkg: grunt.file.readJSON('image-zoom.jquery.json'),
     uglify: {
       options: {
         banner: [
