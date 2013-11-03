@@ -125,4 +125,49 @@
 
     });
 
+    asyncTest("_move(e)", function() {
+
+        expect(4);
+
+        var offset = api.$target.position();
+
+        var mock_1 = {
+            type: "mousemove",
+            pageX: offset.left + 10,
+            pageY: offset.top + 10
+        };
+
+        var mock_2 = {
+            type: "mousemove",
+            pageX: offset.left + 100,
+            pageY: offset.top + 100
+        }
+
+        // Must open the flyout with a zoom image first
+        api.opts.onShow = function() {
+            var left, top;
+
+            api._move(mock_1);
+
+            left = parseInt(api.$zoom.css("left"), 10);
+            top = parseInt(api.$zoom.css("top"), 10);
+
+            equal(left, -20, "2x scale zoom image moved 20px left given 10px offset");
+            equal(top, -20, "2x scale zoom image moved 20px top given 10px offset");
+
+            api._move(mock_2);
+
+            left = parseInt(api.$zoom.css("left"), 10);
+            top = parseInt(api.$zoom.css("top"), 10);
+
+            equal(left, -200, "2x scale zoom image moved 200px left given 100px offset");
+            equal(top, -200, "2x scale zoom image moved 200px top given 100px offset");
+
+            start();
+        };
+
+        api.show();
+
+    });
+
 })();
