@@ -54,6 +54,30 @@
 
     });
 
+    asyncTest(".show(e)", function() {
+
+        expect(2);
+
+        var mock = {
+            type: "mousemove",
+            pageX: 0,
+            pageY: 0
+        };
+
+        var stub = sinon.stub(api, "_move", function(e) {
+
+            equal(stub.calledOnce, true, "Internal ._move() method called when .show() is provided with an event");
+            equal(e, mock, "Internal ._move() method called with event passed to .show()");
+
+            stub.restore();
+
+            start();
+        });
+
+        api.show(mock);
+
+    });
+
     asyncTest(".hide()", function() {
 
         expect(2);
@@ -141,7 +165,7 @@
             type: "mousemove",
             pageX: offset.left + 100,
             pageY: offset.top + 100
-        }
+        };
 
         // Must open the flyout with a zoom image first
         api.opts.onShow = function() {
