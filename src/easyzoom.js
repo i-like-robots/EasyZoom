@@ -228,8 +228,13 @@
     // jQuery plugin wrapper
     $.fn.easyZoom = function( options ) {
         return this.each(function() {
-            if ( ! $.data(this, 'easyZoom') ) {
+            var api = $.data(this, 'easyZoom');
+
+            if ( ! api) {
                 $.data(this, 'easyZoom', new EasyZoom(this, options));
+            }
+            else if ( api.isOpen === undefined ) {
+                api._init();
             }
         });
     };
