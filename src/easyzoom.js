@@ -131,6 +131,8 @@
 
         this.$target.addClass('is-loading').append(this.$notice.text(this.opts.loadingNotice));
 
+        this.$zoom = $(zoom);
+
         zoom.onerror = function() {
             self.$notice.text(self.opts.errorNotice);
             self.$target.removeClass('is-loading').addClass('is-error');
@@ -154,8 +156,6 @@
 
         zoom.style.position = 'absolute';
         zoom.src = href;
-
-        this.$zoom = $(zoom);
     };
 
     /**
