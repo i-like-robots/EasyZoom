@@ -175,7 +175,7 @@
             ly = e.pageY || ly;
         }
 
-        var offset  = this.$target.position();
+        var offset  = this.$target.offset();
         var pt = ly - offset.top;
         var pl = lx - offset.left;
         var xt = pt * rh;
