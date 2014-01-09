@@ -151,7 +151,7 @@
 
     asyncTest("_move(e)", function() {
 
-        expect(4);
+        expect(5);
 
         var offset = api.$target.position();
 
@@ -166,6 +166,14 @@
             pageX: offset.left + 100,
             pageY: offset.top + 100
         };
+
+        var mock_3 = {
+            type: "mousemove",
+            pageX: offset.left - 10,
+            pageY: offset.top - 10
+        };
+
+        var spy = sinon.spy(api, "hide");
 
         // Must open the flyout with a zoom image first
         api.opts.onShow = function() {
@@ -186,6 +194,10 @@
 
             equal(left, -200, "2x scale zoom image moved 200px left given 100px offset");
             equal(top, -200, "2x scale zoom image moved 200px top given 100px offset");
+
+            api._move(mock_3);
+
+            equal(spy.calledOnce, true, ".hide() is called if event is outside");
 
             start();
         };

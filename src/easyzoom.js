@@ -181,16 +181,20 @@
         var xt = pt * rh;
         var xl = pl * rw;
 
-        xt = (xt > dh) ? dh : xt;
-        xl = (xl > dw) ? dw : xl;
+        // xt = (xt > dh) ? dh : xt;
+        // xl = (xl > dw) ? dw : xl;
 
-        // Do not move the image if the event is outside
-        if (xl > 0 && xt > 0) {
+        // Close if outside
+        if (xl < 0 || xt < 0 || xl > dw || xt > dh) {
+            this.hide();
+        }
+        else {
             this.$zoom.css({
                 top:  '' + (Math.ceil(xt) * -1) + 'px',
                 left: '' + (Math.ceil(xl) * -1) + 'px'
             });
         }
+
     };
 
     /**
