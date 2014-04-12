@@ -1,0 +1,13 @@
+{
+	"name": "easyzoom",
+	"version": "2.0.5",
+	"main": ["dist/easyzoom.js"],
+	"ignore": [
+    "**/.*",
+    "*.json",
+    "demo"
+  ],
+	"dependencies": {
+		"jquery": "~1.10"
+	}
+}
