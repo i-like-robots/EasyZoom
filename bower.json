@@ -4,8 +4,9 @@
 	"main": ["dist/easyzoom.js"],
 	"ignore": [
     "**/.*",
-    "*.json",
-    "demo"
+    "test",
+    "example-images",
+    "index.html"
   ],
 	"dependencies": {
 		"jquery": "~1.10"
