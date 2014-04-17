@@ -1,14 +1,14 @@
 {
-	"name": "easyzoom",
-	"version": "2.0.5",
-	"main": ["dist/easyzoom.js"],
-	"ignore": [
+  "name": "easyzoom",
+  "version": "2.0.5",
+  "main": ["dist/easyzoom.js"],
+  "ignore": [
     "**/.*",
     "test",
     "example-images",
     "index.html"
   ],
-	"dependencies": {
-		"jquery": "~1.10"
-	}
+  "dependencies": {
+    "jquery": "~1.10"
+  }
 }
