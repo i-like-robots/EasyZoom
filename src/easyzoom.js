@@ -148,7 +148,7 @@
             self.isReady = true;
 
             self.$notice.detach();
-            self.$flyout.append(self.$zoom);
+            self.$flyout.html(self.$zoom);
             self.$target.removeClass('is-loading').addClass('is-ready');
 
             callback();
@@ -209,6 +209,20 @@
                 this.opts.onHide.call(this);
             }
         }
+    };
+
+    /**
+     * Swap
+     * @param {String} standardSrc
+     * @param {String} zoomHref
+     */
+    EasyZoom.prototype.swap = function(standardSrc, zoomHref) {
+        this.hide();
+        this.isReady = false;
+
+        this.$target.removeClass('is-loading is-ready is-error');
+        this.$image.attr('src', standardSrc);
+        this.$link.attr('href', zoomHref);
     };
 
     /**
