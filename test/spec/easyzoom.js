@@ -98,6 +98,30 @@
 
     });
 
+    asyncTest(".swap()", function() {
+
+        expect(6);
+
+        var standard = "../example-images/test_standard.jpg";
+        var zoom = "../example-images/test_zoom.jpg";
+
+        api.swap(standard, zoom);
+
+        equal(api.$target.hasClass("is-loading"), false, "'Loading' state class has been removed");
+        equal(api.$target.hasClass("is-ready"), false, "'Ready' state class has been removed");
+        equal(api.$target.hasClass("is-error"), false, "'Error' state class has been removed");
+        equal(api.$image.attr("src"), standard, "Standard image SRC changed");
+        equal(api.$link.attr("href"), zoom, "Zoom image HREF changed");
+
+        api.opts.onShow = function() {
+            equal(api.$zoom.attr("src"), zoom, "Zoom image loaded with new SRC");
+            start();
+        };
+
+        api.show();
+
+    });
+
     test(".teardown()", function() {
 
         api.teardown();
