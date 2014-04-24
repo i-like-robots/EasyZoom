@@ -1,4 +1,6 @@
-﻿(function ($) {
+(function ($) {
+
+    'use strict';
 
     var dw, dh, rw, rh, lx, ly;
 
