@@ -30,10 +30,8 @@
      * @param {Object} options
      */
     function EasyZoom(target, options) {
-
         this.$target = $(target);
         this.opts = $.extend({}, defaults, options);
-        this.mouseOver = false;
 
         if ( this.isOpen === undefined ) {
             this._init();
@@ -57,7 +55,8 @@
 
         this.$target
             .on('mouseenter.easyzoom touchstart.easyzoom', function(e) {
-                self.mouseOver = true;
+                self.isMouseOver = true;
+
                 if ( ! e.originalEvent.touches || e.originalEvent.touches.length === 1) {
                     e.preventDefault();
                     self.show(e);
@@ -70,7 +69,8 @@
                 }
             })
             .on('mouseleave.easyzoom touchend.easyzoom', function() {
-                self.mouseOver = false;
+                self.isMouseOver = false;
+
                 if (self.isOpen) {
                     self.hide();
                 }
@@ -93,7 +93,7 @@
 
         if (! this.isReady) {
             this._load(this.$link.attr('href'), function() {
-                if (self.mouseOver) {
+                if (self.isMouseOver) {
                     self.show(e);
                 }
             });

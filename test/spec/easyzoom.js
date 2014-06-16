@@ -26,7 +26,6 @@
 
         equal($.isEmptyObject(events), false, "Mouse and touch events bound to target");
 
-
     });
 
     test("API", function() {
@@ -49,6 +48,8 @@
 
             start();
         };
+
+        api.isMouseOver = true;
 
         api.show();
 
@@ -74,6 +75,8 @@
             start();
         });
 
+        api.isMouseOver = true;
+
         api.show(mock);
 
     });
@@ -93,6 +96,8 @@
 
             start();
         };
+
+        api.isMouseOver = true;
 
         api.show();
 
@@ -117,6 +122,8 @@
             equal(api.$zoom.attr("src"), zoom, "Zoom image loaded with new SRC");
             start();
         };
+
+        api.isMouseOver = true;
 
         api.show();
 
@@ -225,6 +232,8 @@
 
             start();
         };
+
+        api.isMouseOver = true;
 
         api.show();
 
