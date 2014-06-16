@@ -1,6 +1,6 @@
 {
   "name": "image-zoom",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "title": "EasyZoom, jQuery image zoom plugin",
   "description": "EasyZoom is an elegant, highly optimised jQuery image zoom and panning plugin based on the original work by Alen Grakalic. EasyZoom supports touch-enabled devices and is easily customisable with CSS.",
   "keywords": [
