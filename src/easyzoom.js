@@ -143,6 +143,10 @@
         zoom.onerror = function() {
             self.$notice.text(self.opts.errorNotice);
             self.$target.removeClass('is-loading').addClass('is-error');
+            setTimeout(function() {
+                self.$target.removeClass('is-error');
+                self.$notice.detach();
+            }, 2000);
         };
 
         zoom.onload = function() {
