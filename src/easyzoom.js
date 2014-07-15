@@ -62,7 +62,7 @@
 
                 if ( ! e.originalEvent.touches || e.originalEvent.touches.length === 1) {
                     e.preventDefault();
-                    self.show(e);
+                    self.show(e, true);
                 }
             })
             .on('mousemove.easyzoom touchmove.easyzoom', function(e) {
@@ -89,14 +89,15 @@
     /**
      * Show
      * @param {MouseEvent|TouchEvent} e
+     * @param {Boolean} testMouseOver
      */
-    EasyZoom.prototype.show = function(e) {
+    EasyZoom.prototype.show = function(e, testMouseOver) {
         var w1, h1, w2, h2;
         var self = this;
 
         if (! this.isReady) {
             this._load(this.$link.attr('href'), function() {
-                if (self.isMouseOver) {
+                if (!testMouseOver || self.isMouseOver) {
                     self.show(e);
                 }
             });

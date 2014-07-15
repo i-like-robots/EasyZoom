@@ -97,8 +97,6 @@
             start();
         };
 
-        api.isMouseOver = true;
-
         api.show();
 
     });
