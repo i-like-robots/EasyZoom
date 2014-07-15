@@ -97,8 +97,6 @@
             start();
         };
 
-        api.isMouseOver = true;
-
         api.show();
 
     });
@@ -166,8 +164,9 @@
 
     asyncTest("._load(404)", function() {
 
-        expect(2);
+        expect(3);
 
+        api.opts.errorDuration = 100;
         api._load("404.jpg");
 
         api.$zoom.on("error", function() {
@@ -175,7 +174,11 @@
             equal(api.$notice.parent().length, 1, "Error notice appended to DOM");
             equal(api.$target.hasClass("is-error"), true, "Error class added to target");
 
-            start();
+            setTimeout(function() {
+                equal(api.$notice.parent().length, 0, "Error notice removed from DOM");
+                start();
+            }, 100);
+
         });
 
     });

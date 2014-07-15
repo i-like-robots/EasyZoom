@@ -214,6 +214,12 @@
 					<code>"The image could not be loaded"</code>.
 				</dd>
 				<dt>
+					<var>errorDuration</var>
+				</dt>
+				<dd>
+					The time (in milliseconds) to display the error notice. Default: <code>2500</code>.
+				</dd>
+				<dt>
 					<var>preventClicks</var>
 				</dt>
 				<dd>
@@ -246,12 +252,13 @@
 
 			<dl>
 				<dt>
-					<code>.show(<var>[MouseEvent|TouchEvent]</var>)</code>
+					<code>.show(<var>[MouseEvent|TouchEvent]</var>, <var>[Boolean]</var>)</code>
 				</dt>
 				<dd>
 					Displays the zoom image flyout. Optionally takes an instance of a
 					<a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent">mouse</a> or
-					<a href="https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent">touch event</a>.
+					<a href="https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent">touch event</a>
+					and can be set to only display the flyout if the mouse is over the target.
 				</dd>
 				<dt>
 					<code>.hide()</code>

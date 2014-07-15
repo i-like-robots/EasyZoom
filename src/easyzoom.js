@@ -12,6 +12,9 @@
         // The text to display within the notice box if an error occurs loading the zoom image.
         errorNotice: 'The image could not be loaded',
 
+        // The time (in milliseconds) to display the error notice.
+        errorDuration: 2500,
+
         // Prevent clicks on the zoom image link.
         preventClicks: true,
 
@@ -59,7 +62,7 @@
 
                 if ( ! e.originalEvent.touches || e.originalEvent.touches.length === 1) {
                     e.preventDefault();
-                    self.show(e);
+                    self.show(e, true);
                 }
             })
             .on('mousemove.easyzoom touchmove.easyzoom', function(e) {
@@ -86,14 +89,15 @@
     /**
      * Show
      * @param {MouseEvent|TouchEvent} e
+     * @param {Boolean} testMouseOver
      */
-    EasyZoom.prototype.show = function(e) {
+    EasyZoom.prototype.show = function(e, testMouseOver) {
         var w1, h1, w2, h2;
         var self = this;
 
         if (! this.isReady) {
             this._load(this.$link.attr('href'), function() {
-                if (self.isMouseOver) {
+                if (!testMouseOver || self.isMouseOver) {
                     self.show(e);
                 }
             });
@@ -133,33 +137,39 @@
      * @param {Function} callback
      */
     EasyZoom.prototype._load = function(href, callback) {
-        var self = this;
         var zoom = new Image();
 
         this.$target.addClass('is-loading').append(this.$notice.text(this.opts.loadingNotice));
 
         this.$zoom = $(zoom);
 
-        zoom.onerror = function() {
-            self.$notice.text(self.opts.errorNotice);
-            self.$target.removeClass('is-loading').addClass('is-error');
-        };
+        zoom.onerror = $.proxy(function() {
+            var self = this;
 
-        zoom.onload = function() {
+            this.$notice.text(this.opts.errorNotice);
+            this.$target.removeClass('is-loading').addClass('is-error');
+
+            this.detachNotice = setTimeout(function() {
+                self.$notice.detach();
+                self.detachNotice = null;
+            }, this.opts.errorDuration);
+        }, this);
+
+        zoom.onload = $.proxy(function() {
 
             // IE may fire a load event even on error so check the image has dimensions
             if (zoom.width === 0) {
                 return;
             }
 
-            self.isReady = true;
+            this.isReady = true;
 
-            self.$notice.detach();
-            self.$flyout.html(self.$zoom);
-            self.$target.removeClass('is-loading').addClass('is-ready');
+            this.$notice.detach();
+            this.$flyout.html(this.$zoom);
+            this.$target.removeClass('is-loading').addClass('is-ready');
 
             callback();
-        };
+        }, this);
 
         zoom.style.position = 'absolute';
         zoom.src = href;
@@ -187,9 +197,6 @@
         var pl = lx - offset.left;
         var xt = pt * rh;
         var xl = pl * rw;
-
-        // xt = (xt > dh) ? dh : xt;
-        // xl = (xl > dw) ? dw : xl;
 
         // Close if outside
         if (xl < 0 || xt < 0 || xl > dw || xt > dh) {
@@ -227,6 +234,14 @@
         this.hide();
         this.isReady = false;
 
+        if (this.detachNotice) {
+            clearTimeout(this.detachNotice);
+        }
+
+        if (this.$notice.parent().length) {
+            this.$notice.detach();
+        }
+
         this.$target.removeClass('is-loading is-ready is-error');
         this.$image.attr('src', standardSrc);
         this.$link.attr('href', zoomHref);
@@ -239,6 +254,10 @@
         this.hide();
 
         this.$target.removeClass('is-loading is-ready is-error').off('.easyzoom');
+
+        if (this.detachNotice) {
+            clearTimeout(this.detachNotice);
+        }
 
         delete this.$link;
         delete this.$zoom;
