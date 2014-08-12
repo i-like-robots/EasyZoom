@@ -199,7 +199,7 @@
         var xl = pl * rw;
 
         // Close if outside
-        if (xl < 0 || xt < 0 || xl > dw || xt > dh) {
+        if (xl < 0 || xt < 0 || xl > dw || Math.floor(xt) > dh) {
             this.hide();
         }
         else {
