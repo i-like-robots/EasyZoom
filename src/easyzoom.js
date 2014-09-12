@@ -195,11 +195,14 @@
         var offset  = this.$target.offset();
         var pt = ly - offset.top;
         var pl = lx - offset.left;
-        var xt = pt * rh;
-        var xl = pl * rw;
+        var xt = rh > 0 ? pt * rh : dh / 2;
+        var xl = rw > 0 ? pl * rw : dw / 2;
+
+        var w1 = this.$target.width();
+        var h1 = this.$target.height();
 
         // Close if outside
-        if (xl < 0 || xt < 0 || xl > dw || xt > dh) {
+        if (pt < 0 || pl < 0 || pt > h1 || pl > w1) {
             this.hide();
         }
         else {
