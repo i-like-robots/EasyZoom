@@ -229,12 +229,11 @@
      * Swap
      * @param {String} standardSrc
      * @param {String} zoomHref
-     * @param {string|Array.<string>=} srcsetStringOrArray (Optional)
+     * @param {String|Array} srcsetStringOrArray (Optional)
      */
     EasyZoom.prototype.swap = function(standardSrc, zoomHref, srcsetStringOrArray) {
         this.hide();
         this.isReady = false;
-        srcsetStringOrArray = srcsetStringOrArray || '';
 
         if (this.detachNotice) {
             clearTimeout(this.detachNotice);
@@ -244,7 +243,7 @@
             this.$notice.detach();
         }
 
-        if (!typeof srcsetStringOrArray === 'string') {
+        if ($.isArray(srcsetStringOrArray)) {
             srcsetStringOrArray = srcsetStringOrArray.join();
         }
 
