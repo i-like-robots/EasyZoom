@@ -26,6 +26,10 @@ This work is licensed under a [MIT License][5].
 
 This jQuery plugin was written by [Matt Hinchliffe][6].
 
+Thanks also for contributions from:
+
+- [Steve Lindstrom](https://github.com/slindstr)
+
 [1]: http://github.com/i-like-robots/EasyZoom/
 [2]: http://www.jquery.com
 [3]: http://cssglobe.com/lab/easyzoom/easyzoom.html
