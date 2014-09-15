@@ -36,7 +36,7 @@
         this.$target = $(target);
         this.opts = $.extend({}, defaults, options);
 
-        if ( this.isOpen === undefined ) {
+        if (this.isOpen === undefined) {
             this._init();
         }
 
@@ -60,7 +60,7 @@
             .on('mouseenter.easyzoom touchstart.easyzoom', function(e) {
                 self.isMouseOver = true;
 
-                if ( ! e.originalEvent.touches || e.originalEvent.touches.length === 1) {
+                if (!e.originalEvent.touches || e.originalEvent.touches.length === 1) {
                     e.preventDefault();
                     self.show(e, true);
                 }
@@ -97,7 +97,7 @@
 
         if (! this.isReady) {
             this._load(this.$link.attr('href'), function() {
-                if (!testMouseOver || self.isMouseOver) {
+                if (self.isMouseOver || !testMouseOver) {
                     self.show(e);
                 }
             });
@@ -158,7 +158,7 @@
         zoom.onload = $.proxy(function() {
 
             // IE may fire a load event even on error so check the image has dimensions
-            if (zoom.width === 0) {
+            if (!zoom.width) {
                 return;
             }
 
@@ -195,8 +195,8 @@
         var offset  = this.$target.offset();
         var pt = ly - offset.top;
         var pl = lx - offset.left;
-        var xt = Math.floor(pt * rh);
-        var xl = Math.floor(pl * rw);
+        var xt = Math.ceil(pt * rh);
+        var xl = Math.ceil(pl * rw);
 
         // Close if outside
         if (xl < 0 || xt < 0 || xl > dw || xt > dh) {
@@ -278,26 +278,26 @@
     };
 
     // jQuery plugin wrapper
-    $.fn.easyZoom = function( options ) {
+    $.fn.easyZoom = function(options) {
         return this.each(function() {
             var api = $.data(this, 'easyZoom');
 
-            if ( ! api) {
+            if (!api) {
                 $.data(this, 'easyZoom', new EasyZoom(this, options));
             }
-            else if ( api.isOpen === undefined ) {
+            else if (api.isOpen === undefined) {
                 api._init();
             }
         });
     };
 
     // AMD and CommonJS module compatibility
-    if ( typeof define === 'function' && define.amd ){
+    if (typeof define === 'function' && define.amd){
         define(function() {
             return EasyZoom;
         });
     }
-    else if ( typeof module !== 'undefined' && module.exports ) {
+    else if (typeof module !== 'undefined' && module.exports) {
         module.exports = EasyZoom;
     }
 
