@@ -127,6 +127,35 @@
 
     });
 
+    test(".swap(standard, zoom, srcsetString)", function() {
+
+        expect(1);
+
+        var standard = "../example-images/test_standard.jpg";
+        var zoom = "../example-images/test_zoom.jpg";
+        var srcsetString = "../example-images/test_standard.jpg 1x, ../example-images/test_zoom.jpg 2x";
+
+        api.swap(standard, zoom, srcsetString);
+
+        equal(api.$image.attr("srcset"), srcsetString, "Standard image SRCSET changed");
+
+    });
+
+    test(".swap(standard, zoom, srcsetArray)", function() {
+
+        expect(1);
+
+        var standard = "../example-images/test_standard.jpg";
+        var zoom = "../example-images/test_zoom.jpg";
+        var srcsetArray = ['../example-images/test_standard.jpg 1x', '../example-images/test_zoom.jpg 2x'];
+        var srcsetString = '../example-images/test_standard.jpg 1x,../example-images/test_zoom.jpg 2x';
+
+        api.swap(standard, zoom, srcsetArray);
+
+        equal(api.$image.attr("srcset"), srcsetString, "Standard image SRCSET changed");
+
+    });
+
     test(".teardown()", function() {
 
         api.teardown();
