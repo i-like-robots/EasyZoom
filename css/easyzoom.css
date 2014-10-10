@@ -21,6 +21,9 @@
 .easyzoom.is-ready img {
 	cursor: crosshair;
 }
+.easyzoom--mousedown.is-ready img {
+	cursor: auto;
+}
 
 .easyzoom.is-error  img {
 	cursor: not-allowed;
@@ -49,11 +52,15 @@
 /**
  * EasyZoom layout variations
  */
+.easyzoom--mousedown .easyzoom-flyout,
 .easyzoom--overlay .easyzoom-flyout {
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
+}
+.easyzoom--mousedown .easyzoom-flyout img{
+	cursor: crosshair;
 }
 
 .easyzoom--adjacent .easyzoom-flyout {
