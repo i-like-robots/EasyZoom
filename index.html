@@ -101,6 +101,21 @@
 				(<a href="http://www.flickr.com/photos/opedal/8395744016/">original</a>).</small>
 			</p>
 
+			<h2>
+				On mouse down
+			</h2>
+
+			<div class="easyzoom easyzoom--overlay" data-startbymousedown="true">
+				<a href="example-images/1_zoom.jpg">
+					<img src="example-images/1_standard.jpg" alt="" width="640" height="360" />
+				</a>
+			</div>
+
+			<p style="text-align: center;">
+				<small>Photo by <a href="http://www.flickr.com/photos/opedal/">Dag Endre Opedal</a>
+				(<a href="http://www.flickr.com/photos/opedal/7507502488/">original</a>).</small>
+			</p>
+
 		</section>
 
 		<hr />
@@ -201,6 +216,12 @@
 
 			<dl>
 				<dt>
+					<var>startbymousedown</var>
+				</dt>
+				<dd>
+					Start the zoom on mousedown instead of a hover. Default: <code>false</code>.
+				</dd>
+				<dt>
 					<var>loadingNotice</var>
 				</dt>
 				<dd>
@@ -289,7 +310,7 @@
 	</a>
 
 	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-	<script src="dist/easyzoom.js"></script>
+	<script src="src/easyzoom.js"></script>
 	<script>
 		// Instantiate EasyZoom plugin
 		var $easyzoom = $('.easyzoom').easyZoom();
