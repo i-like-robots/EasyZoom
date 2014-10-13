@@ -22,7 +22,10 @@
         onShow: undefined,
 
         // Callback function to execute when the flyout is removed.
-        onHide: undefined
+        onHide: undefined,
+
+        // instead of starting on hover the zoom starts as mousedown listener
+        startByMousedown: false
 
     };
 
@@ -34,8 +37,7 @@
      */
     function EasyZoom(target, options) {
         this.$target = $(target);
-        this.opts = $.extend({}, defaults, options);
-
+        this.opts = $.extend({}, defaults, this.$target.data(), options);
         if (this.isOpen === undefined) {
             this._init();
         }
@@ -48,16 +50,23 @@
      * @private
      */
     EasyZoom.prototype._init = function() {
-        var self = this;
+        var self = this,
+            _mouseStartEvent = 'mouseenter',
+            _mouseEndEvent = '';
 
         this.$link   = this.$target.find('a');
         this.$image  = this.$target.find('img');
 
         this.$flyout = $('<div class="easyzoom-flyout" />');
         this.$notice = $('<div class="easyzoom-notice" />');
+        
+        if( this.opts.startByMousedown ){
+            _mouseStartEvent = 'mousedown';
+            _mouseEndEvent = 'mouseup.easyzoom ';
+        }
 
         this.$target
-            .on('mouseenter.easyzoom touchstart.easyzoom', function(e) {
+            .on( _mouseStartEvent + '.easyzoom touchstart.easyzoom', function(e) {
                 self.isMouseOver = true;
 
                 if (!e.originalEvent.touches || e.originalEvent.touches.length === 1) {
@@ -71,7 +80,7 @@
                     self._move(e);
                 }
             })
-            .on('mouseleave.easyzoom touchend.easyzoom', function() {
+            .on( _mouseEndEvent + 'mouseleave.easyzoom touchend.easyzoom', function() {
                 self.isMouseOver = false;
 
                 if (self.isOpen) {
@@ -104,7 +113,6 @@
 
             return;
         }
-
         this.$target.append(this.$flyout);
 
         w1 = this.$target.width();
@@ -139,7 +147,7 @@
     EasyZoom.prototype._load = function(href, callback) {
         var zoom = new Image();
 
-        this.$target.addClass('is-loading').append(this.$notice.text(this.opts.loadingNotice));
+        this.$target.addClass('is-loading').append(this.$notice.text(this.opts.loadingnotice));
 
         this.$zoom = $(zoom);
 
@@ -149,10 +157,12 @@
             this.$notice.text(this.opts.errorNotice);
             this.$target.removeClass('is-loading').addClass('is-error');
 
+
+
             this.detachNotice = setTimeout(function() {
                 self.$notice.detach();
                 self.detachNotice = null;
-            }, this.opts.errorDuration);
+            }, parseInt( this.opts.errorDuration, 10 ) );
         }, this);
 
         zoom.onload = $.proxy(function() {
@@ -192,14 +202,15 @@
             ly = e.pageY || ly;
         }
 
-        var offset  = this.$target.offset();
+        var offset = this.$target.offset();
         var pt = ly - offset.top;
         var pl = lx - offset.left;
-        var xt = Math.ceil(pt * rh);
-        var xl = Math.ceil(pl * rw);
-
+        var xt = rh > 0 ? pt * rh : dh / 2;
+        var xl = rw > 0 ? pl * rw : dw / 2;
+        var w1 = this.$target.width();
+        var h1 = this.$target.height();
         // Close if outside
-        if (xl < 0 || xt < 0 || xl > dw || xt > dh) {
+        if (pt < 0 || pl < 0 || pt > h1 || pl > w1) {
             this.hide();
         }
         else {

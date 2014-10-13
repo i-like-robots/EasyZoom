@@ -111,3 +111,8 @@ hr {
 	background: #fff;
 	box-shadow: 0 0 5em rgba(0, 0, 0, .1);
 }
+blockquote{
+	font-size:11px;
+	color: #999;
+	margin-left: 0;
+}

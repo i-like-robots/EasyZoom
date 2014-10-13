@@ -84,6 +84,21 @@
 			</p>
 
 			<h2>
+				On mouse down
+			</h2>
+
+			<div class="easyzoom easyzoom--mousedown" data-start-by-mousedown="true">
+				<a href="example-images/1_zoom.jpg">
+					<img src="example-images/1_standard.jpg" alt="" width="640" height="360" />
+				</a>
+			</div>
+
+			<p style="text-align: center;">
+				<small>Photo by <a href="http://www.flickr.com/photos/opedal/">Dag Endre Opedal</a>
+				(<a href="http://www.flickr.com/photos/opedal/7507502488/">original</a>).</small>
+			</p>
+
+			<h2>
 				Adjacent
 			</h2>
 
@@ -196,7 +211,7 @@
 			</h1>
 
 			<p>
-				Global options can be specified via the standard jQuery plugin interface.
+				Global options can be specified via the standard jQuery plugin interface.<br/>The simple options can also defined as data attribute <small>( <code>onShow</code> and <code>onHide</code> excluded)</small>.
 			</p>
 
 			<dl>
@@ -204,38 +219,52 @@
 					<var>loadingNotice</var>
 				</dt>
 				<dd>
-					The text to display within the notice box while loading the zoom image. Default: <code>"Loading image"</code>.
+					The text to display within the notice box while loading the zoom image.<br/>
+					Default: <code>"Loading image"</code>.<br/>
+					<blockquote>To use this option as data attribute you have to add the attribute <code>data-loading-notice="Loading image"</code></blockquote>
 				</dd>
 				<dt>
 					<var>errorNotice</var>
 				</dt>
 				<dd>
-					The text to display within the notice box if an error occurs loading the zoom image. Default:
-					<code>"The image could not be loaded"</code>.
+					The text to display within the notice box if an error occurs loading the zoom image.<br/>
+					Default:<code>"The image could not be loaded"</code>.<br/>
+					<blockquote>To use this option as data attribute you have to add the attribute <code>data-error-notice="The image could not be loaded"</code></blockquote>
 				</dd>
 				<dt>
 					<var>errorDuration</var>
 				</dt>
 				<dd>
-					The time (in milliseconds) to display the error notice. Default: <code>2500</code>.
+					The time (in milliseconds) to display the error notice. Default: <code>2500</code>.<br/>
+					<blockquote>To use this option as data attribute you have to add the attribute <code>data-error-duration="2500"</code></blockquote>
 				</dd>
 				<dt>
 					<var>preventClicks</var>
 				</dt>
 				<dd>
-					Prevent clicks on the zoom image link. Default: <code>true</code>.
+					Prevent clicks on the zoom image link. Default: <code>true</code>.<br/>
+					<blockquote>To use this option as data attribute you have to add the attribute <code>data-prevent-clicks="true"</code></blockquote>
+				</dd>
+				<dt>
+					<var>startByMousedown</var>
+				</dt>
+				<dd>
+					Start the zoom on mousedown instead of a hover. Default: <code>false</code>.<br/>
+					<blockquote>To use this option as data attribute you have to add the attribute <code>data-start-by-mousedown="false"</code></blockquote>
 				</dd>
 				<dt>
 					<var>onShow</var>
 				</dt>
 				<dd>
-					Callback function to execute when the flyout is displayed. Default: <code>undefined</code>
+					Callback function to execute when the flyout is displayed. Default: <code>undefined</code><br/>
+					<blockquote>Because you have to define a function this option is not availible as data attribute.</blockquote>
 				</dd>
 				<dt>
 					<var>onHide</var>
 				</dt>
 				<dd>
-					Callback function to execute when the flyout is removed. Default: <code>undefined</code>
+					Callback function to execute when the flyout is removed. Default: <code>undefined</code><br/>
+					<blockquote>Because you have to define a function this option is not availible as data attribute.</blockquote>
 				</dd>
 			</dl>
 
