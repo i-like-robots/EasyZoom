@@ -7,16 +7,16 @@
     var defaults = {
 
         // The text to display within the notice box while loading the zoom image.
-        loadingnotice: 'Loading image',
+        loadingNotice: 'Loading image',
 
         // The text to display within the notice box if an error occurs loading the zoom image.
-        errornotice: 'The image could not be loaded',
+        errorNotice: 'The image could not be loaded',
 
         // The time (in milliseconds) to display the error notice.
-        errorduration: 2500,
+        errorDuration: 2500,
 
         // Prevent clicks on the zoom image link.
-        preventclicks: true,
+        preventClicks: true,
 
         // Callback function to execute when the flyout is displayed.
         onShow: undefined,
@@ -25,7 +25,7 @@
         onHide: undefined,
 
         // instead of starting on hover the zoom starts as mousedown listener
-        startbymousedown: false
+        startByMousedown: false
 
     };
 
@@ -60,7 +60,7 @@
         this.$flyout = $('<div class="easyzoom-flyout" />');
         this.$notice = $('<div class="easyzoom-notice" />');
         
-        if( this.opts.startbymousedown ){
+        if( this.opts.startByMousedown ){
             _mouseStartEvent = 'mousedown';
             _mouseEndEvent = 'mouseup.easyzoom ';
         }
@@ -88,7 +88,7 @@
                 }
             });
 
-        if (this.opts.preventclicks) {
+        if (this.opts.preventClicks) {
             this.$target.on('click.easyzoom', 'a', function(e) {
                 e.preventDefault();
             });
@@ -154,7 +154,7 @@
         zoom.onerror = $.proxy(function() {
             var self = this;
 
-            this.$notice.text(this.opts.errornotice);
+            this.$notice.text(this.opts.errorNotice);
             this.$target.removeClass('is-loading').addClass('is-error');
 
 
@@ -162,7 +162,7 @@
             this.detachNotice = setTimeout(function() {
                 self.$notice.detach();
                 self.detachNotice = null;
-            }, parseInt( this.opts.errorduration, 10 ) );
+            }, parseInt( this.opts.errorDuration, 10 ) );
         }, this);
 
         zoom.onload = $.proxy(function() {
