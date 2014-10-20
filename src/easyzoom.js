@@ -22,7 +22,10 @@
         onShow: undefined,
 
         // Callback function to execute when the flyout is removed.
-        onHide: undefined
+        onHide: undefined,
+
+        // Callback function to execute when the cursor is moved while over the image.
+        onMove: undefined
 
     };
 
@@ -203,10 +206,17 @@
             this.hide();
         }
         else {
+            var top = xt * -1;
+            var left = xl * -1;
+
             this.$zoom.css({
-                top:  '' + (xt * -1) + 'px',
-                left: '' + (xl * -1) + 'px'
+                top: top,
+                left: left
             });
+
+            if (this.opts.onMove) {
+                this.opts.onMove.call(this, top, left);
+            }
         }
 
     };
