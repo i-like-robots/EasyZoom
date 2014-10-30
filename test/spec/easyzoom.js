@@ -19,6 +19,7 @@
 
         ok(api.$link.length, "Zoom link is found");
         ok(api.$image.length, "Smaller image is found");
+        ok(api.opts.inlineOption, "Data attributes can be options");
         ok(api.hasOwnProperty("$flyout"), "Flyout is created");
         ok(api.hasOwnProperty("$notice"), "Notice is created");
 
