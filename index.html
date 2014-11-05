@@ -78,11 +78,6 @@
 				</a>
 			</div>
 
-			<p style="text-align: center;">
-				<small>Photo by <a href="http://www.flickr.com/photos/opedal/">Dag Endre Opedal</a>
-				(<a href="http://www.flickr.com/photos/opedal/7507502488/">original</a>).</small>
-			</p>
-
 			<h2>
 				Adjacent
 			</h2>
@@ -96,9 +91,41 @@
 				</a>
 			</div>
 
+			<h2>
+				With thumbnail images
+			</h2>
+
+			<div class="easyzoom easyzoom--overlay easyzoom--with-thumbnails">
+				<a href="example-images/3_zoom_1.jpg">
+					<img src="example-images/3_standard_1.jpg" alt="" width="640" height="360" />
+				</a>
+			</div>
+
+			<ul class="thumbnails">
+				<li>
+					<a href="example-images/3_zoom_1.jpg" data-standard="example-images/3_standard_1.jpg">
+						<img src="example-images/3_thumbnail_1.jpg" alt="" />
+					</a>
+				</li>
+				<li>
+					<a href="example-images/3_zoom_2.jpg" data-standard="example-images/3_standard_2.jpg">
+						<img src="example-images/3_thumbnail_2.jpg" alt="" />
+					</a>
+				</li>
+				<li>
+					<a href="example-images/3_zoom_3.jpg" data-standard="example-images/3_standard_3.jpg">
+						<img src="example-images/3_thumbnail_3.jpg" alt="" />
+					</a>
+				</li>
+				<li>
+					<a href="example-images/3_zoom_4.jpg" data-standard="example-images/3_standard_4.jpg">
+						<img src="example-images/3_thumbnail_4.jpg" alt="" />
+					</a>
+				</li>
+			</ul>
+
 			<p style="text-align: center;">
-				<small>Photo by <a href="http://www.flickr.com/photos/opedal/">Dag Endre Opedal</a>
-				(<a href="http://www.flickr.com/photos/opedal/8395744016/">original</a>).</small>
+				<small>Photos all by <a href="http://www.flickr.com/photos/opedal/">Dag Endre Opedal</a>.</small>
 			</p>
 
 		</section>
@@ -177,10 +204,10 @@
 			</p>
 
 			<figure>
-<pre class="highlight"><span class="c1">// Instantiate EasyZoom plugin</span>
+<pre class="highlight"><span class="c1">// Instantiate EasyZoom instances</span>
 <span class="kd">var</span> <span class="nx">$easyzoom</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">'.easyzoom'</span><span class="p">).</span><span class="nx">easyZoom</span><span class="p">();</span>
 
-<span class="c1">// Get the instance API</span>
+<span class="c1">// Get an instance API</span>
 <span class="kd">var</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">$easyzoom</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="s1">'easyZoom'</span><span class="p">);</span></pre>
 			</figure>
 
@@ -300,11 +327,21 @@
 	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script src="dist/easyzoom.js"></script>
 	<script>
-		// Instantiate EasyZoom plugin
+		// Instantiate EasyZoom instances
 		var $easyzoom = $('.easyzoom').easyZoom();
 
-		// Get the instance API
-		var api = $easyzoom.data('easyZoom');
+		// Get an instance API
+		var api = $easyzoom.filter('.easyzoom--with-thumbnails').data('easyZoom');
+
+		// Setup thumbnails example
+		$(".thumbnails").on("click", "a", function(e) {
+			var $this = $(this);
+
+			e.preventDefault();
+
+			// Use EasyZoom's `swap` method
+			api.swap($this.data("standard"), $this.attr("href"));
+		});
 	</script>
 
 </body>

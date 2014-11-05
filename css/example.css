@@ -111,3 +111,26 @@ hr {
 	background: #fff;
 	box-shadow: 0 0 5em rgba(0, 0, 0, .1);
 }
+
+.container * + h2 {
+	margin-top: 1em;
+}
+
+.thumbnails {
+	overflow: hidden;
+	margin: 1em 0;
+	padding: 0;
+	text-align: center;
+}
+
+.thumbnails li {
+	display: inline-block;
+	width: 140px;
+	margin: 0 5px;
+}
+
+.thumbnails img {
+	display: block;
+	min-width: 100%;
+	max-width: 100%;
+}
