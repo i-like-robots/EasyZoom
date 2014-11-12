@@ -5,6 +5,9 @@
     var dw, dh, rw, rh, lx, ly;
 
     var defaults = {
+    
+        // Zoom image url attribute
+        zoomImageUrlAttribute: 'href',
 
         // The text to display within the notice box while loading the zoom image.
         loadingNotice: 'Loading image',
@@ -96,7 +99,7 @@
         var self = this;
 
         if (! this.isReady) {
-            this._load(this.$link.attr('href'), function() {
+            this._load(this.$link.attr(this.opts.zoomImageUrlAttribute), function() {
                 if (self.isMouseOver || !testMouseOver) {
                     self.show(e);
                 }
@@ -252,7 +255,7 @@
             src: standardSrc,
             srcset: srcsetStringOrArray
         });
-        this.$link.attr('href', zoomHref);
+        this.$link.attr(this.opts.zoomImageUrlAttribute, zoomHref);
     };
 
     /**
