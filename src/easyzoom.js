@@ -47,8 +47,6 @@
      * @private
      */
     EasyZoom.prototype._init = function() {
-        var self = this;
-
         this.$link   = this.$target.find('a');
         this.$image  = this.$target.find('img');
 
@@ -56,24 +54,9 @@
         this.$notice = $('<div class="easyzoom-notice" />');
 
         this.$target
-            .on('mouseenter.easyzoom touchstart.easyzoom', function(e) {
-                self.isMouseOver = true;
-
-                if (e.originalEvent.touches && e.originalEvent.touches.length > 1) return;
-
-                e.preventDefault();
-                self.show(e, true);
-            })
-            .on('mousemove.easyzoom touchmove.easyzoom', function(e) {
-                if (!self.isOpen) return;
-
-                e.preventDefault();
-                self._move(e);
-            })
-            .on('mouseleave.easyzoom touchend.easyzoom', function() {
-                self.isMouseOver = false;
-                self.isOpen && self.hide();
-            });
+            .on('mousemove.easyzoom touchmove.easyzoom', $.proxy(this._onMove, this))
+            .on('mouseleave.easyzoom touchend.easyzoom', $.proxy(this._onLeave, this))
+            .on('mouseenter.easyzoom touchstart.easyzoom', $.proxy(this._onEnter, this));
 
         if (this.opts.preventClicks) {
             this.$target.on('click.easyzoom', 'a', function(e) {
@@ -92,7 +75,7 @@
         var self = this;
 
         if (!this.isReady) {
-            return this._load(this.$link.attr('href'), function() {
+            return this._loadImage(this.$link.attr('href'), function() {
                 if (self.isMouseOver || !testMouseOver) {
                     self.show(e);
                 }
@@ -121,43 +104,93 @@
     };
 
     /**
-     * Load
+     * On enter
+     * @private
+     * @param {Event} e
+     */
+    EasyZoom.prototype._onEnter = function(e) {
+        var touches = e.originalEvent.touches;
+
+        this.isMouseOver = true;
+
+        if (touches && touches.length == 1) {
+            e.preventDefault();
+            this.show(e, true);
+        }
+    };
+
+    /**
+     * On move
+     * @private
+     * @param {Event} e
+     */
+    EasyZoom.prototype._onMove = function(e) {
+        if (!this.isOpen) return;
+
+        e.preventDefault();
+        this._move(e);
+    };
+
+    /**
+     * On leave
+     * @private
+     * @param {Event} e
+     */
+    EasyZoom.prototype._onLeave = function(e) {
+        this.isMouseOver = false;
+        this.isOpen && this.hide();
+    };
+
+    /**
+     * On load
+     * @private
+     * @param {Event} e
+     */
+    EasyZoom.prototype._onLoad = function(e) {
+        // IE may fire a load event even on error so test the image dimensions
+        if (!e.target.width) return;
+
+        this.isReady = true;
+
+        this.$notice.detach();
+        this.$flyout.html(this.$zoom);
+        this.$target.removeClass('is-loading').addClass('is-ready');
+
+        e.data.call && e.data();
+    };
+
+    /**
+     * On error
+     * @private
+     */
+    EasyZoom.prototype._onError = function() {
+        var self = this;
+
+        this.$notice.text(this.opts.errorNotice);
+        this.$target.removeClass('is-loading').addClass('is-error');
+
+        this.detachNotice = setTimeout(function() {
+            self.$notice.detach();
+            self.detachNotice = null;
+        }, this.opts.errorDuration);
+    };
+
+    /**
+     * Load image
      * @private
      * @param {String} href
      * @param {Function} callback
      */
-    EasyZoom.prototype._load = function(href, callback) {
+    EasyZoom.prototype._loadImage = function(href, callback) {
         var zoom = new Image();
 
-        this.$target.addClass('is-loading').append(this.$notice.text(this.opts.loadingNotice));
+        this.$target
+            .addClass('is-loading')
+            .append(this.$notice.text(this.opts.loadingNotice));
 
-        this.$zoom = $(zoom);
-
-        zoom.onerror = $.proxy(function() {
-            var self = this;
-
-            this.$notice.text(this.opts.errorNotice);
-            this.$target.removeClass('is-loading').addClass('is-error');
-
-            this.detachNotice = setTimeout(function() {
-                self.$notice.detach();
-                self.detachNotice = null;
-            }, this.opts.errorDuration);
-        }, this);
-
-        zoom.onload = $.proxy(function() {
-
-            // IE may fire a load event even on error so check the image has dimensions
-            if (!zoom.width) return;
-
-            this.isReady = true;
-
-            this.$notice.detach();
-            this.$flyout.html(this.$zoom);
-            this.$target.removeClass('is-loading').addClass('is-ready');
-
-            callback();
-        }, this);
+        this.$zoom = $(zoom)
+            .on('error', $.proxy(this._onError, this))
+            .on('load', callback, $.proxy(this._onLoad, this));
 
         zoom.style.position = 'absolute';
         zoom.src = href;
@@ -246,7 +279,9 @@
     EasyZoom.prototype.teardown = function() {
         this.hide();
 
-        this.$target.removeClass('is-loading is-ready is-error').off('.easyzoom');
+        this.$target
+            .off('.easyzoom')
+            .removeClass('is-loading is-ready is-error');
 
         this.detachNotice && clearTimeout(this.detachNotice);
 
