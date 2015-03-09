@@ -58,11 +58,9 @@
             .on('mouseleave.easyzoom touchend.easyzoom', $.proxy(this._onLeave, this))
             .on('mouseenter.easyzoom touchstart.easyzoom', $.proxy(this._onEnter, this));
 
-        if (this.opts.preventClicks) {
-            this.$target.on('click.easyzoom', 'a', function(e) {
-                e.preventDefault();
-            });
-        }
+        this.opts.preventClicks &&this.$target.on('click.easyzoom', function(e) {
+            e.preventDefault();
+        });
     };
 
     /**
