@@ -1,36 +1,41 @@
 {
   // strict
-  "bitwise":       true,
-  "camelcase":     true,
-  "curly":         true,
-  "eqeqeq":        true,
-  "es3":           false,
-  "forin":         false,
-  "freeze":        false,
-  "immed":         true,
-  "indent":        4,
-  "latedef":       true,
-  "newcap":        true,
-  "noarg":         true,
-  "noempty":       true,
-  "nonew":         false,
-  "plusplus":      false,
-  "quotmark":      true,
-  "undef":         true,
-  "strict":        true,
-  "trailing":      true,
-  "maxparams":     4,
-  "maxdepth":      5,
-  "maxstatements": 20,
-  "maxlen":        120,
+  "bitwise":        false,
+  "camelcase":      true,
+  "curly":          false,
+  "eqeqeq":         false,
+  "es3":            false,
+  "forin":          false,
+  "freeze":         false,
+  "immed":          true,
+  "indent":         4,
+  "latedef":        true,
+  "newcap":         true,
+  "noarg":          true,
+  "noempty":        true,
+  "nonew":          false,
+  "plusplus":       false,
+  "quotmark":       "single",
+  "undef":          true,
+  "strict":         true,
+  "trailing":       true,
+  "unused":         true,
+  "expr":           true,
+
+  // relax
+  "boss":           true,
+  "eqnull":         true,
+  "supernew":       true,
+  "validthis":      true,
 
   // environment
-  "browser":       true,
+  "browser":        true,
 
   // globals
   "globals": {
-    "jQuery":      true,
-    "module":      true,
-    "define":      false
+    "module":       true,
+    "define":       false,
+    "require":      false,
+    "jQuery":       false
   }
 }
