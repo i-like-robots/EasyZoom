@@ -19,6 +19,7 @@
 
         ok(api.$link.length, "Zoom link is found");
         ok(api.$image.length, "Smaller image is found");
+        ok(api.opts.inlineOption, "Data attributes can be options");
         ok(api.hasOwnProperty("$flyout"), "Flyout is created");
         ok(api.hasOwnProperty("$notice"), "Notice is created");
 
@@ -173,11 +174,11 @@
 
     module("Internals", lifecycle);
 
-    asyncTest("._load(path, callback)", function() {
+    asyncTest("._loadImage(path, callback)", function() {
 
         expect(5);
 
-        api._load(api.$link.attr("href"), function() {
+        api._loadImage(api.$link.attr("href"), function() {
 
             equal(api.isReady, true, "Ready flag set to true");
             equal(api.$notice.parent().length, 0, "Loading notice detached from DOM");
@@ -191,12 +192,12 @@
 
     });
 
-    asyncTest("._load(404)", function() {
+    asyncTest("._loadImage(404)", function() {
 
         expect(3);
 
         api.opts.errorDuration = 100;
-        api._load("404.jpg");
+        api._loadImage("404.jpg");
 
         api.$zoom.on("error", function() {
 
