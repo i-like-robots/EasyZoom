@@ -134,3 +134,8 @@ hr {
 	min-width: 100%;
 	max-width: 100%;
 }
+
+.toggle {
+	display: block;
+	margin: 10px auto 1.5em;
+}

@@ -124,6 +124,17 @@
 				</li>
 			</ul>
 
+			<h2>
+				Active/Inactive toggle
+			</h2>
+
+			<div class="easyzoom easyzoom--overlay easyzoom--with-toggle">
+				<a href="example-images/3_zoom_1.jpg">
+					<img src="example-images/3_standard_1.jpg" alt="" width="640" height="360" />
+				</a>
+			</div>
+			<button class="toggle" data-active="true">Switch off</button>
+
 			<p style="text-align: center;">
 				<small>Photos all by <a href="http://www.flickr.com/photos/opedal/">Dag Endre Opedal</a>.</small>
 			</p>
@@ -331,16 +342,31 @@
 		var $easyzoom = $('.easyzoom').easyZoom();
 
 		// Get an instance API
-		var api = $easyzoom.filter('.easyzoom--with-thumbnails').data('easyZoom');
+		var api1 = $easyzoom.filter('.easyzoom--with-thumbnails').data('easyZoom');
 
 		// Setup thumbnails example
-		$(".thumbnails").on("click", "a", function(e) {
+		$('.thumbnails').on('click', 'a', function(e) {
 			var $this = $(this);
 
 			e.preventDefault();
 
 			// Use EasyZoom's `swap` method
-			api.swap($this.data("standard"), $this.attr("href"));
+			api1.swap($this.data('standard'), $this.attr('href'));
+		});
+
+		// Setup toggles example
+		var api2 = $easyzoom.filter('.easyzoom--with-toggle').data('easyZoom');
+
+		$('.toggle').on('click', function() {
+			var $this = $(this);
+
+			if ($this.data("active") === true) {
+				$this.text("Switch on").data("active", false);
+				api2.teardown();
+			} else {
+				$this.text("Switch off").data("active", true);
+				api2._init();
+			}
 		});
 	</script>
 
