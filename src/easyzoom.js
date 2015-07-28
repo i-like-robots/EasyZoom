@@ -9,7 +9,7 @@
         // The text to display within the notice box while loading the zoom image.
         loadingNotice: 'Loading image',
 
-        // The text to display within the notice box if an error occurs loading the zoom image.
+        // The text to display within the notice box if an error occurs when loading the zoom image.
         errorNotice: 'The image could not be loaded',
 
         // The time (in milliseconds) to display the error notice.

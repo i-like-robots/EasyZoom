@@ -42,10 +42,7 @@
 			</header>
 
 			<p>
-				EasyZoom is an elegant, highly optimised <a href="http://www.jquery.com">jQuery</a> image zoom and
-				panning plugin based on the <a href="http://cssglobe.com/lab/easyzoom/easyzoom.html">original work</a>
-				by <a href="http://grakalic.com/">Alen Grakalic</a>. EasyZoom supports touch-enabled devices and is
-				easily customisable with CSS.
+				EasyZoom is an elegant, highly optimised <a href="http://www.jquery.com">jQuery</a> image zoom and panning plugin based on the <a href="http://cssglobe.com/lab/easyzoom/easyzoom.html">original work</a> by <a href="http://grakalic.com/">Alen Grakalic</a>. EasyZoom supports touch-enabled devices and is easily customisable with CSS.
 			</p>
 
 			<p style="text-align:center;">
@@ -55,22 +52,20 @@
 
 		</section>
 
-		<hr />
-
 		<!-- Example -->
 		<section id="example">
 
-			<h1>
+			<h2>
 				Examples
-			</h1>
+			</h2>
 
-			<p>
+			<p style="text-align: center;">
 				Use your mouse cursor or finger to zoom and pan the images below.
 			</p>
 
-			<h2>
+			<h3>
 				Overlay
-			</h2>
+			</h3>
 
 			<div class="easyzoom easyzoom--overlay">
 				<a href="example-images/1_zoom.jpg">
@@ -78,9 +73,9 @@
 				</a>
 			</div>
 
-			<h2>
+			<h3>
 				Adjacent
-			</h2>
+			</h3>
 
 			<!-- Placeholder for demo purposes only -->
 			<div style="float: right; width: 310px; height: 400px; background: #EEE;"></div>
@@ -91,9 +86,9 @@
 				</a>
 			</div>
 
-			<h2>
+			<h3>
 				With thumbnail images
-			</h2>
+			</h3>
 
 			<div class="easyzoom easyzoom--overlay easyzoom--with-thumbnails">
 				<a href="example-images/3_zoom_1.jpg">
@@ -124,9 +119,9 @@
 				</li>
 			</ul>
 
-			<h2>
+			<h3>
 				Active/Inactive toggle
-			</h2>
+			</h3>
 
 			<div class="easyzoom easyzoom--overlay easyzoom--with-toggle">
 				<a href="example-images/3_zoom_1.jpg">
@@ -141,24 +136,19 @@
 
 		</section>
 
-		<hr />
-
 		<!-- Setup -->
 		<section id="setup">
 
-			<h1>
-				Setup
-			</h1>
-
 			<h2>
-				HTML
+				Setup
 			</h2>
 
+			<h3>
+				HTML
+			</h3>
+
 			<p>
-				EasyZoom does not rely on a specific markup structure but it is important that the EasyZoom target
-				element (<code>&lt;div class="easyzoom"&gt;</code>) only contains a link to the large image and the
-				smaller image. Any other elements within the EasyZoom target must not affect its layout, E.G. elements
-				that are positioned absolutely.
+				EasyZoom does not rely on a specific markup structure but it is important that the EasyZoom target element (<code>&lt;div class="easyzoom"&gt;</code>) only contains a link to the large image and the smaller image. Any other elements within the EasyZoom target must not affect its layout, E.G. elements that are positioned absolutely.
 			</p>
 
 			<figure>
@@ -169,17 +159,12 @@
 <span class="nt">&lt;/div&gt;</span></pre>
 			</figure>
 
-			<h2>
+			<h3>
 				CSS
-			</h2>
+			</h3>
 
 			<p>
-				The EasyZoom target element must 'shrink wrap' the smaller image, this can be achieved either by
-				<a href="http://www.w3.org/TR/CSS2/visudet.html#shrink-to-fit-float">floating</a> it or by displaying
-				it as an <a href="http://www.w3.org/TR/CSS2/visudet.html#inlineblock-width">inline block</a>. Extra
-				white space below the image (usually caused by the
-				<a href="http://www.w3.org/TR/CSS2/visuren.html#line-box">line box</a> the image sits within) can be
-				removed either by displaying it at block level or changing its position within the line box.
+				The EasyZoom target element must 'shrink wrap' the smaller image, this can be achieved either by <a href="http://www.w3.org/TR/CSS2/visudet.html#shrink-to-fit-float">floating</a> it or by displaying it as an <a href="http://www.w3.org/TR/CSS2/visudet.html#inlineblock-width">inline block</a>. Extra white space below the image (usually caused by the <a href="http://www.w3.org/TR/CSS2/visuren.html#line-box">line box</a> the image sits within) can be removed either by displaying it at block level or changing its position within the line box.
 			</p>
 
 			<p>
@@ -205,13 +190,12 @@
 <span class="p">}</span></pre>
 			</figure>
 
-			<h2>
+			<h3>
 				JavaScript
-			</h2>
+			</h3>
 
 			<p>
-				The EasyZoom plugin is instantiated as any other jQuery plugin and an instances API can be accessed via
-				element data. EasyZoom is also AMD and CommonJS compatible.
+				The EasyZoom plugin is instantiated as any other jQuery plugin and an instances API can be accessed via element data. EasyZoom is also AMD and CommonJS compatible.
 			</p>
 
 			<figure>
@@ -224,78 +208,74 @@
 
 		</section>
 
-		<hr />
-
 		<!-- Options -->
 		<section id="options">
 
-			<h1>
+			<h2>
 				Options
-			</h1>
+			</h2>
 
 			<p>
-				Global options can be specified via the standard jQuery plugin interface or as data attributes on
-				individual EasyZoom elements. Remember that <tt>camelCase</tt> options should be written as hyphen-separated
-				attributes, for example the <code>preventClicks</code> option would be defined on the element with the
-				<code>data-prevent-clicks</code> attribute.
+				Global options can be specified via the standard jQuery plugin interface or as data attributes on individual EasyZoom elements. Remember that <tt>camelCase</tt> options should be written as hyphen-separated attributes, for example the <code>preventClicks</code> option would be defined on the element with the <code>data-prevent-clicks</code> attribute.
 			</p>
 
-			<dl>
-				<dt>
-					<var>loadingNotice</var>
-				</dt>
-				<dd>
-					The text to display within the notice box while loading the zoom image. Default: <code>"Loading image"</code>.
-				</dd>
-				<dt>
-					<var>errorNotice</var>
-				</dt>
-				<dd>
-					The text to display within the notice box if an error occurs loading the zoom image. Default:
-					<code>"The image could not be loaded"</code>.
-				</dd>
-				<dt>
-					<var>errorDuration</var>
-				</dt>
-				<dd>
-					The time (in milliseconds) to display the error notice. Default: <code>2500</code>.
-				</dd>
-				<dt>
-					<var>preventClicks</var>
-				</dt>
-				<dd>
-					Prevent clicks on the zoom image link. Default: <code>true</code>.
-				</dd>
-				<dt>
-					<var>onShow</var>
-				</dt>
-				<dd>
-					Callback function to execute when the flyout is displayed. Default: <code>undefined</code>
-				</dd>
-				<dt>
-					<var>onHide</var>
-				</dt>
-				<dd>
-					Callback function to execute when the flyout is removed. Default: <code>undefined</code>
-				</dd>
-				<dt>
-					<var>onMove</var>
-				</dt>
-				<dd>
-					Callback function to execute when the cursor is moved while over the image. Default: <code>undefined</code>
-				</dd>
-			</dl>
+			<table>
+				<thead>
+					<tr>
+						<th>Option</th>
+						<th>Default value</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><var>loadingNotice</var></td>
+						<td><code>"Loading image"</code></td>
+						<td>
+							The text to display within the notice box while loading the zoom image.
+						</td>
+					</tr>
+					<tr>
+						<td><var>errorNotice</var></td>
+						<td><code>"The image could not be loaded"</code></td>
+						<td>The text to display within the notice box if an error occurs when loading the zoom image.</td>
+					</tr>
+					<tr>
+						<td><var>errorDuration</var></td>
+						<td><code>2500</code></td>
+						<td>The time (in milliseconds) to display the error notice</td>
+					</tr>
+					<tr>
+						<td><var>preventClicks</var></td>
+						<td><code>true</code></td>
+						<td>Prevent clicks on the zoom image link.</td>
+					</tr>
+					<tr>
+						<td><var>onShow</var></td>
+						<td><code>$.noop</code></td>
+						<td>Callback function to execute when the flyout is displayed.</td>
+					</tr>
+					<tr>
+						<td><var>onMove</var></td>
+						<td><code>$.noop</code></td>
+						<td>Callback function to execute when the cursor is moved while over the image.</td>
+					</tr>
+					<tr>
+						<td><var>onHide</var></td>
+						<td><code>$.noop</code></td>
+						<td>Callback function to execute when the flyout is removed.</td>
+					</tr>
+				</tbody>
+			</table>
 
 		</section>
-
-		<hr />
 
 		<!-- API -->
 		<section id="api">
 
-			<h1>
+			<h2>
 				API
-			</h1>
+			</h2>
 
 			<dl>
 				<dt>
@@ -323,7 +303,7 @@
 					<code>.swap(<var>standardSrc</var>, <var>zoomSrc</var>, <var>[srcset]</var>)</code>
 				</dt>
 				<dd>
-					Easily switch the standard and zoom image sources. To display retina images via the srcset attribute, use the optional srcsetStringOrArray argument.
+					Easily switch the standard and zoom image sources. To display retina images via the srcset attribute, use the optional <var>srcset</var> argument.
 				</dd>
 			</dl>
 
@@ -341,10 +321,9 @@
 		// Instantiate EasyZoom instances
 		var $easyzoom = $('.easyzoom').easyZoom();
 
-		// Get an instance API
+		// Setup thumbnails example
 		var api1 = $easyzoom.filter('.easyzoom--with-thumbnails').data('easyZoom');
 
-		// Setup thumbnails example
 		$('.thumbnails').on('click', 'a', function(e) {
 			var $this = $(this);
 
