@@ -2,7 +2,7 @@
 
     'use strict';
 
-    var dw, dh, rw, rh, lx, ly;
+    var dw, dh, rw, rh, lx, ly, lw, lh;
 
     var defaults = {
 
@@ -17,6 +17,9 @@
 
         // Prevent clicks on the zoom image link.
         preventClicks: true,
+
+        // Show zoom lens over target image.
+        showLens: false,
 
         // Callback function to execute when the flyout is displayed.
         onShow: $.noop,
@@ -52,6 +55,7 @@
 
         this.$flyout = $('<div class="easyzoom-flyout" />');
         this.$notice = $('<div class="easyzoom-notice" />');
+        this.$lens   = $('<div class="easyzoom-lens" />');
 
         this.$target.on({
             'mousemove.easyzoom touchmove.easyzoom': $.proxy(this._onMove, this),
@@ -94,6 +98,16 @@
 
         rw = dw / w1;
         rh = dh / h1;
+
+        if(this.opts.showLens){
+            lw = Math.ceil(w1 * (w2 / this.$zoom.width()));
+            lh = Math.ceil(h1 * (h2 / this.$zoom.height()));
+            this.$lens.css({
+                width: lw,
+                height: lh
+            });
+            this.$target.append(this.$lens);
+        }
 
         this.isOpen = true;
 
@@ -223,6 +237,29 @@
             var top = xt * -1;
             var left = xl * -1;
 
+            if(this.opts.showLens){
+                var th = this.$target.height();
+                var tw = this.$target.width();
+
+                var lt = Math.max(0, pt - (lh / 2));
+                var ll = Math.max(0, pl - (lw / 2));
+
+                if(pt + (lh / 2) - th > 0){
+                    lt = th - lh;
+                }
+                if(pl + (lw / 2) - tw > 0){
+                    ll = tw - lw;
+                }
+
+                this.$lens.css({
+                    top: Math.ceil(lt),
+                    left: Math.ceil(ll)
+                });
+
+                top  = Math.ceil(lt * (this.$zoom.height() / th) ) * -1;
+                left = Math.ceil(ll * (this.$zoom.width() / tw) ) * -1;
+            }
+
             this.$zoom.css({
                 top: top,
                 left: left
@@ -240,6 +277,7 @@
         if (!this.isOpen) return;
 
         this.$flyout.detach();
+        this.$lens.detach();
         this.isOpen = false;
 
         this.opts.onHide.call(this);
@@ -286,6 +324,7 @@
         delete this.$image;
         delete this.$notice;
         delete this.$flyout;
+        delete this.$lens;
 
         delete this.isOpen;
         delete this.isReady;
