@@ -54,7 +54,7 @@
 	border-color: rgba(0, 0, 0, 0.35);
 	width: auto;
 	height: auto;
-	cursor: pointer;
+	cursor: crosshair;
 	box-sizing: border-box;
 }
 
