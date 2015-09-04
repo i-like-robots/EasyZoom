@@ -48,8 +48,6 @@
 
 .easyzoom-lens {
 	position: absolute;
-	top: 0;
-	left: 0;
 	background-color: #FFF;
 	background-color: rgba(255, 255, 255, 0.35);
 	border: 1px solid #CCC;
@@ -57,9 +55,7 @@
 	width: auto;
 	height: auto;
 	cursor: pointer;
-	-webkit-box-sizing: border-box;
-	   -moz-box-sizing: border-box;
-			box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 /**
