@@ -146,7 +146,7 @@
      */
     EasyZoom.prototype._onLoad = function(e) {
         // IE may fire a load event even on error so test the image dimensions
-        if (!e.target.width) return;
+        if (!e.currentTarget.width) return;
 
         this.isReady = true;
 
