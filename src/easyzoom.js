@@ -102,6 +102,7 @@
         if(this.opts.showLens){
             lw = Math.ceil(w1 * (w2 / this.$zoom.width()));
             lh = Math.ceil(h1 * (h2 / this.$zoom.height()));
+            
             this.$lens.css({
                 width: lw,
                 height: lh
@@ -198,7 +199,7 @@
 
         this.$target
             .addClass('is-loading')
-            .append(this.$notice.text(this.opts.loadingNotice));
+            .append(this.$notice.html(this.opts.loadingNotice));
 
         this.$zoom = $(zoom)
             .on('error', $.proxy(this._onError, this))
