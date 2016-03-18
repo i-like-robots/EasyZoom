@@ -18,6 +18,12 @@
         // Prevent clicks on the zoom image link.
         preventClicks: true,
 
+        // Callback function to execute before the flyout is displayed.
+        beforeShow: $.noop,
+
+        // Callback function to execute before the flyout is removed.
+        beforeHide: $.noop,
+
         // Callback function to execute when the flyout is displayed.
         onShow: $.noop,
 
@@ -72,6 +78,8 @@
     EasyZoom.prototype.show = function(e, testMouseOver) {
         var w1, h1, w2, h2;
         var self = this;
+
+        if (!this.opts.beforeShow.call(this)) return;
 
         if (!this.isReady) {
             return this._loadImage(this.$link.attr('href'), function() {
@@ -238,6 +246,7 @@
      */
     EasyZoom.prototype.hide = function() {
         if (!this.isOpen) return;
+        if (!this.opts.beforeHide.call(this)) return;
 
         this.$flyout.detach();
         this.isOpen = false;
