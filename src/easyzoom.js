@@ -31,7 +31,10 @@
         onHide: $.noop,
 
         // Callback function to execute when the cursor is moved while over the image.
-        onMove: $.noop
+        onMove: $.noop,
+
+        // The amount of time (in milliseconds) that should pass between mouseenter and displaying the zoom image
+        showDelay: 0
 
     };
 
@@ -89,25 +92,33 @@
             });
         }
 
-        this.$target.append(this.$flyout);
+        var appendFunction = $.proxy(function () {
+            this.$target.append(this.$flyout);
 
-        w1 = this.$target.width();
-        h1 = this.$target.height();
+            w1 = this.$target.width();
+            h1 = this.$target.height();
 
-        w2 = this.$flyout.width();
-        h2 = this.$flyout.height();
+            w2 = this.$flyout.width();
+            h2 = this.$flyout.height();
 
-        dw = this.$zoom.width() - w2;
-        dh = this.$zoom.height() - h2;
+            dw = this.$zoom.width() - w2;
+            dh = this.$zoom.height() - h2;
 
-        rw = dw / w1;
-        rh = dh / h1;
+            rw = dw / w1;
+            rh = dh / h1;
 
-        this.isOpen = true;
+            this.isOpen = true;
 
-        this.opts.onShow.call(this);
+            this.opts.onShow.call(this);
 
-        e && this._move(e);
+            e && this._move(e);
+        }, this);
+
+        if (this.opts.showDelay) {
+            window.setTimeout(appendFunction, this.opts.showDelay);
+        } else {
+            appendFunction();
+        }
     };
 
     /**
