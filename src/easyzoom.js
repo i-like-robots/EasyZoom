@@ -31,7 +31,13 @@
         onHide: $.noop,
 
         // Callback function to execute when the cursor is moved while over the image.
-        onMove: $.noop
+        onMove: $.noop,
+
+        // Link attribute to retrieve the zoom image URL from, normally 'href'.
+        // Can be set to, for instance, 'data-zoom-url' if href points
+        // to something other than the large image.
+        //
+        linkAttribute: 'href'
 
     };
 
@@ -82,7 +88,7 @@
         if (this.opts.beforeShow.call(this) === false) return;
 
         if (!this.isReady) {
-            return this._loadImage(this.$link.attr('href'), function() {
+            return this._loadImage(this.$link.attr(this.opts.linkAttribute), function() {
                 if (self.isMouseOver || !testMouseOver) {
                     self.show(e);
                 }
@@ -275,7 +281,7 @@
             srcset: $.isArray(srcset) ? srcset.join() : srcset
         });
 
-        this.$link.attr('href', zoomHref);
+        this.$link.attr(this.opts.linkAttribute, zoomHref);
     };
 
     /**
