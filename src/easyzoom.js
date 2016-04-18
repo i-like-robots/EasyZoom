@@ -15,6 +15,9 @@
         // The time (in milliseconds) to display the error notice.
         errorDuration: 2500,
 
+        // Attribute to retrieve the zoom image URL from.
+        linkAttribute: 'href',
+
         // Prevent clicks on the zoom image link.
         preventClicks: true,
 
@@ -31,13 +34,7 @@
         onHide: $.noop,
 
         // Callback function to execute when the cursor is moved while over the image.
-        onMove: $.noop,
-
-        // Link attribute to retrieve the zoom image URL from, normally 'href'.
-        // Can be set to, for instance, 'data-zoom-url' if href points
-        // to something other than the large image.
-        //
-        linkAttribute: 'href'
+        onMove: $.noop
 
     };
 
