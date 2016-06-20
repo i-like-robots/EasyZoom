@@ -5,6 +5,7 @@
   	"name": "Matt Hinchliffe",
   	"homepage": "http://maketea.co.uk"
   },
+  "main": "dist/easyzoom.js",
   "devDependencies": {
     "grunt": "0.4.x",
     "grunt-contrib-jshint": "0.9.x",
