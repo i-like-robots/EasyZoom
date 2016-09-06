@@ -103,6 +103,12 @@
         dw = this.$zoom.width() - w2;
         dh = this.$zoom.height() - h2;
 
+        // For the case where the zoom image is actually smaller than
+        // the flyout.
+        //
+        if(dw<0) dw=0;
+        if(dh<0) dh=0;
+
         rw = dw / w1;
         rh = dh / h1;
 
