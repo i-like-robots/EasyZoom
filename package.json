@@ -1,9 +1,9 @@
 {
   "name": "EasyZoom",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "author": {
-  	"name": "Matt Hinchliffe",
-  	"homepage": "http://maketea.co.uk"
+    "name": "Matt Hinchliffe",
+    "homepage": "http://maketea.co.uk"
   },
   "scripts": {
     "test": "grunt jshint && open test/runner.html"
