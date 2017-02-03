@@ -1,4 +1,15 @@
-(function ($) {
+(function (root, factory) {
+    'use strict';
+    if(typeof define === 'function' && define.amd) {
+        define(['jquery'], function($){
+            factory($);
+        });
+    } else if(typeof module === 'object' && module.exports) {
+        module.exports = (root.EasyZoom = factory(require('jquery')));
+    } else {
+        root.EasyZoom = factory(root.jQuery);
+    }
+}(this, function ($) {
 
     'use strict';
 
@@ -320,14 +331,4 @@
             }
         });
     };
-
-    // AMD and CommonJS module compatibility
-    if (typeof define === 'function' && define.amd){
-        define(function() {
-            return EasyZoom;
-        });
-    } else if (typeof module !== 'undefined' && module.exports) {
-        module.exports = EasyZoom;
-    }
-
-})(jQuery);
+}));
