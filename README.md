@@ -6,6 +6,8 @@
 
 jQuery 1.7+
 
+Compatible with jQuery 1.x, 2.x and 3.x (inc. slim).
+
 ## Issues
 
 Have a bug? Please report an issues on the [Github project page][1]
@@ -14,7 +16,7 @@ https://github.com/i-like-robots/EasyZoom/issues
 
 ## Versioning
 
-The current version is `2.4.0`. Releases will be numbered in following format:
+Releases will be numbered in following format:
 
 `<major>.<minor>.<patch>`
 
