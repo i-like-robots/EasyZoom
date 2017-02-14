@@ -1,14 +1,27 @@
 {
   "name": "easyzoom",
   "version": "2.5.0",
-  "author": {
-    "name": "Matt Hinchliffe",
-    "homepage": "http://maketea.co.uk"
+  "description": "EasyZoom is an elegant, highly optimised jQuery image zoom and panning plugin based on the original work by Alen Grakalic.",
+  "keywords": [
+    "zoom",
+    "image",
+    "flyout",
+    "panning"
+  ],
+  "author": "Matt Hinchliffe",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:i-like-robots/EasyZoom.git"
   },
+  "homepage": "https://github.com/i-like-robots/EasyZoom",
+  "license": "MIT",
   "scripts": {
     "test": "grunt jshint && open test/runner.html"
   },
   "main": "dist/easyzoom.js",
+  "dependencies": {
+    "jquery": ">=1.7"
+  },
   "devDependencies": {
     "grunt": "0.4.x",
     "grunt-contrib-jshint": "0.9.x",
