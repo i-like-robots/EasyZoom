@@ -104,6 +104,9 @@
         }
 
         this.$target.append(this.$flyout);
+        if (this.$link.attr('style') != undefined) {
+            this.$flyout.find('img').attr("style", this.$flyout.find('img').attr("style") + this.$link.attr('style'));
+        }
 
         w1 = this.$target.width();
         h1 = this.$target.height();
