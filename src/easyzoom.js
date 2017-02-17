@@ -45,7 +45,13 @@
         onHide: $.noop,
 
         // Callback function to execute when the cursor is moved while over the image.
-        onMove: $.noop
+        onMove: $.noop,
+
+        // Link attribute to retrieve the zoom image URL from, normally 'href'.
+        // Can be set to, for instance, 'data-zoom-url' if href points
+        // to something other than the large image.
+        //
+        linkAttribute: 'href'
 
     };
 
