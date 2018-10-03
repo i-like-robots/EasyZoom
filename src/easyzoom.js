@@ -13,7 +13,12 @@
 
     'use strict';
 
-    var dw, dh, rw, rh, lx, ly;
+    var zoomImgOverlapX;
+    var zoomImgOverlapY;
+    var ratioX;
+    var ratioY;
+    var pointerPositionX;
+    var pointerPositionY;
 
     var defaults = {
 
@@ -90,7 +95,6 @@
      * @param {Boolean} testMouseOver (Optional)
      */
     EasyZoom.prototype.show = function(e, testMouseOver) {
-        var w1, h1, w2, h2;
         var self = this;
 
         if (this.opts.beforeShow.call(this) === false) return;
@@ -105,22 +109,24 @@
 
         this.$target.append(this.$flyout);
 
-        w1 = this.$target.width();
-        h1 = this.$target.height();
+        var targetImgWidth = this.$target.width();
+        var targetImgHeight = this.$target.height();
 
-        w2 = this.$flyout.width();
-        h2 = this.$flyout.height();
+        var flyoutWidth = this.$flyout.width();
+        var flyoutHeight = this.$flyout.height();
 
-        dw = this.$zoom.width() - w2;
-        dh = this.$zoom.height() - h2;
+        var zoomImgWidth = this.$zoom.width();
+        var zoomImgHeight = this.$zoom.height();
 
-        // For the case where the zoom image is actually smaller than
-        // the flyout.
-        if (dw < 0) dw = 0;
-        if (dh < 0) dh = 0;
+        zoomImgOverlapX = zoomImgWidth - flyoutWidth;
+        zoomImgOverlapY = zoomImgHeight - flyoutHeight;
 
-        rw = dw / w1;
-        rh = dh / h1;
+        // For when the zoom image is smaller than the flyout element.
+        if (zoomImgOverlapX < 0) zoomImgOverlapX = 0;
+        if (zoomImgOverlapY < 0) zoomImgOverlapY = 0;
+
+        ratioX = zoomImgOverlapX / targetImgWidth;
+        ratioY = zoomImgOverlapY / targetImgHeight;
 
         this.isOpen = true;
 
@@ -207,7 +213,7 @@
      * @param {Function} callback
      */
     EasyZoom.prototype._loadImage = function(href, callback) {
-        var zoom = new Image;
+        var zoom = new Image();
 
         this.$target
             .addClass('is-loading')
@@ -230,25 +236,25 @@
 
         if (e.type.indexOf('touch') === 0) {
             var touchlist = e.touches || e.originalEvent.touches;
-            lx = touchlist[0].pageX;
-            ly = touchlist[0].pageY;
+            pointerPositionX = touchlist[0].pageX;
+            pointerPositionY = touchlist[0].pageY;
         } else {
-            lx = e.pageX || lx;
-            ly = e.pageY || ly;
+            pointerPositionX = e.pageX || pointerPositionX;
+            pointerPositionY = e.pageY || pointerPositionY;
         }
 
-        var offset  = this.$target.offset();
-        var pt = ly - offset.top;
-        var pl = lx - offset.left;
-        var xt = Math.ceil(pt * rh);
-        var xl = Math.ceil(pl * rw);
+        var targetOffset  = this.$target.offset();
+        var relativePositionX = pointerPositionY - targetOffset.top;
+        var relativePositionY = pointerPositionX - targetOffset.left;
+        var moveX = Math.ceil(relativePositionX * ratioY);
+        var moveY = Math.ceil(relativePositionY * ratioX);
 
         // Close if outside
-        if (xl < 0 || xt < 0 || xl > dw || xt > dh) {
+        if (moveY < 0 || moveX < 0 || moveY > zoomImgOverlapX || moveX > zoomImgOverlapY) {
             this.hide();
         } else {
-            var top = xt * -1;
-            var left = xl * -1;
+            var top = moveX * -1;
+            var left = moveY * -1;
 
             this.$zoom.css({
                 top: top,
