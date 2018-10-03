@@ -109,24 +109,24 @@
 
         this.$target.append(this.$flyout);
 
-        var targetImgWidth = this.$target.width();
-        var targetImgHeight = this.$target.height();
+        var targetWidth = this.$target.outerWidth();
+        var targetHeight = this.$target.outerHeight();
 
-        var flyoutWidth = this.$flyout.width();
-        var flyoutHeight = this.$flyout.height();
+        var flyoutInnerWidth = this.$flyout.width();
+        var flyoutInnerHeight = this.$flyout.height();
 
         var zoomImgWidth = this.$zoom.width();
         var zoomImgHeight = this.$zoom.height();
 
-        zoomImgOverlapX = zoomImgWidth - flyoutWidth;
-        zoomImgOverlapY = zoomImgHeight - flyoutHeight;
+        zoomImgOverlapX = zoomImgWidth - flyoutInnerWidth;
+        zoomImgOverlapY = zoomImgHeight - flyoutInnerHeight;
 
         // For when the zoom image is smaller than the flyout element.
         if (zoomImgOverlapX < 0) zoomImgOverlapX = 0;
         if (zoomImgOverlapY < 0) zoomImgOverlapY = 0;
 
-        ratioX = zoomImgOverlapX / targetImgWidth;
-        ratioY = zoomImgOverlapY / targetImgHeight;
+        ratioX = zoomImgOverlapX / targetWidth;
+        ratioY = zoomImgOverlapY / targetHeight;
 
         this.isOpen = true;
 
