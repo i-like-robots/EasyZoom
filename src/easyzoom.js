@@ -337,4 +337,6 @@
             }
         });
     };
+
+    return EasyZoom;
 }));
