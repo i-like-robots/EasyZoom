@@ -118,8 +118,8 @@
         var zoomImgWidth = this.$zoom.width();
         var zoomImgHeight = this.$zoom.height();
 
-        zoomImgOverlapX = zoomImgWidth - flyoutInnerWidth;
-        zoomImgOverlapY = zoomImgHeight - flyoutInnerHeight;
+        zoomImgOverlapX = Math.ceil(zoomImgWidth - flyoutInnerWidth);
+        zoomImgOverlapY = Math.ceil(zoomImgHeight - flyoutInnerHeight);
 
         // For when the zoom image is smaller than the flyout element.
         if (zoomImgOverlapX < 0) zoomImgOverlapX = 0;
