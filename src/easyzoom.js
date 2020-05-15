@@ -244,17 +244,17 @@
         }
 
         var targetOffset  = this.$target.offset();
-        var relativePositionX = pointerPositionY - targetOffset.top;
-        var relativePositionY = pointerPositionX - targetOffset.left;
-        var moveX = Math.ceil(relativePositionX * ratioY);
-        var moveY = Math.ceil(relativePositionY * ratioX);
+        var relativePositionX = pointerPositionX - targetOffset.left;
+        var relativePositionY = pointerPositionY - targetOffset.top;
+        var moveX = Math.ceil(relativePositionX * ratioX);
+        var moveY = Math.ceil(relativePositionY * ratioY);
 
         // Close if outside
-        if (moveY < 0 || moveX < 0 || moveY > zoomImgOverlapX || moveX > zoomImgOverlapY) {
+        if (moveX < 0 || moveY < 0 || moveX > zoomImgOverlapX || moveY > zoomImgOverlapY) {
             this.hide();
         } else {
-            var top = moveX * -1;
-            var left = moveY * -1;
+            var top = moveY * -1;
+            var left = moveX * -1;
 
             this.$zoom.css({
                 top: top,
