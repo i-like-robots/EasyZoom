@@ -257,8 +257,7 @@
             var left = moveX * -1;
 
             this.$zoom.css({
-                top: top,
-                left: left
+                transform: `translate(${top}px, ${left}px)`
             });
 
             this.opts.onMove.call(this, top, left);
