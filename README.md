@@ -1,6 +1,6 @@
 # EasyZoom, jQuery image zoom plugin
 
-[EasyZoom][1] is an elegant, highly optimised [jQuery][2] image zoom and panning plugin based on the [original work][3] by [Alen Grakalic][4]. EasyZoom supports touch-enabled devices and is easily customisable with CSS. It's been trusted for many years by high street brands including Hobbs, Sports Direct, and Topshop, and hundreds of templates for Shopify, Magento and more.
+[EasyZoom][1] is an elegant, highly optimised [jQuery][2] image zoom and panning plugin based on the [original work][3] by [Alen Grakalic][4]. EasyZoom supports touch-enabled devices and is easily customisable with CSS. It's been trusted for years by hundreds of thousands of websites including many well known brands like Patagonia, Gilette, Sports Direct, Topshop, Amara, Mental Floss, Mary Kay, Dremel, Little Greene, and many more.
 
 ## Dependencies
 
