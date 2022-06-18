@@ -16,6 +16,7 @@
   "homepage": "https://github.com/i-like-robots/EasyZoom",
   "license": "MIT",
   "scripts": {
+    "prepublishOnly": "grunt",
     "test": "grunt jshint && open test/runner.html"
   },
   "main": "dist/easyzoom.js",
