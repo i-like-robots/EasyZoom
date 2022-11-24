@@ -256,10 +256,11 @@
             var top = moveY * -1;
             var left = moveX * -1;
 
-            this.$zoom.css({
-                top: top,
-                left: left
-            });
+            if ('transform' in document.body.style) {
+                this.$zoom.css({ transform: 'translate(' + left + 'px, ' + top + 'px)' });
+            } else {
+                this.$zoom.css({ top: top, left: left });
+            }
 
             this.opts.onMove.call(this, top, left);
         }
