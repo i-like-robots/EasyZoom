@@ -264,7 +264,6 @@
 
             this.opts.onMove.call(this, top, left);
         }
-
     };
 
     /**
