@@ -226,25 +226,37 @@
 
         var spy = sinon.spy(api, "hide");
 
+        var getPosition = function () {
+            if ('transform' in document.body.style) {
+                var transform = api.$zoom.attr("style");
+                var matches = transform.match(/translate\((-?\d+px), (-?\d+px)\)/);
+
+                return {
+                    left: matches[1],
+                    top: matches[2]
+                }
+            } else {
+                return api.$zoom.css(["left", "top"])
+            }
+        }
+
         // Must open the flyout with a zoom image first
         api.opts.onShow = function () {
-            var left, top;
+            var position;
 
             api._move(mock_1);
 
-            left = parseInt(api.$zoom.css("left"), 10);
-            top = parseInt(api.$zoom.css("top"), 10);
+            position = getPosition()
 
-            assert.equal(left, -20, "2x scale zoom image moved 20px left given 10px offset");
-            assert.equal(top, -20, "2x scale zoom image moved 20px top given 10px offset");
+            assert.equal(position.left, '-20px', "2x scale zoom image moved 20px left given 10px offset");
+            assert.equal(position.top, '-20px', "2x scale zoom image moved 20px top given 10px offset");
 
             api._move(mock_2);
 
-            left = parseInt(api.$zoom.css("left"), 10);
-            top = parseInt(api.$zoom.css("top"), 10);
+            position = getPosition()
 
-            assert.equal(left, -200, "2x scale zoom image moved 200px left given 100px offset");
-            assert.equal(top, -200, "2x scale zoom image moved 200px top given 100px offset");
+            assert.equal(position.left, '-200px', "2x scale zoom image moved 200px left given 100px offset");
+            assert.equal(position.top, '-200px', "2x scale zoom image moved 200px top given 100px offset");
 
             api._move(mock_3);
 
